@@ -546,8 +546,8 @@ class ProgressiveTrainer:
         results = model.evaluate(val_ds, return_dict=True, verbose=1)
         print(f"\nStage {stage_idx + 1} Results:")
         print(f"  Accuracy: {results['accuracy']*100:.2f}%")
-        print(f"  Precision: {results['prec']*100:.2f}%")
-        print(f"  Recall: {results['rec']*100:.2f}%")
+        print(f"  Precision: {results.get('prec', results.get('precision', 0))*100:.2f}%")
+        print(f"  Recall: {results.get('rec', results.get('recall', 0))*100:.2f}%")
         
         return model
     
@@ -681,8 +681,8 @@ def main():
     results = model.evaluate(val_ds, return_dict=True)
     
     print(f"\nFinal Accuracy: {results['accuracy']*100:.2f}%")
-    print(f"Precision: {results['prec']*100:.2f}%")
-    print(f"Recall: {results['rec']*100:.2f}%")
+    print(f"Precision: {results.get('prec', results.get('precision', 0))*100:.2f}%")
+    print(f"Recall: {results.get('rec', results.get('recall', 0))*100:.2f}%")
     
     # Save
     model.save(f"{Config.MODEL_DIR}/final_model.keras")
@@ -690,8 +690,8 @@ def main():
     with open(f"{Config.RESULTS_DIR}/metrics.json", 'w') as f:
         json.dump({
             'accuracy': float(results['accuracy']),
-            'precision': float(results['prec']),
-            'recall': float(results['recall']),
+            'precision': float(results.get('prec', results.get('precision', 0))),
+            'recall': float(results.get('rec', results.get('recall', 0))),
             'class_names': class_names
         }, f, indent=4)
     
