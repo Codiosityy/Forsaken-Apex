@@ -2,9 +2,9 @@
 
 This document provides an overview of the comprehensive model evaluation framework that validates trained wafer defect classification models through a rigorous 5-test suite. The framework operates as a post-hoc validation step, independent of the training pipeline, and generates both visual diagnostics and a structured JSON report with an overall quality score.
 
-For details on the training systems that produce models for evaluation, see [Core Training System](#2). For information on individual test methodologies, see subsections [4.1](#4.1) through [4.6](#4.6).
+For details on the training systems that produce models for evaluation, see [Core Training System](./Core_Training_System.md#2). For information on individual test methodologies, see subsections [4.1](#4.1) through [4.6](#4.6).
 
-**Sources:** [Evaluate_model.py:1-900]()
+**Sources:** [Evaluate_model.py:1-900](../Evaluate_model.py#L1-L900)
 
 ---
 
@@ -73,7 +73,7 @@ graph TB
     REPORT --> JSON
 ```
 
-**Sources:** [Evaluate_model.py:17-37](), [Evaluate_model.py:850-900]()
+**Sources:** [Evaluate_model.py:17-37](../Evaluate_model.py#L17-L37), [Evaluate_model.py:850-900](../Evaluate_model.py#L850-L900)
 
 ### Core Components
 
@@ -93,7 +93,7 @@ The `Config` class centralizes all evaluation parameters and paths:
 | `NOISE_LEVELS` | Perturbation levels for Test 4 | [0.0, 0.01, 0.05] |
 | `ENTROPY_THRESHOLD` | High uncertainty threshold for Test 5 | 0.5 |
 
-**Sources:** [Evaluate_model.py:21-37]()
+**Sources:** [Evaluate_model.py:21-37](../Evaluate_model.py#L21-L37)
 
 #### Custom Objects for Model Loading
 
@@ -115,7 +115,7 @@ class FocalLoss(keras.losses.Loss):
 
 These classes must be registered with Keras when loading models to prevent deserialization errors.
 
-**Sources:** [Evaluate_model.py:43-78]()
+**Sources:** [Evaluate_model.py:43-78](../Evaluate_model.py#L43-L78)
 
 #### TestDataPipeline
 
@@ -140,7 +140,7 @@ Key methods:
 
 Unlike the training pipeline, this does **not** apply data augmentation, ensuring consistent evaluation conditions.
 
-**Sources:** [Evaluate_model.py:84-150]()
+**Sources:** [Evaluate_model.py:84-150](../Evaluate_model.py#L84-L150)
 
 ---
 
@@ -182,7 +182,7 @@ graph TB
     REPORT --> VERDICT["Quality Verdict<br/>EXCELLENT / GOOD / FAIR / POOR"]
 ```
 
-**Sources:** [Evaluate_model.py:153-790]()
+**Sources:** [Evaluate_model.py:153-790](../Evaluate_model.py#L153-L790)
 
 ### Test Execution Flow
 
@@ -210,7 +210,7 @@ def main():
     generate_final_report(test1_results, test2_results, ...)
 ```
 
-**Sources:** [Evaluate_model.py:850-900]()
+**Sources:** [Evaluate_model.py:850-900](../Evaluate_model.py#L850-L900)
 
 ### Test Outputs
 
@@ -226,7 +226,7 @@ Each test produces:
 | Test 4 | `test4_perturbation_stability.png` | `noise_levels`, `accuracies`, `stability_score` |
 | Test 5 | `test5_entropy_analysis.png` | `avg_entropy_correct`, `avg_entropy_incorrect`, `uncertainty_ratio` |
 
-**Sources:** [Evaluation_Results/test1_confusion_matrix.png](), [Evaluation_Results/test2_test_performance.png](), [Evaluation_Results/test3_confidence_distribution.png](), [Evaluation_Results/test4_perturbation_stability.png](), [Evaluation_Results/test5_entropy_analysis.png]()
+**Sources:** [Evaluation_Results/test1_confusion_matrix.png](../Evaluation_Results/test1_confusion_matrix.png), [Evaluation_Results/test2_test_performance.png](../Evaluation_Results/test2_test_performance.png), [Evaluation_Results/test3_confidence_distribution.png](../Evaluation_Results/test3_confidence_distribution.png), [Evaluation_Results/test4_perturbation_stability.png](../Evaluation_Results/test4_perturbation_stability.png), [Evaluation_Results/test5_entropy_analysis.png](../Evaluation_Results/test5_entropy_analysis.png)
 
 ---
 
@@ -273,7 +273,7 @@ Overall Score = 0.30 * test1_score +
 
 Feature learning (Test 1) receives the highest weight (30%) because accurate class discrimination is the foundation of model performance. Generalization (Test 2) is second-highest (25%) as it directly measures real-world applicability.
 
-**Sources:** [Evaluate_model.py:792-848]()
+**Sources:** [Evaluate_model.py:792-848](../Evaluate_model.py#L792-L848)
 
 ### Report Structure
 
@@ -307,7 +307,7 @@ The final report is saved as `validation_report.json`:
 }
 ```
 
-**Sources:** [Evaluate_model.py:792-848]()
+**Sources:** [Evaluate_model.py:792-848](../Evaluate_model.py#L792-L848)
 
 ---
 
@@ -334,7 +334,7 @@ Both scripts use identical architectures (MobileNetV2 + SEBlock + FocalLoss + Pr
 - `train1.py` (CNN+SVM ensemble - different architecture)
 - `train2.py` (ClassBalancedLoss - different loss function)
 
-**Sources:** [Evaluate_model.py:43-78](), Diagram 1 (High-Level System Architecture)
+**Sources:** [Evaluate_model.py:43-78](../Evaluate_model.py#L43-L78), Diagram 1 (High-Level System Architecture)
 
 ---
 
@@ -403,7 +403,7 @@ This design allows:
 - **Iterative refinement** - Easy to re-evaluate after retraining
 - **Quality gates** - Automated pass/fail based on score thresholds
 
-**Sources:** [Evaluate_model.py:850-900](), Diagram 4 (Model Evaluation and Validation Framework)
+**Sources:** [Evaluate_model.py:850-900](../Evaluate_model.py#L850-L900), Diagram 4 (Model Evaluation and Validation Framework)
 
 ---
 
@@ -415,7 +415,7 @@ This design allows:
 4. **Automated Scoring** - JSON report enables programmatic quality gates
 5. **Production-Focused** - Tests simulate real-world conditions (noise, uncertainty)
 
-**Sources:** [Evaluate_model.py:1-900]()
+**Sources:** [Evaluate_model.py:1-900](../Evaluate_model.py#L1-L900)
 
 # Evaluation Script Architecture
 
@@ -426,7 +426,7 @@ This design allows:
 
 This document describes the architecture of `Evaluate_model.py`, the central orchestration script that executes the comprehensive 5-test evaluation suite for trained models. The script handles model loading with custom objects, data pipeline construction, test execution, and final report generation with an overall quality score.
 
-For details on the individual test implementations and their metrics, see the test-specific pages: [Test 1: Feature Learning](#4.2), [Test 2: Cross-Validation](#4.3), [Test 3: Confidence Calibration](#4.4), [Test 4: Perturbation Robustness](#4.5), and [Test 5: Entropy Analysis](#4.6).
+For details on the individual test implementations and their metrics, see the test-specific pages: [Test 1: Feature Learning](./Test_1_Feature_Learning_Validation.md#4.2), [Test 2: Cross-Validation](#4.3), [Test 3: Confidence Calibration](./TEST_3_CONFIDENCE_CALIBRATION_ANALYSIS.md#4.4), [Test 4: Perturbation Robustness](./Test-specific_hardcoded_in_test_confidence_distribution.md#4.5), and [Test 5: Entropy Analysis](./TEST_5_ENTROPY-BASED_UNCERTAINTY_QUANTIFICATION.md#4.6).
 
 ---
 
@@ -488,13 +488,13 @@ graph TB
     Report -.JSON output.-> Main
 ```
 
-**Sources:** [Evaluate_model.py:1-725]()
+**Sources:** [Evaluate_model.py:1-725](../Evaluate_model.py#L1-L725)
 
 ---
 
 ## Configuration System
 
-The `Config` class ([Evaluate_model.py:21-36]()) serves as a centralized parameter store for all evaluation settings. It defines file paths, image dimensions, batch sizes, and test-specific parameters using class-level attributes.
+The `Config` class ([Evaluate_model.py:21-36](../Evaluate_model.py#L21-L36)) serves as a centralized parameter store for all evaluation settings. It defines file paths, image dimensions, batch sizes, and test-specific parameters using class-level attributes.
 
 ### Configuration Parameters
 
@@ -511,9 +511,9 @@ The `Config` class ([Evaluate_model.py:21-36]()) serves as a centralized paramet
 | `NOISE_LEVELS` | `[0.0, 0.01, 0.05]` | Perturbation levels for Test 4 |
 | `ENTROPY_THRESHOLD` | `0.5` | Entropy threshold for Test 5 |
 
-The configuration uses Kaggle-specific paths but can be modified for local execution. The `CLASS_NAMES` attribute is populated at runtime by inspecting the test dataset directory structure ([Evaluate_model.py:663-666]()).
+The configuration uses Kaggle-specific paths but can be modified for local execution. The `CLASS_NAMES` attribute is populated at runtime by inspecting the test dataset directory structure ([Evaluate_model.py:663-666](../Evaluate_model.py#L663-L666)).
 
-**Sources:** [Evaluate_model.py:21-36]()
+**Sources:** [Evaluate_model.py:21-36](../Evaluate_model.py#L21-L36)
 
 ---
 
@@ -532,32 +532,32 @@ graph LR
     Multiply --> Output["Scaled output"]
 ```
 
-The `SEBlock` class ([Evaluate_model.py:43-61]()) implements channel attention using squeeze-and-excitation mechanism. Key implementation details:
+The `SEBlock` class ([Evaluate_model.py:43-61](../Evaluate_model.py#L43-L61)) implements channel attention using squeeze-and-excitation mechanism. Key implementation details:
 
 - **Ratio parameter**: Default `ratio=16` reduces intermediate dimension
 - **Global pooling**: Uses `keepdims=True` for broadcasting compatibility
 - **Configuration serialization**: Implements `get_config()` for model saving/loading
 - **Excitation activation**: Sigmoid produces channel-wise scaling factors [0, 1]
 
-**Sources:** [Evaluate_model.py:43-61]()
+**Sources:** [Evaluate_model.py:43-61](../Evaluate_model.py#L43-L61)
 
 ### FocalLoss
 
-The `FocalLoss` class ([Evaluate_model.py:64-77]()) implements the focal loss function used during training. Critical parameters:
+The `FocalLoss` class ([Evaluate_model.py:64-77](../Evaluate_model.py#L64-L77)) implements the focal loss function used during training. Critical parameters:
 
 - **Gamma (γ)**: Default `1.5` controls focusing strength on hard examples
 - **Alpha (α)**: Default `0.25` weights positive/negative examples
 - **Label smoothing**: Default `0.1` prevents overconfidence by smoothing one-hot labels
 
-The loss computation applies label smoothing ([Evaluate_model.py:72-73]()), clips predictions to avoid log(0) ([Evaluate_model.py:74]()), and applies focal weighting based on prediction confidence ([Evaluate_model.py:76]()).
+The loss computation applies label smoothing ([Evaluate_model.py:72-73](../Evaluate_model.py#L72-L73)), clips predictions to avoid log(0) ([Evaluate_model.py:74](../Evaluate_model.py#L74)), and applies focal weighting based on prediction confidence ([Evaluate_model.py:76](../Evaluate_model.py#L76)).
 
-**Sources:** [Evaluate_model.py:64-77]()
+**Sources:** [Evaluate_model.py:64-77](../Evaluate_model.py#L64-L77)
 
 ---
 
 ## Data Pipeline Architecture
 
-The `TestDataPipeline` class ([Evaluate_model.py:84-105]()) constructs tf.data datasets for evaluation, mirroring the preprocessing applied during training.
+The `TestDataPipeline` class ([Evaluate_model.py:84-105](../Evaluate_model.py#L84-L105)) constructs tf.data datasets for evaluation, mirroring the preprocessing applied during training.
 
 ```mermaid
 graph LR
@@ -569,7 +569,7 @@ graph LR
 
 ### Pipeline Configuration
 
-The `create_dataset()` method ([Evaluate_model.py:89-105]()) uses:
+The `create_dataset()` method ([Evaluate_model.py:89-105](../Evaluate_model.py#L89-L105)) uses:
 
 - **Image format**: Grayscale (`color_mode='grayscale'`)
 - **Label format**: One-hot encoded (`label_mode='categorical'`)
@@ -577,15 +577,15 @@ The `create_dataset()` method ([Evaluate_model.py:89-105]()) uses:
 - **Optimization**: Prefetching with `tf.data.AUTOTUNE` for performance
 - **Shuffle parameter**: Disabled by default for reproducible evaluation
 
-The normalization layer ([Evaluate_model.py:99]()) transforms pixel values from [0, 255] to [-1, 1], matching the preprocessing used in the core training system.
+The normalization layer ([Evaluate_model.py:99](../Evaluate_model.py#L99)) transforms pixel values from [0, 255] to [-1, 1], matching the preprocessing used in the core training system.
 
-**Sources:** [Evaluate_model.py:84-105]()
+**Sources:** [Evaluate_model.py:84-105](../Evaluate_model.py#L84-L105)
 
 ---
 
 ## Test Orchestration
 
-The `main()` function ([Evaluate_model.py:637-709]()) orchestrates the sequential execution of all five evaluation tests. The execution flow follows a fixed pipeline pattern:
+The `main()` function ([Evaluate_model.py:637-709](../Evaluate_model.py#L637-L709)) orchestrates the sequential execution of all five evaluation tests. The execution flow follows a fixed pipeline pattern:
 
 ```mermaid
 stateDiagram-v2
@@ -612,17 +612,17 @@ stateDiagram-v2
 
 ### Model Loading Strategy
 
-The script implements a fallback mechanism for model path resolution ([Evaluate_model.py:645-655]()):
+The script implements a fallback mechanism for model path resolution ([Evaluate_model.py:645-655](../Evaluate_model.py#L645-L655)):
 
 1. Check `Config.MODEL_PATH` (default: `final_best.keras`)
 2. Search alternative paths: `final_model.keras`, `stage_224.keras`, `checkpoint_224.keras`
 3. Use first found model or fail if none exist
 
-Model loading ([Evaluate_model.py:658-661]()) requires `custom_objects` dictionary mapping class names to class definitions for `FocalLoss` and `SEBlock`.
+Model loading ([Evaluate_model.py:658-661](../Evaluate_model.py#L658-L661)) requires `custom_objects` dictionary mapping class names to class definitions for `FocalLoss` and `SEBlock`.
 
 ### Prediction Generation
 
-Before test execution, the script generates predictions for the entire test set ([Evaluate_model.py:672-683]()):
+Before test execution, the script generates predictions for the entire test set ([Evaluate_model.py:672-683](../Evaluate_model.py#L672-L683)):
 
 ```python
 # Pseudocode representation
@@ -640,7 +640,7 @@ y_pred = one_hot(argmax(y_probs))  # Hard predictions
 
 These arrays are passed to all test functions to avoid redundant inference.
 
-**Sources:** [Evaluate_model.py:637-709]()
+**Sources:** [Evaluate_model.py:637-709](../Evaluate_model.py#L637-L709)
 
 ---
 
@@ -664,19 +664,19 @@ Each test function returns a dictionary or data structure containing:
 - Summary statistics
 - Per-class breakdowns (where applicable)
 
-These return values are aggregated into `all_results` dictionary ([Evaluate_model.py:685-703]()) and passed to report generation.
+These return values are aggregated into `all_results` dictionary ([Evaluate_model.py:685-703](../Evaluate_model.py#L685-L703)) and passed to report generation.
 
-**Sources:** [Evaluate_model.py:112-563]()
+**Sources:** [Evaluate_model.py:112-563](../Evaluate_model.py#L112-L563)
 
 ---
 
 ## Report Generation System
 
-The `generate_final_report()` function ([Evaluate_model.py:570-630]()) synthesizes test results into a comprehensive evaluation summary with an overall quality score.
+The `generate_final_report()` function ([Evaluate_model.py:570-630](../Evaluate_model.py#L570-L630)) synthesizes test results into a comprehensive evaluation summary with an overall quality score.
 
 ### Scoring Methodology
 
-The function computes dimension-specific scores ([Evaluate_model.py:577-583]()):
+The function computes dimension-specific scores ([Evaluate_model.py:577-583](../Evaluate_model.py#L577-L583)):
 
 ```python
 scores = {
@@ -691,7 +691,7 @@ overall_score = mean(scores)  # Unweighted average
 
 ### Verdict Logic
 
-The verdict determination ([Evaluate_model.py:598-606]()) uses threshold-based categorization:
+The verdict determination ([Evaluate_model.py:598-606](../Evaluate_model.py#L598-L606)) uses threshold-based categorization:
 
 - **Overall score ≥ 85**: "VALIDATED LEARNING MODEL" with strong generalization description
 - **Overall score ≥ 75**: "VALIDATED LEARNING MODEL" with good generalization description
@@ -703,8 +703,8 @@ All models receive "VALIDATED LEARNING MODEL" verdict with varying descriptions,
 
 The report generation produces two outputs:
 
-1. **Console output**: Formatted table with per-dimension scores and overall verdict ([Evaluate_model.py:588-610]())
-2. **JSON file**: `validation_report.json` with structured data ([Evaluate_model.py:613-628]()):
+1. **Console output**: Formatted table with per-dimension scores and overall verdict ([Evaluate_model.py:588-610](../Evaluate_model.py#L588-L610))
+2. **JSON file**: `validation_report.json` with structured data ([Evaluate_model.py:613-628](../Evaluate_model.py#L613-L628)):
 
 ```json
 {
@@ -728,13 +728,13 @@ The report generation produces two outputs:
 }
 ```
 
-**Sources:** [Evaluate_model.py:570-630]()
+**Sources:** [Evaluate_model.py:570-630](../Evaluate_model.py#L570-L630)
 
 ---
 
 ## Execution Flow and CLI
 
-The script supports both direct execution and command-line argument parsing ([Evaluate_model.py:712-724]()):
+The script supports both direct execution and command-line argument parsing ([Evaluate_model.py:712-724](../Evaluate_model.py#L712-L724)):
 
 ```mermaid
 graph TD
@@ -763,11 +763,11 @@ The script accepts a single optional argument:
 - `--model PATH`: Override default model path with custom location
 - `-h, --help`: Display help message (default argparse behavior)
 
-The argument parser uses `parse_known_args()` ([Evaluate_model.py:719]()) to ignore unrecognized arguments, enabling compatibility with notebook execution environments that may pass additional parameters.
+The argument parser uses `parse_known_args()` ([Evaluate_model.py:719](../Evaluate_model.py#L719)) to ignore unrecognized arguments, enabling compatibility with notebook execution environments that may pass additional parameters.
 
 ### Output Organization
 
-All evaluation artifacts are saved to `Config.OUTPUT_DIR` ([Evaluate_model.py:643]()):
+All evaluation artifacts are saved to `Config.OUTPUT_DIR` ([Evaluate_model.py:643](../Evaluate_model.py#L643)):
 
 ```
 evaluation_results/
@@ -779,7 +779,7 @@ evaluation_results/
 └── validation_report.json
 ```
 
-**Sources:** [Evaluate_model.py:637-724]()
+**Sources:** [Evaluate_model.py:637-724](../Evaluate_model.py#L637-L724)
 
 ---
 
@@ -828,7 +828,7 @@ graph TB
 
 ### Import Organization
 
-Imports are organized at the script header ([Evaluate_model.py:2-15]()):
+Imports are organized at the script header ([Evaluate_model.py:2-15](../Evaluate_model.py#L2-L15)):
 
 - **Lines 2-7**: TensorFlow/Keras components
 - **Line 8**: JSON for report serialization
@@ -837,6 +837,6 @@ Imports are organized at the script header ([Evaluate_model.py:2-15]()):
 - **Lines 11-13**: Matplotlib, Seaborn, and scikit-learn metrics
 - **Lines 14-15**: Warning suppression
 
-The script suppresses warnings ([Evaluate_model.py:14-15]()) to prevent verbose TensorFlow logging during evaluation.
+The script suppresses warnings ([Evaluate_model.py:14-15](../Evaluate_model.py#L14-L15)) to prevent verbose TensorFlow logging during evaluation.
 
-**Sources:** [Evaluate_model.py:1-15]()
+**Sources:** [Evaluate_model.py:1-15](../Evaluate_model.py#L1-L15)

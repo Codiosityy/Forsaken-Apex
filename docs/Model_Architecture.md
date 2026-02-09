@@ -2,7 +2,7 @@
 
 This document describes the neural network architecture used in the Core Training System for wafer defect classification. The architecture combines a MobileNetV2 backbone with Squeeze-and-Excitation (SE) attention and a custom classification head, trained using FocalLoss with label smoothing.
 
-For information about how this architecture is trained progressively, see [Progressive Training Strategy](#2.2). For the data preprocessing pipeline feeding this model, see [Data Pipeline and Augmentation](#2.3).
+For information about how this architecture is trained progressively, see [Progressive Training Strategy](./Progressive_Training_Strategy.md#2.2). For the data preprocessing pipeline feeding this model, see [Data Pipeline and Augmentation](./Data_Pipeline_and_Augmentation.md#2.3).
 
 ---
 
@@ -27,7 +27,7 @@ graph LR
     Output --> Loss["FocalLoss<br/>gamma=1.5<br/>alpha=0.25<br/>label_smoothing=0.1"]
 ```
 
-Sources: [train.py:328-366](), [kaggle-notebook.ipynb:331-334]()
+Sources: [train.py:328-366](../train.py#L328-L366), [kaggle-notebook.ipynb:331-334](../kaggle-notebook.ipynb#L331-L334)
 
 ---
 
@@ -45,7 +45,7 @@ The backbone is a MobileNetV2 network with width multiplier α=0.75, pretrained 
 | `input_shape` | (H, H, 3) | Variable resolution (128/160/224) |
 | `trainable` | False (initial) | Frozen during early training stages |
 
-Sources: [train.py:337-342](), [train.py:48-49]()
+Sources: [train.py:337-342](../train.py#L337-L342), [train.py:48-49](../train.py#L48-L49)
 
 ### Grayscale to RGB Conversion
 
@@ -61,7 +61,7 @@ graph LR
     G -.channel 3.-> C
 ```
 
-Sources: [train.py:331-334]()
+Sources: [train.py:331-334](../train.py#L331-L334)
 
 **Implementation:**
 ```python
@@ -89,7 +89,7 @@ graph TD
     Multiply --> Output["Output<br/>(H, W, C)"]
 ```
 
-Sources: [train.py:131-149]()
+Sources: [train.py:131-149](../train.py#L131-L149)
 
 ### Mathematical Formulation
 
@@ -116,7 +116,7 @@ The SE block performs three operations:
 | `fc2` | Dense(channels) | activation='sigmoid' |
 | `ratio` | 16 | Reduction ratio for bottleneck |
 
-Sources: [train.py:131-149]()
+Sources: [train.py:131-149](../train.py#L131-L149)
 
 **Code Entity Mapping:**
 - Class: `SEBlock(layers.Layer)`
@@ -146,7 +146,7 @@ graph TD
     Logits --> Probs["Class Probabilities<br/>(num_classes,)"]
 ```
 
-Sources: [train.py:356-362]()
+Sources: [train.py:356-362](../train.py#L356-L362)
 
 ### Layer Specifications
 
@@ -161,7 +161,7 @@ Sources: [train.py:356-362]()
 
 **Total trainable parameters in head**: ~33K (excluding backbone)
 
-Sources: [train.py:356-362]()
+Sources: [train.py:356-362](../train.py#L356-L362)
 
 ---
 
@@ -188,7 +188,7 @@ graph TD
     Loss --> Mean["Mean Reduction<br/>Σ(loss) / N"]
 ```
 
-Sources: [train.py:293-321]()
+Sources: [train.py:293-321](../train.py#L293-L321)
 
 ### Mathematical Definition
 
@@ -218,7 +218,7 @@ L = (1/N) * Σ Σ FL(p_ij)
 | `alpha` | 0.25 | Balancing factor for positive examples |
 | `label_smoothing` | 0.1 | Regularization via soft targets |
 
-Sources: [train.py:61-63](), [train.py:293-321]()
+Sources: [train.py:61-63](../train.py#L61-L63), [train.py:293-321](../train.py#L293-L321)
 
 ### Implementation Code Mapping
 
@@ -228,7 +228,7 @@ Sources: [train.py:61-63](), [train.py:293-321]()
 - Serialization: `get_config()`
 
 The loss computation is fully vectorized using TensorFlow operations:
-- [train.py:300-312](): Loss calculation with label smoothing and focal weighting
+- [train.py:300-312](../train.py#L300-L312): Loss calculation with label smoothing and focal weighting
 
 ---
 
@@ -260,7 +260,7 @@ graph TD
     Model --> Return["Return: model, base"]
 ```
 
-Sources: [train.py:328-366]()
+Sources: [train.py:328-366](../train.py#L328-L366)
 
 ### Function Signature and Parameters
 
@@ -282,7 +282,7 @@ def build_model(num_classes, image_size, use_se=True, weights=None):
 - `model`: Complete Keras Model with full forward pass
 - `base`: MobileNetV2 backbone reference (for fine-tuning control)
 
-Sources: [train.py:328-366]()
+Sources: [train.py:328-366](../train.py#L328-L366)
 
 ---
 
@@ -305,7 +305,7 @@ class Config:
     LABEL_SMOOTHING = 0.1
 ```
 
-Sources: [train.py:28-65](), [kaggle-notebook.ipynb:39-63]()
+Sources: [train.py:28-65](../train.py#L28-L65), [kaggle-notebook.ipynb:39-63](../kaggle-notebook.ipynb#L39-L63)
 
 ### Complete Parameter Table
 
@@ -323,7 +323,7 @@ Sources: [train.py:28-65](), [kaggle-notebook.ipynb:39-63]()
 | **Progressive** | PROGRESSIVE_SIZES | [128, 160, 224] | Config.PROGRESSIVE_SIZES |
 | | PROGRESSIVE_EPOCHS | [20, 25, 35] | Config.PROGRESSIVE_EPOCHS |
 
-Sources: [train.py:28-65]()
+Sources: [train.py:28-65](../train.py#L28-L65)
 
 ---
 
@@ -366,7 +366,7 @@ flowchart TB
     H1 --> H2 --> H3 --> H4
 ```
 
-Sources: [train.py:328-366](), [train.py:131-149](), [train.py:293-321]()
+Sources: [train.py:328-366](../train.py#L328-L366), [train.py:131-149](../train.py#L131-L149), [train.py:293-321](../train.py#L293-L321)
 
 ### Key Design Decisions
 
@@ -387,4 +387,4 @@ Sources: [train.py:328-366](), [train.py:131-149](), [train.py:293-321]()
 | Output Shape | (8,) | 8 defect classes |
 | FLOPs (224×224) | ~300M | Approximate inference cost |
 
-Sources: [train.py:328-366](), [train.py:462-473]()
+Sources: [train.py:328-366](../train.py#L328-L366), [train.py:462-473](../train.py#L462-L473)

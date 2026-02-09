@@ -2,7 +2,7 @@
 
 Test 1 validates that the trained model has learned meaningful feature representations for wafer defect detection. This test analyzes the confusion matrix to determine whether the model can distinguish between different defect types and whether its misclassifications follow semantically sensible patterns.
 
-For information about the complete evaluation framework, see [Model Evaluation Framework](#4). For details on the other four tests, see [Test 2: Cross-Validation Performance](#4.3), [Test 3: Confidence Calibration](#4.4), [Test 4: Perturbation Robustness](#4.5), and [Test 5: Entropy Analysis](#4.6). For the evaluation script architecture, see [Evaluation Script Architecture](#4.1).
+For information about the complete evaluation framework, see [Model Evaluation Framework](./Model_Evaluation_Framework.md#4). For details on the other four tests, see [Test 2: Cross-Validation Performance](#4.3), [Test 3: Confidence Calibration](./TEST_3_CONFIDENCE_CALIBRATION_ANALYSIS.md#4.4), [Test 4: Perturbation Robustness](./Test-specific_hardcoded_in_test_confidence_distribution.md#4.5), and [Test 5: Entropy Analysis](./TEST_5_ENTROPY-BASED_UNCERTAINTY_QUANTIFICATION.md#4.6). For the evaluation script architecture, see [Evaluation Script Architecture](./Model_Evaluation_Framework.md#4.1).
 
 ---
 
@@ -15,7 +15,7 @@ Test 1 is the first component in the 5-test validation suite. Unlike simple accu
 - When the model makes mistakes, are they semantically reasonable?
 - Can the model distinguish between visually distinct defect types?
 
-Sources: [Evaluate_model.py:112-189]()
+Sources: [Evaluate_model.py:112-189](../Evaluate_model.py#L112-L189)
 
 ---
 
@@ -64,7 +64,7 @@ def test_confusion_matrix(y_true, y_pred, y_probs, class_names, output_dir)
 - `cm`: Raw confusion matrix (numpy array)
 - `confused_pairs`: List of dictionaries containing confusion details
 
-Sources: [Evaluate_model.py:112-189]()
+Sources: [Evaluate_model.py:112-189](../Evaluate_model.py#L112-L189)
 
 ---
 
@@ -76,10 +76,10 @@ The core analysis computes a normalized confusion matrix where each row sums to 
 
 | Step | Operation | Code Location |
 |------|-----------|---------------|
-| 1. Convert labels | `np.argmax(y_true/y_pred, axis=1)` | [Evaluate_model.py:122-123]() |
-| 2. Generate matrix | `confusion_matrix(y_true_classes, y_pred_classes)` | [Evaluate_model.py:125]() |
-| 3. Normalize | `cm / (cm.sum(axis=1)[:, np.newaxis] + 1e-8)` | [Evaluate_model.py:126]() |
-| 4. Extract diagonal | `np.diag(cm_normalized) * 100` | [Evaluate_model.py:129]() |
+| 1. Convert labels | `np.argmax(y_true/y_pred, axis=1)` | [Evaluate_model.py:122-123](../Evaluate_model.py#L122-L123) |
+| 2. Generate matrix | `confusion_matrix(y_true_classes, y_pred_classes)` | [Evaluate_model.py:125](../Evaluate_model.py#L125) |
+| 3. Normalize | `cm / (cm.sum(axis=1)[:, np.newaxis] + 1e-8)` | [Evaluate_model.py:126](../Evaluate_model.py#L126) |
+| 4. Extract diagonal | `np.diag(cm_normalized) * 100` | [Evaluate_model.py:129](../Evaluate_model.py#L129) |
 
 ### Per-Class Accuracy
 
@@ -100,7 +100,7 @@ scratch                      88.3%
 bridge                       85.7%
 ```
 
-Sources: [Evaluate_model.py:128-140]()
+Sources: [Evaluate_model.py:128-140](../Evaluate_model.py#L128-L140)
 
 ---
 
@@ -129,7 +129,7 @@ This mapping encodes domain knowledge about which defect types share visual char
 - `scratch` and `block etch` both involve linear patterns
 - `voids dents` and `foreign material` both involve localized anomalies
 
-Sources: [Evaluate_model.py:143-151]()
+Sources: [Evaluate_model.py:143-151](../Evaluate_model.py#L143-L151)
 
 ### Intelligent Confusion Counting
 
@@ -162,7 +162,7 @@ semantic_learning_pct = (intelligent_confusions / total_confusions) * 100
 
 A higher percentage indicates the model has learned discriminative features, as its errors follow semantically reasonable patterns rather than random misclassifications.
 
-Sources: [Evaluate_model.py:154-174]()
+Sources: [Evaluate_model.py:154-174](../Evaluate_model.py#L154-L174)
 
 ---
 
@@ -198,7 +198,7 @@ Semantic Feature Recognition: 67.3%
   (Model correctly identifies similar defect types)
 ```
 
-Sources: [Evaluate_model.py:117-174]()
+Sources: [Evaluate_model.py:117-174](../Evaluate_model.py#L117-L174)
 
 ---
 
@@ -227,7 +227,7 @@ The heatmap allows visual inspection of:
 - Off-diagonal patterns revealing systematic confusions
 - Darker off-diagonal cells near semantically similar classes
 
-Sources: [Evaluate_model.py:177-187]()
+Sources: [Evaluate_model.py:177-187](../Evaluate_model.py#L177-L187)
 
 ---
 
@@ -251,7 +251,7 @@ confused_pairs = [
 
 This structure enables downstream analysis in the final report generation.
 
-Sources: [Evaluate_model.py:158-166]()
+Sources: [Evaluate_model.py:158-166](../Evaluate_model.py#L158-L166)
 
 ---
 
@@ -282,7 +282,7 @@ all_results['feature_learning'] = {'semantic_recognition': 85}
 
 Note: The semantic recognition score is currently hardcoded to 85 in the integration logic, but the actual computed value is displayed in console output.
 
-Sources: [Evaluate_model.py:688-690]()
+Sources: [Evaluate_model.py:688-690](../Evaluate_model.py#L688-L690)
 
 ---
 
@@ -304,7 +304,7 @@ temp_ds = tf.keras.utils.image_dataset_from_directory(
 Config.CLASS_NAMES = temp_ds.class_names
 ```
 
-Sources: [Evaluate_model.py:21-36](), [Evaluate_model.py:663-667]()
+Sources: [Evaluate_model.py:21-36](../Evaluate_model.py#L21-L36), [Evaluate_model.py:663-667](../Evaluate_model.py#L663-L667)
 
 ---
 
@@ -325,7 +325,7 @@ from sklearn.metrics import confusion_matrix
 - `numpy.argmax()`: One-hot to class index conversion
 - `numpy.diag()`: Diagonal extraction for per-class accuracy
 
-Sources: [Evaluate_model.py:3-13]()
+Sources: [Evaluate_model.py:3-13](../Evaluate_model.py#L3-L13)
 
 ---
 
@@ -343,4 +343,4 @@ Both systems use:
 
 Test 1 confirms that this training strategy produces models with meaningful learned representations by analyzing whether prediction patterns align with semantic defect similarities.
 
-Sources: [Evaluate_model.py:658-661]()
+Sources: [Evaluate_model.py:658-661](../Evaluate_model.py#L658-L661)

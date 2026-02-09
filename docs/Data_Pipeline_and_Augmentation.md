@@ -1,14 +1,14 @@
 ## Purpose and Scope
 
-This document details the `DataPipeline` class and associated augmentation strategies used in the core training system. The pipeline transforms preprocessed grayscale wafer images into optimized `tf.data.Dataset` objects with configurable augmentation, class weighting, and performance optimizations. This covers training-time transformations only; for permanent preprocessing steps (grayscale conversion, dataset splitting), see [Dataset Organization](#3.1) and [Grayscale Conversion](#3.2).
+This document details the `DataPipeline` class and associated augmentation strategies used in the core training system. The pipeline transforms preprocessed grayscale wafer images into optimized `tf.data.Dataset` objects with configurable augmentation, class weighting, and performance optimizations. This covers training-time transformations only; for permanent preprocessing steps (grayscale conversion, dataset splitting), see [Dataset Organization](./Dataset_Organization_Seggregate_Dataset.py.md#3.1) and [Grayscale Conversion](./Grayscale_Conversion.md#3.2).
 
-**Sources:** [kaggle-notebook.ipynb:1-701](), [train.py:1-702]()
+**Sources:** [kaggle-notebook.ipynb:1-701](../kaggle-notebook.ipynb#L1-L701), [train.py:1-702](../train.py#L1-L702)
 
 ---
 
 ## DataPipeline Class Architecture
 
-The `DataPipeline` class ([kaggle-notebook.ipynb:156-286](), [train.py:156-286]()) encapsulates all dataset creation logic, providing a unified interface for both training and validation data loading.
+The `DataPipeline` class ([kaggle-notebook.ipynb:156-286](../kaggle-notebook.ipynb#L156-L286), [train.py:156-286](../train.py#L156-L286)) encapsulates all dataset creation logic, providing a unified interface for both training and validation data loading.
 
 ```mermaid
 classDiagram
@@ -48,7 +48,7 @@ classDiagram
 - **Lazy evaluation**: Transformations are graph-compiled with `@tf.function` where applicable
 - **Conditional augmentation**: Training and validation pipelines use the same class with `is_training` flag
 
-**Sources:** [kaggle-notebook.ipynb:156-159](), [train.py:156-159]()
+**Sources:** [kaggle-notebook.ipynb:156-159](../kaggle-notebook.ipynb#L156-L159), [train.py:156-159](../train.py#L156-L159)
 
 ---
 
@@ -56,7 +56,7 @@ classDiagram
 
 ### Loading Pipeline
 
-The `create_dataset` method ([kaggle-notebook.ipynb:212-286](), [train.py:212-286]()) uses `tf.keras.utils.image_dataset_from_directory` for efficient batch loading:
+The `create_dataset` method ([kaggle-notebook.ipynb:212-286](../kaggle-notebook.ipynb#L212-L286), [train.py:212-286](../train.py#L212-L286)) uses `tf.keras.utils.image_dataset_from_directory` for efficient batch loading:
 
 ```mermaid
 flowchart LR
@@ -82,7 +82,7 @@ flowchart LR
 | `shuffle` | `is_training` | Shuffle only during training |
 | `seed` | 42 | Reproducible shuffling |
 
-**Sources:** [kaggle-notebook.ipynb:216-224](), [train.py:216-224]()
+**Sources:** [kaggle-notebook.ipynb:216-224](../kaggle-notebook.ipynb#L216-L224), [train.py:216-224](../train.py#L216-L224)
 
 ### Normalization Strategy
 

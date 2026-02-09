@@ -2,7 +2,7 @@
 
 Test 2 evaluates the model's **generalization capability** by comparing performance between the training and test datasets. This test quantifies the generalization gap, identifies per-class consistency patterns, and determines which defect classes have been reliably learned versus those that may be overfitting.
 
-For the overall evaluation framework architecture, see [Model Evaluation Framework](#4). For training-time data augmentation strategies that support generalization, see [Data Pipeline and Augmentation](#2.3).
+For the overall evaluation framework architecture, see [Model Evaluation Framework](./Model_Evaluation_Framework.md#4). For training-time data augmentation strategies that support generalization, see [Data Pipeline and Augmentation](./Data_Pipeline_and_Augmentation.md#2.3).
 
 ---
 
@@ -15,7 +15,7 @@ The test computes:
 - **Consistency Score**: Metric indicating stable performance across datasets
 - **Validated Classes**: Classes meeting consistency thresholds for production deployment
 
-**Sources:** [Evaluate_model.py:192-262]()
+**Sources:** [Evaluate_model.py:192-262](../Evaluate_model.py#L192-L262)
 
 ---
 
@@ -43,7 +43,7 @@ Gap(i) = Accuracy_train(i) - Accuracy_test(i)
 | 20-30% | Moderate | Potential overfitting concerns |
 | >30% | Poor | Significant overfitting detected |
 
-**Sources:** [Evaluate_model.py:192-262](), Assessment based on standard ML evaluation practices
+**Sources:** [Evaluate_model.py:192-262](../Evaluate_model.py#L192-L262), Assessment based on standard ML evaluation practices
 
 ---
 
@@ -90,7 +90,7 @@ graph TD
     K --> L["Update validation_report.json"]
 ```
 
-**Sources:** [Evaluate_model.py:192-262](), [Evaluate_model.py:409-455]()
+**Sources:** [Evaluate_model.py:192-262](../Evaluate_model.py#L192-L262), [Evaluate_model.py:409-455](../Evaluate_model.py#L409-L455)
 
 ---
 
@@ -129,7 +129,7 @@ graph LR
 }
 ```
 
-**Sources:** [Evaluate_model.py:192-262](), [Evaluate_model.py:409-455]()
+**Sources:** [Evaluate_model.py:192-262](../Evaluate_model.py#L192-L262), [Evaluate_model.py:409-455](../Evaluate_model.py#L409-L455)
 
 ---
 
@@ -162,7 +162,7 @@ flowchart TD
     M --> N["Aggregate into validation_report.json"]
 ```
 
-**Sources:** [Evaluate_model.py:192-262](), [Evaluate_model.py:84-105]()
+**Sources:** [Evaluate_model.py:192-262](../Evaluate_model.py#L192-L262), [Evaluate_model.py:84-105](../Evaluate_model.py#L84-L105)
 
 ---
 
@@ -182,7 +182,7 @@ Visual patterns to identify:
 - **Blue bar >> Orange bar**: Overfitting detected
 - **Orange bar >> Blue bar**: Data leakage suspicion (investigate)
 
-**Sources:** [Evaluation_Results/test2_test_performance.png:1-1](), [Evaluate_model.py:192-262]()
+**Sources:** [Evaluation_Results/test2_test_performance.png:1-1](../Evaluation_Results/test2_test_performance.png#L1-L1), [Evaluate_model.py:192-262](../Evaluate_model.py#L192-L262)
 
 ### Metrics Integration
 
@@ -197,7 +197,7 @@ test2_score = (
 
 This score is weighted and combined with other tests (1, 3, 4, 5) in the final `validation_report.json`.
 
-**Sources:** [Evaluate_model.py:409-455]()
+**Sources:** [Evaluate_model.py:409-455](../Evaluate_model.py#L409-L455)
 
 ---
 
@@ -207,14 +207,14 @@ This score is weighted and combined with other tests (1, 3, 4, 5) in the final `
 
 | Code Entity | File Location | Purpose |
 |-------------|---------------|---------|
-| `test_cross_validation()` | [Evaluate_model.py:192-262]() | Main test orchestration function |
-| `TestDataPipeline` | [Evaluate_model.py:84-105]() | Handles dataset loading for both train/test |
-| `Config.TRAIN_DIR` | [Evaluate_model.py:24]() | Training set directory path |
-| `Config.TEST_DIR` | [Evaluate_model.py:23]() | Test set directory path |
+| `test_cross_validation()` | [Evaluate_model.py:192-262](../Evaluate_model.py#L192-L262) | Main test orchestration function |
+| `TestDataPipeline` | [Evaluate_model.py:84-105](../Evaluate_model.py#L84-L105) | Handles dataset loading for both train/test |
+| `Config.TRAIN_DIR` | [Evaluate_model.py:24](../Evaluate_model.py#L24) | Training set directory path |
+| `Config.TEST_DIR` | [Evaluate_model.py:23](../Evaluate_model.py#L23) | Test set directory path |
 | `validation_report.json` | Generated in `Config.OUTPUT_DIR` | Final aggregated metrics |
-| `test2_test_performance.png` | [Evaluation_Results/test2_test_performance.png:1-1]() | Visual comparison chart |
+| `test2_test_performance.png` | [Evaluation_Results/test2_test_performance.png:1-1](../Evaluation_Results/test2_test_performance.png#L1-L1) | Visual comparison chart |
 
-**Sources:** [Evaluate_model.py:1-455]()
+**Sources:** [Evaluate_model.py:1-455](../Evaluate_model.py#L1-L455)
 
 ---
 
@@ -236,9 +236,9 @@ dataset/
     └── ... (same 9 classes)
 ```
 
-The test assumes the same class distribution exists in both splits. For details on how this structure is created, see [Dataset Organization](#3.1).
+The test assumes the same class distribution exists in both splits. For details on how this structure is created, see [Dataset Organization](./Dataset_Organization_Seggregate_Dataset.py.md#3.1).
 
-**Sources:** [Evaluate_model.py:22-24](), [Seggregate_Dataset.py]() (referenced in context)
+**Sources:** [Evaluate_model.py:22-24](../Evaluate_model.py#L22-L24), [Seggregate_Dataset.py](../Preprocessing_Scripts/Seggregate_Dataset.py) (referenced in context)
 
 ---
 
@@ -256,7 +256,7 @@ The following thresholds can be adjusted in the test implementation:
 
 These are typically hardcoded in the test function but can be modified for different model requirements or dataset characteristics.
 
-**Sources:** [Evaluate_model.py:192-262]()
+**Sources:** [Evaluate_model.py:192-262](../Evaluate_model.py#L192-L262)
 
 ---
 
@@ -275,9 +275,9 @@ Results from Test 2 inform:
 - **Class-specific recommendations**: Which classes need more data or retraining
 - **Deployment readiness**: Only validated classes recommended for production
 
-For the complete evaluation orchestration, see [Evaluation Script Architecture](#4.1).
+For the complete evaluation orchestration, see [Evaluation Script Architecture](./Model_Evaluation_Framework.md#4.1).
 
-**Sources:** [Evaluate_model.py:409-455](), High-level system diagrams
+**Sources:** [Evaluate_model.py:409-455](../Evaluate_model.py#L409-L455), High-level system diagrams
 
 ---
 
@@ -301,7 +301,7 @@ For the complete evaluation orchestration, see [Evaluation Script Architecture](
 - **Diagnosis**: Possible data leakage or lucky test split
 - **Action**: Re-verify dataset splits and check for contamination
 
-**Sources:** Standard machine learning evaluation practices, [Evaluate_model.py:192-262]()
+**Sources:** Standard machine learning evaluation practices, [Evaluate_model.py:192-262](../Evaluate_model.py#L192-L262)
 
 ---
 
@@ -309,13 +309,13 @@ For the complete evaluation orchestration, see [Evaluation Script Architecture](
 
 Test 2 validates the effectiveness of training strategies implemented in the core system:
 
-- **Progressive Resizing**: Curriculum learning should reduce overfitting (see [Progressive Training Strategy](#2.2))
-- **MixUp Augmentation**: Regularization technique to improve generalization (see [Data Pipeline and Augmentation](#2.3))
+- **Progressive Resizing**: Curriculum learning should reduce overfitting (see [Progressive Training Strategy](./Progressive_Training_Strategy.md#2.2))
+- **MixUp Augmentation**: Regularization technique to improve generalization (see [Data Pipeline and Augmentation](./Data_Pipeline_and_Augmentation.md#2.3))
 - **FocalLoss**: Balanced learning across classes should yield consistent test performance
 
 A large generalization gap may indicate that these techniques need tuning or that the test set contains out-of-distribution samples.
 
-**Sources:** [kaggle-notebook.ipynb](), [train.py](), [Evaluate_model.py:64-77]()
+**Sources:** [kaggle-notebook.ipynb](../kaggle-notebook.ipynb), [train.py](../train.py), [Evaluate_model.py:64-77](../Evaluate_model.py#L64-L77)
 
 # Test 3: Confidence Calibration
 
@@ -326,7 +326,7 @@ A large generalization gap may indicate that these techniques need tuning or tha
 
 This page documents Test 3 of the 5-test evaluation suite, which validates the model's confidence calibration and uncertainty quantification capabilities. This test analyzes whether the model's predicted confidence levels appropriately match its actual accuracy and whether it demonstrates proper uncertainty awareness when making incorrect predictions.
 
-For information about the overall evaluation framework and test orchestration, see [Evaluation Script Architecture](#4.1). For related uncertainty analysis using information theory, see [Test 5: Entropy Analysis](#4.6).
+For information about the overall evaluation framework and test orchestration, see [Evaluation Script Architecture](./Model_Evaluation_Framework.md#4.1). For related uncertainty analysis using information theory, see [Test 5: Entropy Analysis](./TEST_5_ENTROPY-BASED_UNCERTAINTY_QUANTIFICATION.md#4.6).
 
 ---
 
@@ -340,7 +340,7 @@ Confidence calibration is the alignment between a model's predicted probability 
 
 The test implements this validation by analyzing the probability distributions output by the model's softmax layer, computing discrimination metrics between correct and incorrect predictions, and generating calibration curves.
 
-**Sources:** [Evaluate_model.py:297-389]()
+**Sources:** [Evaluate_model.py:297-389](../Evaluate_model.py#L297-L389)
 
 ---
 
@@ -399,7 +399,7 @@ graph TB
     N --> P["Return to main evaluation"]
 ```
 
-**Sources:** [Evaluate_model.py:297-389]()
+**Sources:** [Evaluate_model.py:297-389](../Evaluate_model.py#L297-L389)
 
 ---
 
@@ -418,7 +418,7 @@ The test is implemented as the `test_confidence_distribution` function:
 - `high_conf_accuracy`: Precision at confidence threshold > 0.8
 - `uncertainty_discrimination`: Mean confidence difference (correct - incorrect)
 
-**Sources:** [Evaluate_model.py:297-300]()
+**Sources:** [Evaluate_model.py:297-300](../Evaluate_model.py#L297-L300)
 
 ---
 
@@ -449,7 +449,7 @@ The confidence extraction operates on the raw probability distributions:
 2. **Correctness determination**: Compare predicted class indices with true class indices
 3. **Partitioning**: Split confidence values into correct and incorrect prediction sets
 
-**Sources:** [Evaluate_model.py:307-313]()
+**Sources:** [Evaluate_model.py:307-313](../Evaluate_model.py#L307-L313)
 
 ---
 
@@ -467,7 +467,7 @@ precision_at_high_conf = (high_conf_correct / total_high_conf) × 100
 
 This metric validates that high confidence correlates with actual correctness.
 
-**Sources:** [Evaluate_model.py:316-318]()
+**Sources:** [Evaluate_model.py:316-318](../Evaluate_model.py#L316-L318)
 
 ### Uncertainty Discrimination
 
@@ -479,7 +479,7 @@ uncertainty_diff = mean(correct_conf) - mean(incorrect_conf)
 
 Values > 0 indicate the model appropriately assigns higher confidence to correct predictions. Larger positive values demonstrate stronger discrimination capability.
 
-**Sources:** [Evaluate_model.py:327-329]()
+**Sources:** [Evaluate_model.py:327-329](../Evaluate_model.py#L327-L329)
 
 ### Calibration Analysis
 
@@ -492,7 +492,7 @@ For confidence thresholds at 0.7, 0.8, and 0.9, the test computes:
 
 This analysis reveals whether confidence levels align with empirical accuracy at different operating points.
 
-**Sources:** [Evaluate_model.py:333-340]()
+**Sources:** [Evaluate_model.py:333-340](../Evaluate_model.py#L333-L340)
 
 ### Overconfidence Detection
 
@@ -504,7 +504,7 @@ high_conf_wrong = np.sum((confidences > 0.9) & ~correct_mask)
 
 Low counts indicate the model avoids false certainty on errors, a desirable safety property.
 
-**Sources:** [Evaluate_model.py:343-345]()
+**Sources:** [Evaluate_model.py:343-345](../Evaluate_model.py#L343-L345)
 
 ---
 
@@ -530,7 +530,7 @@ This histogram overlays confidence distributions for correct (green) and incorre
 - Incorrect predictions distributed toward lower confidence values
 - Clear visual separation between distributions
 
-**Sources:** [Evaluate_model.py:351-360]()
+**Sources:** [Evaluate_model.py:351-360](../Evaluate_model.py#L351-L360)
 
 ### Panel 2: Reliability Diagram
 
@@ -545,7 +545,7 @@ The reliability diagram plots mean predicted confidence vs. actual accuracy in b
 
 Points near the diagonal indicate good calibration. Points below the diagonal indicate overconfidence; points above indicate underconfidence.
 
-**Sources:** [Evaluate_model.py:363-380]()
+**Sources:** [Evaluate_model.py:363-380](../Evaluate_model.py#L363-L380)
 
 ---
 

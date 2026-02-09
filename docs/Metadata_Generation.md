@@ -2,9 +2,9 @@
 
 This document describes the `Dataset_Metadata_Generation.py` script, which generates comprehensive documentation of dataset composition, statistics, and class distribution after preprocessing. The script produces both machine-readable JSON and human-readable text outputs that capture dataset structure, image counts, file sizes, and format information across train/validation/test splits.
 
-For information about the dataset organization that precedes this step, see [Dataset Organization](#3.1). For details on grayscale preprocessing, see [Grayscale Conversion](#3.2).
+For information about the dataset organization that precedes this step, see [Dataset Organization](./Dataset_Organization_Seggregate_Dataset.py.md#3.1). For details on grayscale preprocessing, see [Grayscale Conversion](./Grayscale_Conversion.md#3.2).
 
-**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:1-139]()
+**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:1-139](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L1-L139)
 
 ---
 
@@ -50,7 +50,7 @@ graph TB
     INIT --> SCAN
 ```
 
-**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:6-139]()
+**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:6-139](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L6-L139)
 
 ---
 
@@ -65,15 +65,15 @@ The script expects a specific directory structure matching the output of `Seggre
 | Class Level | Subdirectories named by class | `Center/`, `Edge-Loc/`, `good/`, etc. |
 | Image Files | Image files with supported extensions | `*.jpg`, `*.png`, `*.gif`, `*.bmp`, `*.tiff`, `*.webp` |
 
-The supported image extensions are defined at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:10]():
+The supported image extensions are defined at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:10](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L10):
 
 ```python
 image_extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp']
 ```
 
-The script assumes it is located in the same directory as the train/val/test folders and uses its own location as the dataset root at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:7]().
+The script assumes it is located in the same directory as the train/val/test folders and uses its own location as the dataset root at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:7](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L7).
 
-**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:7-26]()
+**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:7-26](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L7-L26)
 
 ---
 
@@ -128,7 +128,7 @@ flowchart TD
     SAVE_TXT --> END
 ```
 
-**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:30-139]()
+**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:30-139](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L30-L139)
 
 ---
 
@@ -138,7 +138,7 @@ The script maintains a nested dictionary structure that captures dataset informa
 
 ### Root Metadata Schema
 
-The root metadata object is initialized at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:13-23]():
+The root metadata object is initialized at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:13-23](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L13-L23):
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -150,7 +150,7 @@ The root metadata object is initialized at [Preprocessing_Scripts/Dataset_Metada
 
 ### Split-Level Structure
 
-Each entry in the `splits` object follows the structure defined at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:40-44]():
+Each entry in the `splits` object follows the structure defined at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:40-44](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L40-L44):
 
 ```json
 {
@@ -198,7 +198,7 @@ graph TD
     STATS --> ST_FMTS["image_formats object<br/>{'.jpg': N, '.png': M}"]
 ```
 
-**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:13-23](), [Preprocessing_Scripts/Dataset_Metadata_Generation.py:40-44](), [Preprocessing_Scripts/Dataset_Metadata_Generation.py:72-76]()
+**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:13-23](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L13-L23), [Preprocessing_Scripts/Dataset_Metadata_Generation.py:40-44](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L40-L44), [Preprocessing_Scripts/Dataset_Metadata_Generation.py:72-76](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L72-L76)
 
 ---
 
@@ -207,7 +207,7 @@ graph TD
 For each class within each split, the script calculates three key metrics:
 
 ### File Count
-The number of images is determined by filtering directory contents for files with supported extensions at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:53-55]():
+The number of images is determined by filtering directory contents for files with supported extensions at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:53-55](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L53-L55):
 
 ```python
 image_files = [f for f in os.listdir(class_path)
@@ -216,7 +216,7 @@ image_files = [f for f in os.listdir(class_path)
 ```
 
 ### Size Calculation
-Total storage size is computed by summing individual file sizes at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:64-66]():
+Total storage size is computed by summing individual file sizes at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:64-66](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L64-L66):
 
 ```python
 for img_file in image_files:
@@ -224,17 +224,17 @@ for img_file in image_files:
     class_size += os.path.getsize(img_path)
 ```
 
-The size is converted to megabytes and rounded to 2 decimal places at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:74]().
+The size is converted to megabytes and rounded to 2 decimal places at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:74](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L74).
 
 ### Format Tracking
-Image formats are tallied using a dictionary accumulator at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:68-69]():
+Image formats are tallied using a dictionary accumulator at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:68-69](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L68-L69):
 
 ```python
 ext = os.path.splitext(img_file)[1].lower()
 format_count[ext] = format_count.get(ext, 0) + 1
 ```
 
-**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:53-76]()
+**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:53-76](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L53-L76)
 
 ---
 
@@ -243,14 +243,14 @@ format_count[ext] = format_count.get(ext, 0) + 1
 The script maintains running totals across multiple dimensions:
 
 ### Per-Split Aggregation
-Each split accumulates its own total image count at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:78]():
+Each split accumulates its own total image count at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:78](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L78):
 
 ```python
 metadata["splits"][split_name]["total_images"] += len(image_files)
 ```
 
 ### Cross-Split Class Totals
-The `classes` object tracks how many images of each class exist across all splits at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:87-89]():
+The `classes` object tracks how many images of each class exist across all splits at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:87-89](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L87-L89):
 
 ```python
 if class_name not in metadata["classes"]:
@@ -261,7 +261,7 @@ metadata["classes"][class_name] += len(image_files)
 This allows analysis of class distribution independent of split boundaries.
 
 ### Global Statistics
-Dataset-wide totals are accumulated at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:79-80]() and [Preprocessing_Scripts/Dataset_Metadata_Generation.py:82-84]():
+Dataset-wide totals are accumulated at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:79-80](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L79-L80) and [Preprocessing_Scripts/Dataset_Metadata_Generation.py:82-84](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L82-L84):
 
 ```python
 total_images += len(image_files)

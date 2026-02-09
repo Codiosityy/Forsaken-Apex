@@ -1,8 +1,8 @@
 ## Purpose and Scope
 
-This document describes the grayscale conversion preprocessing step implemented in [Preprocessing_Scripts/grayscale_conversion.py](). The script performs one-time conversion of color wafer images to single-channel grayscale format, which serves as the canonical image representation for all training systems in the repository. This conversion reduces computational overhead and emphasizes intensity-based defect patterns that are critical for wafer classification.
+This document describes the grayscale conversion preprocessing step implemented in [Preprocessing_Scripts/grayscale_conversion.py](../Preprocessing_Scripts/grayscale_conversion.py). The script performs one-time conversion of color wafer images to single-channel grayscale format, which serves as the canonical image representation for all training systems in the repository. This conversion reduces computational overhead and emphasizes intensity-based defect patterns that are critical for wafer classification.
 
-For information about the preceding dataset organization step, see [Dataset Organization (Seggregate_Dataset.py)](#3.1). For information about subsequent metadata generation, see [Metadata Generation](#3.3).
+For information about the preceding dataset organization step, see [Dataset Organization (Seggregate_Dataset.py)](#3.1). For information about subsequent metadata generation, see [Metadata Generation](./Metadata_Generation.md#3.3).
 
 ---
 
@@ -16,11 +16,11 @@ The grayscale conversion serves multiple purposes in the wafer defect detection 
 | **Faster Processing** | Training operations on 1-channel tensors are significantly faster than 3-channel |
 | **Defect Pattern Emphasis** | Wafer defects manifest as intensity variations rather than color differences |
 | **Model Generalization** | Removes color variations that may be artifacts of imaging equipment rather than defect characteristics |
-| **Consistent Preprocessing** | All training scripts ([kaggle-notebook.ipynb](), [train.py](), [train1.py](), [train2.py]()) expect grayscale input |
+| **Consistent Preprocessing** | All training scripts ([kaggle-notebook.ipynb](../kaggle-notebook.ipynb), [train.py](../train.py), [train1.py](../Previous_training_scripts/train1.py), [train2.py](../Previous_training_scripts/train2.py)) expect grayscale input |
 
 The conversion occurs **before** dataset splitting (as shown in Diagram 1 of the high-level architecture), making it a permanent preprocessing transformation rather than a training-time augmentation.
 
-**Sources:** High-level architecture diagrams, [Preprocessing_Scripts/grayscale_conversion.py:1-54]()
+**Sources:** High-level architecture diagrams, [Preprocessing_Scripts/grayscale_conversion.py:1-54](../Preprocessing_Scripts/grayscale_conversion.py#L1-L54)
 
 ---
 
@@ -46,7 +46,7 @@ flowchart TD
     ProcessFolder -.-> |"processed_count<br/>skipped_count"| Stats["Print statistics"]
 ```
 
-**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:5-54]()
+**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:5-54](../Preprocessing_Scripts/grayscale_conversion.py#L5-L54)
 
 ---
 
@@ -69,10 +69,10 @@ def convert_to_grayscale(image_path):
 
 | **Aspect** | **Implementation** | **Location** |
 |------------|-------------------|--------------|
-| **Image Loading** | `cv2.imread()` with default flags | [grayscale_conversion.py:6]() |
-| **Color Space Conversion** | `cv2.cvtColor()` with `COLOR_BGR2GRAY` constant | [grayscale_conversion.py:9]() |
-| **Error Handling** | Returns `None` if image cannot be read | [grayscale_conversion.py:7-8]() |
-| **Output Format** | Single-channel NumPy array with dtype `uint8` | [grayscale_conversion.py:9]() |
+| **Image Loading** | `cv2.imread()` with default flags | [grayscale_conversion.py:6](../Preprocessing_Scripts/grayscale_conversion.py#L6) |
+| **Color Space Conversion** | `cv2.cvtColor()` with `COLOR_BGR2GRAY` constant | [grayscale_conversion.py:9](../Preprocessing_Scripts/grayscale_conversion.py#L9) |
+| **Error Handling** | Returns `None` if image cannot be read | [grayscale_conversion.py:7-8](../Preprocessing_Scripts/grayscale_conversion.py#L7-L8) |
+| **Output Format** | Single-channel NumPy array with dtype `uint8` | [grayscale_conversion.py:9](../Preprocessing_Scripts/grayscale_conversion.py#L9) |
 
 The `COLOR_BGR2GRAY` conversion uses the standard luminosity formula:
 
@@ -82,7 +82,7 @@ Gray = 0.299*R + 0.587*G + 0.114*B
 
 This weighted average accounts for human perception, where green contributes most to perceived brightness.
 
-**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:5-10]()
+**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:5-10](../Preprocessing_Scripts/grayscale_conversion.py#L5-L10)
 
 ---
 
@@ -121,7 +121,7 @@ stateDiagram-v2
     PrintStats --> [*]
 ```
 
-**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:12-40]()
+**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:12-40](../Preprocessing_Scripts/grayscale_conversion.py#L12-L40)
 
 ---
 
@@ -143,9 +143,9 @@ supported_formats = {'.jpg', '.jpeg', '.png', '.bmp', '.gif', '.tiff'}
 | **GIF** | `.gif` | Legacy format support |
 | **TIFF** | `.tiff` | High-resolution scientific imaging |
 
-The format check uses `Path(file).suffix.lower()` to ensure case-insensitive matching ([grayscale_conversion.py:20]()).
+The format check uses `Path(file).suffix.lower()` to ensure case-insensitive matching ([grayscale_conversion.py:20](../Preprocessing_Scripts/grayscale_conversion.py#L20)).
 
-**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:14-20]()
+**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:14-20](../Preprocessing_Scripts/grayscale_conversion.py#L14-L20)
 
 ---
 
@@ -179,9 +179,9 @@ flowchart LR
 | `wafer_defect.jpg` | `wafer_defect_grayscale.jpg` |
 | `IMG_0042.bmp` | `IMG_0042_grayscale.bmp` |
 
-The output file is saved in the same directory as the input using `os.path.join(root, output_filename)` ([grayscale_conversion.py:29]()).
+The output file is saved in the same directory as the input using `os.path.join(root, output_filename)` ([grayscale_conversion.py:29](../Preprocessing_Scripts/grayscale_conversion.py#L29)).
 
-**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:26-31]()
+**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:26-31](../Preprocessing_Scripts/grayscale_conversion.py#L26-L31)
 
 ---
 
@@ -219,9 +219,9 @@ flowchart TD
 | **Permission Error** | File system access denied | OS-level read restrictions |
 | **Missing File** | Race condition (rare) | File deleted between discovery and processing |
 
-The script prints diagnostic messages for each outcome ([grayscale_conversion.py:32-36]()) and provides summary statistics ([grayscale_conversion.py:38-40]()).
+The script prints diagnostic messages for each outcome ([grayscale_conversion.py:32-36](../Preprocessing_Scripts/grayscale_conversion.py#L32-L36)) and provides summary statistics ([grayscale_conversion.py:38-40](../Preprocessing_Scripts/grayscale_conversion.py#L38-L40)).
 
-**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:7-8,22-40]()
+**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:7-8,22-40](../Preprocessing_Scripts/grayscale_conversion.py#L7-L8,22-40)
 
 ---
 
@@ -254,7 +254,7 @@ flowchart TD
     ProcessFolder --> Success["Exit with code 0"]
 ```
 
-**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:42-54]()
+**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:42-54](../Preprocessing_Scripts/grayscale_conversion.py#L42-L54)
 
 ---
 
@@ -284,14 +284,14 @@ flowchart LR
 
 **Processing Order:**
 
-1. **Organization** ([Seggregate_Dataset.py]()): Creates canonical directory structure
+1. **Organization** ([Seggregate_Dataset.py](../Preprocessing_Scripts/Seggregate_Dataset.py)): Creates canonical directory structure
 2. **Grayscale Conversion** (this script): Converts all images to single-channel format
-3. **Metadata Generation** ([Dataset_Metadata_Generation.py]()): Documents resulting dataset
+3. **Metadata Generation** ([Dataset_Metadata_Generation.py](../Preprocessing_Scripts/Dataset_Metadata_Generation.py)): Documents resulting dataset
 4. **Training Consumption**: All training scripts load grayscale images
 
-The script processes **all subdirectories recursively** ([grayscale_conversion.py:18]()), making it compatible with the nested class structure created by `Seggregate_Dataset.py`.
+The script processes **all subdirectories recursively** ([grayscale_conversion.py:18](../Preprocessing_Scripts/grayscale_conversion.py#L18)), making it compatible with the nested class structure created by `Seggregate_Dataset.py`.
 
-**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:12-40](), High-level architecture Diagram 3
+**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:12-40](../Preprocessing_Scripts/grayscale_conversion.py#L12-L40), High-level architecture Diagram 3
 
 ---
 
@@ -324,7 +324,7 @@ Total images processed: 2847
 Total images skipped: 3
 ```
 
-**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:32-40]()
+**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:32-40](../Preprocessing_Scripts/grayscale_conversion.py#L32-L40)
 
 ---
 
@@ -346,7 +346,7 @@ The script's performance depends on several factors:
 - **Medium dataset** (10,000 images): ~2-3 minutes  
 - **Large dataset** (100,000 images): ~20-30 minutes
 
-**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:9,31]()
+**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:9,31](../Preprocessing_Scripts/grayscale_conversion.py#L9,31)
 
 ---
 
@@ -367,4 +367,4 @@ The script's performance depends on several factors:
 - Include progress bar using `tqdm` library
 - Support custom output directory separate from input directory
 
-**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:1-54]()
+**Sources:** [Preprocessing_Scripts/grayscale_conversion.py:1-54](../Preprocessing_Scripts/grayscale_conversion.py#L1-L54)

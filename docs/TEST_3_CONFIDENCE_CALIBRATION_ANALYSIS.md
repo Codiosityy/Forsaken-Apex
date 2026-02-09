@@ -20,7 +20,7 @@ Overconfidence Errors (>90% confidence, wrong): X
 ✓ Model avoids false confidence on incorrect predictions
 ```
 
-**Sources:** [Evaluate_model.py:320-345]()
+**Sources:** [Evaluate_model.py:320-345](../Evaluate_model.py#L320-L345)
 
 ---
 
@@ -60,7 +60,7 @@ Test 3 is invoked from the main evaluation sequence after predictions are genera
 3. **Result storage**: Metrics added to `all_results` dictionary under `'calibration'` key
 4. **Final reporting**: Contributes to overall evaluation score with 95% weight in scoring logic
 
-**Sources:** [Evaluate_model.py:696-697](), [Evaluate_model.py:570-630]()
+**Sources:** [Evaluate_model.py:696-697](../Evaluate_model.py#L696-L697), [Evaluate_model.py:570-630](../Evaluate_model.py#L570-L630)
 
 ---
 
@@ -71,7 +71,7 @@ Test 3 is invoked from the main evaluation sequence after predictions are genera
 | `test3_confidence_calibration.png` | PNG (1400×500 px, 150 DPI) | Two-panel figure: confidence distributions + reliability diagram |
 | `validation_report.json` | JSON | Contains `calibration` field with `high_conf_accuracy` and `uncertainty_discrimination` metrics |
 
-**Sources:** [Evaluate_model.py:383](), [Evaluate_model.py:626-628]()
+**Sources:** [Evaluate_model.py:383](../Evaluate_model.py#L383), [Evaluate_model.py:626-628](../Evaluate_model.py#L626-L628)
 
 ---
 
@@ -106,7 +106,7 @@ ECE = Σ (|accuracy(Bₘ) - confidence(Bₘ)|) × (|Bₘ| / N)
 where Bₘ are confidence bins
 ```
 
-**Sources:** [Evaluate_model.py:307-328]()
+**Sources:** [Evaluate_model.py:307-328](../Evaluate_model.py#L307-L328)
 
 ---
 
@@ -122,7 +122,7 @@ where Bₘ are confidence bins
 | `axes[0].hist(...)` | Confidence distribution visualization |
 | `axes[1].plot([0.5, 1.0], [0.5, 1.0], 'k--')` | Perfect calibration reference line |
 
-**Sources:** [Evaluate_model.py:307-380]()
+**Sources:** [Evaluate_model.py:307-380](../Evaluate_model.py#L307-L380)
 
 ---
 
@@ -138,7 +138,7 @@ Test 3 operates on outputs from models trained with specific loss functions and 
 
 The calibration test validates whether these training mechanisms produce well-calibrated probability outputs at inference time.
 
-**Sources:** [Evaluate_model.py:64-77]()
+**Sources:** [Evaluate_model.py:64-77](../Evaluate_model.py#L64-L77)
 
 ---
 

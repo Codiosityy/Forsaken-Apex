@@ -7,7 +7,7 @@ MIN_SAMPLES_PER_BIN = 5
 
 These values define operating points for metric computation and ensure statistical validity of binned analyses.
 
-**Sources:** [Evaluate_model.py:316-369]()
+**Sources:** [Evaluate_model.py:316-369](../Evaluate_model.py#L316-L369)
 
 ---
 
@@ -21,7 +21,7 @@ Test 3 requires:
 
 It is executed after Test 1 (confusion matrix) and Test 2 (generalization gap) in the evaluation sequence, using the same prediction arrays to maintain consistency across tests.
 
-**Sources:** [Evaluate_model.py:637-710]()
+**Sources:** [Evaluate_model.py:637-710](../Evaluate_model.py#L637-L710)
 
 # Test 4: Perturbation Robustness
 
@@ -32,7 +32,7 @@ It is executed after Test 1 (confusion matrix) and Test 2 (generalization gap) i
 
 Test 4 validates model stability under realistic input variations by measuring accuracy retention when test images are perturbed with additive Gaussian noise. This test ensures the model's learned features are robust to sensor noise, image compression artifacts, and other real-world degradations that may occur in production wafer inspection systems.
 
-For overall evaluation framework architecture, see [Evaluation Script Architecture](#4.1). For other robustness-related validation, see [Test 5: Entropy Analysis](#4.6) which measures uncertainty quantification for difficult predictions.
+For overall evaluation framework architecture, see [Evaluation Script Architecture](./Model_Evaluation_Framework.md#4.1). For other robustness-related validation, see [Test 5: Entropy Analysis](./TEST_5_ENTROPY-BASED_UNCERTAINTY_QUANTIFICATION.md#4.6) which measures uncertainty quantification for difficult predictions.
 
 ---
 
@@ -60,7 +60,7 @@ graph TD
     style K fill:#f9f9f9
 ```
 
-**Sources:** [Evaluate_model.py:396-484]()
+**Sources:** [Evaluate_model.py:396-484](../Evaluate_model.py#L396-L484)
 
 ### Noise Level Configuration
 
@@ -72,7 +72,7 @@ The test evaluates robustness at multiple perturbation intensities defined in th
 | 0.01 | Low perturbation | Sensor noise, minor compression |
 | 0.05 | Moderate perturbation | Significant degradation scenarios |
 
-**Sources:** [Evaluate_model.py:32-34]()
+**Sources:** [Evaluate_model.py:32-34](../Evaluate_model.py#L32-L34)
 
 ---
 
@@ -98,9 +98,9 @@ graph LR
     style G fill:#f9f9f9
 ```
 
-The test function defined at [Evaluate_model.py:396-484]() orchestrates the entire perturbation testing workflow.
+The test function defined at [Evaluate_model.py:396-484](../Evaluate_model.py#L396-L484) orchestrates the entire perturbation testing workflow.
 
-**Sources:** [Evaluate_model.py:396-400]()
+**Sources:** [Evaluate_model.py:396-400](../Evaluate_model.py#L396-L400)
 
 ### Baseline Accuracy Calculation
 
@@ -124,9 +124,9 @@ sequenceDiagram
     TF->>TF: clean_acc = total_correct / total
 ```
 
-This baseline is computed at [Evaluate_model.py:406-421]() and serves as the reference for calculating accuracy retention percentages.
+This baseline is computed at [Evaluate_model.py:406-421](../Evaluate_model.py#L406-L421) and serves as the reference for calculating accuracy retention percentages.
 
-**Sources:** [Evaluate_model.py:406-421]()
+**Sources:** [Evaluate_model.py:406-421](../Evaluate_model.py#L406-L421)
 
 ---
 
@@ -148,9 +148,9 @@ graph TD
     style F fill:#f9f9f9
 ```
 
-The clipping operation at [Evaluate_model.py:435]() ensures perturbed images remain within the normalized range expected by the model ([-1, 1] after Rescaling normalization).
+The clipping operation at [Evaluate_model.py:435](../Evaluate_model.py#L435) ensures perturbed images remain within the normalized range expected by the model ([-1, 1] after Rescaling normalization).
 
-**Sources:** [Evaluate_model.py:433-435]()
+**Sources:** [Evaluate_model.py:433-435](../Evaluate_model.py#L433-L435)
 
 ### Evaluation Loop Structure
 
@@ -177,7 +177,7 @@ graph TD
     style O fill:#f9f9f9
 ```
 
-**Sources:** [Evaluate_model.py:426-453]()
+**Sources:** [Evaluate_model.py:426-453](../Evaluate_model.py#L426-L453)
 
 ---
 
@@ -191,9 +191,9 @@ The primary metric is **accuracy retention**, which quantifies how much performa
 retention = (noisy_accuracy / clean_accuracy) × 100%
 ```
 
-This is a more interpretable metric than absolute accuracy drop, as it accounts for the baseline performance level. Implementation at [Evaluate_model.py:444]().
+This is a more interpretable metric than absolute accuracy drop, as it accounts for the baseline performance level. Implementation at [Evaluate_model.py:444](../Evaluate_model.py#L444).
 
-**Sources:** [Evaluate_model.py:444]()
+**Sources:** [Evaluate_model.py:444](../Evaluate_model.py#L444)
 
 ### Results Data Structure
 
@@ -214,9 +214,9 @@ classDiagram
     TestOutput --> NoiseResult : contains
 ```
 
-The `noise_results` list returned at [Evaluate_model.py:484]() contains all perturbation test outcomes.
+The `noise_results` list returned at [Evaluate_model.py:484](../Evaluate_model.py#L484) contains all perturbation test outcomes.
 
-**Sources:** [Evaluate_model.py:446-450]()
+**Sources:** [Evaluate_model.py:446-450](../Evaluate_model.py#L446-L450)
 
 ### Console Output Format
 
@@ -224,12 +224,12 @@ The test prints structured results showing stability characteristics:
 
 | Output Component | Purpose | Line Reference |
 |-----------------|---------|----------------|
-| Baseline Accuracy | Clean test set performance | [Evaluate_model.py:421]() |
-| Per-level accuracy | Accuracy at each σ value | [Evaluate_model.py:452]() |
-| Retention percentage | Performance preservation | [Evaluate_model.py:452]() |
-| Stability summary | Low-perturbation retention | [Evaluate_model.py:455-460]() |
+| Baseline Accuracy | Clean test set performance | [Evaluate_model.py:421](../Evaluate_model.py#L421) |
+| Per-level accuracy | Accuracy at each σ value | [Evaluate_model.py:452](../Evaluate_model.py#L452) |
+| Retention percentage | Performance preservation | [Evaluate_model.py:452](../Evaluate_model.py#L452) |
+| Stability summary | Low-perturbation retention | [Evaluate_model.py:455-460](../Evaluate_model.py#L455-L460) |
 
-**Sources:** [Evaluate_model.py:421](), [Evaluate_model.py:452](), [Evaluate_model.py:455-460]()
+**Sources:** [Evaluate_model.py:421](../Evaluate_model.py#L421), [Evaluate_model.py:452](../Evaluate_model.py#L452), [Evaluate_model.py:455-460](../Evaluate_model.py#L455-L460)
 
 ---
 
@@ -255,9 +255,9 @@ graph TD
     style I fill:#f9f9f9
 ```
 
-The visualization code at [Evaluate_model.py:463-482]() emphasizes the stability region (>90% retention) and uses reference lines to contextualize performance degradation.
+The visualization code at [Evaluate_model.py:463-482](../Evaluate_model.py#L463-L482) emphasizes the stability region (>90% retention) and uses reference lines to contextualize performance degradation.
 
-**Sources:** [Evaluate_model.py:463-482]()
+**Sources:** [Evaluate_model.py:463-482](../Evaluate_model.py#L463-L482)
 
 ### Plot Components
 
@@ -269,7 +269,7 @@ The visualization code at [Evaluate_model.py:463-482]() emphasizes the stability
 | Shaded region | `ax.fill_between(noise_levels, 90, 100)` | Acceptable performance zone |
 | Y-axis limits | `ax.set_ylim(85, 102)` | Focus on high-retention region |
 
-**Sources:** [Evaluate_model.py:468-478]()
+**Sources:** [Evaluate_model.py:468-478](../Evaluate_model.py#L468-L478)
 
 ---
 
@@ -299,7 +299,7 @@ Test 4 is invoked after Tests 1-3 have completed their analysis on clean test da
 - `class_names` extracted from the dataset
 - `output_dir` for saving visualizations
 
-**Sources:** [Evaluate_model.py:396-400]()
+**Sources:** [Evaluate_model.py:396-400](../Evaluate_model.py#L396-L400)
 
 ### Custom Object Requirements
 
@@ -319,9 +319,9 @@ graph LR
     style G fill:#f9f9f9
 ```
 
-The `SEBlock` class at [Evaluate_model.py:43-61]() and `FocalLoss` class at [Evaluate_model.py:64-77]() must be available for model deserialization before perturbation testing can proceed.
+The `SEBlock` class at [Evaluate_model.py:43-61](../Evaluate_model.py#L43-L61) and `FocalLoss` class at [Evaluate_model.py:64-77](../Evaluate_model.py#L64-L77) must be available for model deserialization before perturbation testing can proceed.
 
-**Sources:** [Evaluate_model.py:43-61](), [Evaluate_model.py:64-77]()
+**Sources:** [Evaluate_model.py:43-61](../Evaluate_model.py#L43-L61), [Evaluate_model.py:64-77](../Evaluate_model.py#L64-L77)
 
 ---
 
@@ -329,7 +329,7 @@ The `SEBlock` class at [Evaluate_model.py:43-61]() and `FocalLoss` class at [Eva
 
 ### Test-Specific Settings
 
-The `Config` class at [Evaluate_model.py:21-36]() defines Test 4 parameters:
+The `Config` class at [Evaluate_model.py:21-36](../Evaluate_model.py#L21-L36) defines Test 4 parameters:
 
 | Parameter | Value | Purpose |
 |-----------|-------|---------|
@@ -339,7 +339,7 @@ The `Config` class at [Evaluate_model.py:21-36]() defines Test 4 parameters:
 
 The noise levels are intentionally conservative (σ ≤ 0.05) to focus on realistic perturbations rather than extreme adversarial scenarios.
 
-**Sources:** [Evaluate_model.py:21-36]()
+**Sources:** [Evaluate_model.py:21-36](../Evaluate_model.py#L21-L36)
 
 ### Relationship to Training Configuration
 
@@ -365,7 +365,7 @@ graph TD
 
 Mismatched configurations would invalidate perturbation test results by introducing distribution shift.
 
-**Sources:** [Evaluate_model.py:28-29](), [Evaluate_model.py:99-100]()
+**Sources:** [Evaluate_model.py:28-29](../Evaluate_model.py#L28-L29), [Evaluate_model.py:99-100](../Evaluate_model.py#L99-L100)
 
 ---
 
@@ -381,9 +381,9 @@ The test output includes interpretive thresholds for retention metrics:
 | Good | > 90% | Acceptable degradation under perturbation |
 | Concerning | < 90% | Potential production reliability issues |
 
-These thresholds are applied in the stability summary at [Evaluate_model.py:459-460]().
+These thresholds are applied in the stability summary at [Evaluate_model.py:459-460](../Evaluate_model.py#L459-L460).
 
-**Sources:** [Evaluate_model.py:459-460]()
+**Sources:** [Evaluate_model.py:459-460](../Evaluate_model.py#L459-L460)
 
 ### Low-Perturbation Emphasis
 
@@ -396,7 +396,7 @@ print(f"  Low-perturbation retention: {low_noise_retention:.1f}%")
 
 This reflects the practical reality that most production variations correspond to low-magnitude perturbations.
 
-**Sources:** [Evaluate_model.py:455-456]()
+**Sources:** [Evaluate_model.py:455-456](../Evaluate_model.py#L455-L456)
 
 ### Comparison with Other Tests
 
@@ -412,7 +412,7 @@ Test 4 complements other validation dimensions:
 
 Test 4 uniquely validates that learned features are not overly sensitive to pixel-level variations.
 
-**Sources:** [Evaluate_model.py:396-484]()
+**Sources:** [Evaluate_model.py:396-484](../Evaluate_model.py#L396-L484)
 
 ---
 
@@ -427,9 +427,9 @@ When Test 4 completes, it produces one visualization file:
 └── test4_perturbation_stability.png
 ```
 
-The output directory is configured at [Evaluate_model.py:26]() and typically points to `/kaggle/working/evaluation_results/`.
+The output directory is configured at [Evaluate_model.py:26](../Evaluate_model.py#L26) and typically points to `/kaggle/working/evaluation_results/`.
 
-**Sources:** [Evaluate_model.py:26](), [Evaluate_model.py:481]()
+**Sources:** [Evaluate_model.py:26](../Evaluate_model.py#L26), [Evaluate_model.py:481](../Evaluate_model.py#L481)
 
 ### Returned Data Structure
 
@@ -444,16 +444,16 @@ The function returns a list of dictionaries for programmatic access:
 
 This data is incorporated into the final validation report by the calling code in `main()`.
 
-**Sources:** [Evaluate_model.py:446-450](), [Evaluate_model.py:484]()
+**Sources:** [Evaluate_model.py:446-450](../Evaluate_model.py#L446-L450), [Evaluate_model.py:484](../Evaluate_model.py#L484)
 
 ---
 
 ## Sources Summary
 
-Primary implementation: [Evaluate_model.py:396-484]()  
-Configuration: [Evaluate_model.py:21-36]()  
-Custom objects: [Evaluate_model.py:43-77]()  
-Visualization output: [Evaluation_Results/test4_perturbation_stability.png]()
+Primary implementation: [Evaluate_model.py:396-484](../Evaluate_model.py#L396-L484)  
+Configuration: [Evaluate_model.py:21-36](../Evaluate_model.py#L21-L36)  
+Custom objects: [Evaluate_model.py:43-77](../Evaluate_model.py#L43-L77)  
+Visualization output: [Evaluation_Results/test4_perturbation_stability.png](../Evaluation_Results/test4_perturbation_stability.png)
 
 # Test 5: Entropy Analysis
 
@@ -466,7 +466,7 @@ Test 5 implements information-theoretic uncertainty quantification by analyzing 
 
 The test answers: **Does the model's internal uncertainty (measured by prediction entropy) align with prediction accuracy?**
 
-**Sources:** [Evaluate_model.py:438-525]()
+**Sources:** [Evaluate_model.py:438-525](../Evaluate_model.py#L438-L525)
 
 ---
 
@@ -490,7 +490,7 @@ Where `p_i` represents the predicted probability for class `i`. Entropy characte
 
 For the 8-class wafer defect problem, maximum entropy is `log(8) ≈ 2.08`, representing uniform probability across all classes.
 
-**Sources:** [Evaluate_model.py:451-452]()
+**Sources:** [Evaluate_model.py:451-452](../Evaluate_model.py#L451-L452)
 
 ---
 
@@ -574,7 +574,7 @@ graph TD
     style PNG fill:#e6f3ff
 ```
 
-**Sources:** [Evaluate_model.py:438-525]()
+**Sources:** [Evaluate_model.py:438-525](../Evaluate_model.py#L438-L525)
 
 ---
 
@@ -582,7 +582,7 @@ graph TD
 
 ### Numerical Implementation
 
-The entropy calculation at [Evaluate_model.py:451-452]() follows this procedure:
+The entropy calculation at [Evaluate_model.py:451-452](../Evaluate_model.py#L451-L452) follows this procedure:
 
 ```mermaid
 flowchart LR
@@ -606,7 +606,7 @@ flowchart LR
 | Negation | `-np.sum(...)` | Shannon entropy definition requires negative sign |
 | Output shape | `(N,)` | One entropy value per prediction |
 
-**Sources:** [Evaluate_model.py:451-452]()
+**Sources:** [Evaluate_model.py:451-452](../Evaluate_model.py#L451-L452)
 
 ---
 
@@ -669,20 +669,20 @@ graph TB
 
 ### Threshold-Based Classification
 
-The `ENTROPY_THRESHOLD` (default `0.5` from [Evaluate_model.py:36]()) partitions predictions:
+The `ENTROPY_THRESHOLD` (default `0.5` from [Evaluate_model.py:36](../Evaluate_model.py#L36)) partitions predictions:
 
 | Category | Condition | Expected Behavior |
 |----------|-----------|-------------------|
 | **High Certainty** | `entropy < 0.5` | Majority should be correct predictions |
 | **Low Certainty** | `entropy >= 0.5` | Higher proportion of incorrect predictions |
 
-Metrics calculated at [Evaluate_model.py:461-473]():
+Metrics calculated at [Evaluate_model.py:461-473](../Evaluate_model.py#L461-L473):
 
 - **High-certainty accuracy**: Percentage of correct predictions among low-entropy samples
 - **Low-certainty support**: Number of predictions flagged as uncertain
 - **Certainty rate**: Proportion of predictions below threshold
 
-**Sources:** [Evaluate_model.py:438-473](), [Evaluate_model.py:36]()
+**Sources:** [Evaluate_model.py:438-473](../Evaluate_model.py#L438-L473), [Evaluate_model.py:36](../Evaluate_model.py#L36)
 
 ---
 
@@ -690,7 +690,7 @@ Metrics calculated at [Evaluate_model.py:461-473]():
 
 ### Class-Specific Uncertainty Patterns
 
-The test computes mean entropy for each defect class at [Evaluate_model.py:476-486]():
+The test computes mean entropy for each defect class at [Evaluate_model.py:476-486](../Evaluate_model.py#L476-L486):
 
 ```python
 for i, class_name in enumerate(class_names):
@@ -750,7 +750,7 @@ graph LR
 | 0.3 - 0.7 | Moderate uncertainty | Expected for similar defect types |
 | > 0.7 | High uncertainty | Investigate class confusion patterns |
 
-**Sources:** [Evaluate_model.py:476-486]()
+**Sources:** [Evaluate_model.py:476-486](../Evaluate_model.py#L476-L486)
 
 ---
 
@@ -758,7 +758,7 @@ graph LR
 
 ### Dual-Panel Output
 
-Test 5 generates `test5_entropy_analysis.png` with two visualizations (code at [Evaluate_model.py:489-525]()):
+Test 5 generates `test5_entropy_analysis.png` with two visualizations (code at [Evaluate_model.py:489-525](../Evaluate_model.py#L489-L525)):
 
 #### Panel 1: Entropy Distribution by Correctness
 
@@ -808,10 +808,10 @@ The vertical line at `entropy=0.5` marks the threshold separating high-certainty
 
 Bar chart showing mean entropy for each of the 8 defect classes, with error bars representing standard deviation. Classes sorted by mean entropy (lowest to highest) to highlight which defect types the model finds most/least certain.
 
-**Sources:** [Evaluate_model.py:489-525]()
+**Sources:** [Evaluate_model.py:489-525](../Evaluate_model.py#L489-L525)
 
 ---
 
 ## Console Output Format
 
-The test prints structured output to terminal at [Evaluate_model.py:454-487]():
+The test prints structured output to terminal at [Evaluate_model.py:454-487](../Evaluate_model.py#L454-L487):

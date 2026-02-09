@@ -15,7 +15,7 @@ The script requires:
 - NumPy for numerical operations
 - Access to preprocessed grayscale images organized by class
 
-**Sources:** [Previous_training_scripts/train2.py:1-5](), [Previous_training_scripts/train2.py:354](), [Previous_training_scripts/train2.py:401]()
+**Sources:** [Previous_training_scripts/train2.py:1-5](../Previous_training_scripts/train2.py#L1-L5), [Previous_training_scripts/train2.py:354](../Previous_training_scripts/train2.py#L354), [Previous_training_scripts/train2.py:401](../Previous_training_scripts/train2.py#L401)
 
 ---
 
@@ -58,6 +58,6 @@ sequenceDiagram
     Main->>Main: Save model to<br/>wafer_classifier_imbalanced.keras
 ```
 
-The `main()` function [Previous_training_scripts/train2.py:503-531]() orchestrates the complete pipeline, though the actual dataset creation code (step 4 in the function) is omitted from the file, indicated by the comment `# ... (dataset creation code)` at line 517.
+The `main()` function [Previous_training_scripts/train2.py:503-531](../Previous_training_scripts/train2.py#L503-L531) orchestrates the complete pipeline, though the actual dataset creation code (step 4 in the function) is omitted from the file, indicated by the comment `# ... (dataset creation code)` at line 517.
 
-**Sources:** [Previous_training_scripts/train2.py:503-534]()
+**Sources:** [Previous_training_scripts/train2.py:503-534](../Previous_training_scripts/train2.py#L503-L534)

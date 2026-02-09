@@ -2,9 +2,9 @@
 
 The `Seggregate_Dataset.py` script establishes the canonical train/validation/test split for the wafer defect detection dataset. This script is the **foundational preprocessing step** that creates the standardized directory structure consumed by all training systems in the repository.
 
-**Scope**: This document covers the dataset splitting logic, directory structure requirements, and output format. For subsequent preprocessing steps, see [Grayscale Conversion](#3.2). For the complete preprocessing workflow, see [Data Preprocessing Pipeline](#3).
+**Scope**: This document covers the dataset splitting logic, directory structure requirements, and output format. For subsequent preprocessing steps, see [Grayscale Conversion](./Grayscale_Conversion.md#3.2). For the complete preprocessing workflow, see [Data Preprocessing Pipeline](./Data_Pipeline_and_Augmentation.md#3).
 
-**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:1-94]()
+**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:1-94](../Preprocessing_Scripts/Seggregate_Dataset.py#L1-L94)
 
 ---
 
@@ -23,7 +23,7 @@ The script performs a class-preserving stratified split of a raw image dataset i
 | **Supported Formats** | `.jpg`, `.jpeg`, `.png`, `.gif`, `.bmp`, `.tiff`, `.webp` |
 | **Location** | `Preprocessing_Scripts/` directory |
 
-**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:8-9](), [Preprocessing_Scripts/Seggregate_Dataset.py:26]()
+**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:8-9](../Preprocessing_Scripts/Seggregate_Dataset.py#L8-L9), [Preprocessing_Scripts/Seggregate_Dataset.py:26](../Preprocessing_Scripts/Seggregate_Dataset.py#L26)
 
 ---
 
@@ -68,7 +68,7 @@ flowchart TD
     K --> G
 ```
 
-**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:5-6](), [Preprocessing_Scripts/Seggregate_Dataset.py:20-23](), [Preprocessing_Scripts/Seggregate_Dataset.py:32-39]()
+**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:5-6](../Preprocessing_Scripts/Seggregate_Dataset.py#L5-L6), [Preprocessing_Scripts/Seggregate_Dataset.py:20-23](../Preprocessing_Scripts/Seggregate_Dataset.py#L20-L23), [Preprocessing_Scripts/Seggregate_Dataset.py:32-39](../Preprocessing_Scripts/Seggregate_Dataset.py#L32-L39)
 
 ---
 
@@ -96,7 +96,7 @@ flowchart LR
     I --> L["Copy to test/folder_name/"]
 ```
 
-**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:43-50]()
+**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:43-50](../Preprocessing_Scripts/Seggregate_Dataset.py#L43-L50)
 
 ### Implementation Details
 
@@ -112,7 +112,7 @@ The split indices are calculated as follows:
 
 **Critical Note**: The script uses `shutil.copy2()` rather than `shutil.move()`, preserving the original dataset. This allows re-running the script with different random seeds without data loss.
 
-**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:43-50](), [Preprocessing_Scripts/Seggregate_Dataset.py:61-86]()
+**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:43-50](../Preprocessing_Scripts/Seggregate_Dataset.py#L43-L50), [Preprocessing_Scripts/Seggregate_Dataset.py:61-86](../Preprocessing_Scripts/Seggregate_Dataset.py#L61-L86)
 
 ---
 
@@ -164,7 +164,7 @@ flowchart TD
     J --> K["Copy files to subdirs"]
 ```
 
-**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:11-18](), [Preprocessing_Scripts/Seggregate_Dataset.py:52-59]()
+**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:11-18](../Preprocessing_Scripts/Seggregate_Dataset.py#L11-L18), [Preprocessing_Scripts/Seggregate_Dataset.py:52-59](../Preprocessing_Scripts/Seggregate_Dataset.py#L52-L59)
 
 ---
 
@@ -226,7 +226,7 @@ flowchart TB
     test_dir --> copy2
 ```
 
-**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:5-94]()
+**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:5-94](../Preprocessing_Scripts/Seggregate_Dataset.py#L5-L94)
 
 ---
 
@@ -254,7 +254,7 @@ The script provides progress feedback during execution:
 | **Completion** | `✓ All folders split successfully!` |
 | **Output Paths** | Lists absolute paths to train/val/test directories |
 
-**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:25-26](), [Preprocessing_Scripts/Seggregate_Dataset.py:41](), [Preprocessing_Scripts/Seggregate_Dataset.py:88](), [Preprocessing_Scripts/Seggregate_Dataset.py:90-93]()
+**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:25-26](../Preprocessing_Scripts/Seggregate_Dataset.py#L25-L26), [Preprocessing_Scripts/Seggregate_Dataset.py:41](../Preprocessing_Scripts/Seggregate_Dataset.py#L41), [Preprocessing_Scripts/Seggregate_Dataset.py:88](../Preprocessing_Scripts/Seggregate_Dataset.py#L88), [Preprocessing_Scripts/Seggregate_Dataset.py:90-93](../Preprocessing_Scripts/Seggregate_Dataset.py#L90-L93)
 
 ---
 
@@ -272,7 +272,7 @@ if not image_files:
     continue
 ```
 
-**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:37-39]()
+**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:37-39](../Preprocessing_Scripts/Seggregate_Dataset.py#L37-L39)
 
 ### 2. File Copy Exception Handling
 
@@ -285,9 +285,9 @@ except Exception as e:
     print(f"Error copying {image} to train: {e}")
 ```
 
-This pattern is repeated for train, validation, and test copies at [Preprocessing_Scripts/Seggregate_Dataset.py:65-68](), [Preprocessing_Scripts/Seggregate_Dataset.py:74-77](), and [Preprocessing_Scripts/Seggregate_Dataset.py:83-86]().
+This pattern is repeated for train, validation, and test copies at [Preprocessing_Scripts/Seggregate_Dataset.py:65-68](../Preprocessing_Scripts/Seggregate_Dataset.py#L65-L68), [Preprocessing_Scripts/Seggregate_Dataset.py:74-77](../Preprocessing_Scripts/Seggregate_Dataset.py#L74-L77), and [Preprocessing_Scripts/Seggregate_Dataset.py:83-86](../Preprocessing_Scripts/Seggregate_Dataset.py#L83-L86).
 
-**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:65-86]()
+**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:65-86](../Preprocessing_Scripts/Seggregate_Dataset.py#L65-L86)
 
 ---
 
@@ -318,7 +318,7 @@ flowchart TD
 
 **Key Integration Points**:
 
-1. **Immediate Next Step**: The split dataset is processed by `grayscale_conversion.py` (see [Grayscale Conversion](#3.2)), which converts images to single-channel format while preserving the train/val/test structure.
+1. **Immediate Next Step**: The split dataset is processed by `grayscale_conversion.py` (see [Grayscale Conversion](./Grayscale_Conversion.md#3.2)), which converts images to single-channel format while preserving the train/val/test structure.
 
 2. **Training Script Compatibility**: All four training approaches expect this exact directory structure:
    - Current production system: [kaggle-notebook.ipynb](#2.4) and [train.py](#2.5)
@@ -326,7 +326,7 @@ flowchart TD
 
 3. **Class Preservation**: The class-named subdirectories enable Keras' `image_dataset_from_directory()` function to automatically infer labels without manual annotation.
 
-**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:11-18](), [Preprocessing_Scripts/Seggregate_Dataset.py:52-59]()
+**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:11-18](../Preprocessing_Scripts/Seggregate_Dataset.py#L11-L18), [Preprocessing_Scripts/Seggregate_Dataset.py:52-59](../Preprocessing_Scripts/Seggregate_Dataset.py#L52-L59)
 
 ---
 
@@ -336,7 +336,7 @@ flowchart TD
 
 The script uses Python's `random` module without explicit seed setting. Each execution produces a different train/val/test split:
 
-**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:3](), [Preprocessing_Scripts/Seggregate_Dataset.py:44]()
+**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:3](../Preprocessing_Scripts/Seggregate_Dataset.py#L3), [Preprocessing_Scripts/Seggregate_Dataset.py:44](../Preprocessing_Scripts/Seggregate_Dataset.py#L44)
 
 **Implication**: To ensure reproducibility across experiments, either:
 - Run the script once and version the split dataset
@@ -346,7 +346,7 @@ The script uses Python's `random` module without explicit seed setting. Each exe
 
 The script loads only **filenames** into memory, not image data. The `image_files` list contains strings, making the script scalable to datasets with millions of images:
 
-**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:33-35]()
+**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:33-35](../Preprocessing_Scripts/Seggregate_Dataset.py#L33-L35)
 
 ### File Preservation Strategy
 
@@ -356,7 +356,7 @@ Using `shutil.copy2()` instead of `shutil.move()` preserves:
 
 **Trade-off**: Requires 2x storage space during preprocessing but prevents accidental data loss.
 
-**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:66](), [Preprocessing_Scripts/Seggregate_Dataset.py:75](), [Preprocessing_Scripts/Seggregate_Dataset.py:84]()
+**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:66](../Preprocessing_Scripts/Seggregate_Dataset.py#L66), [Preprocessing_Scripts/Seggregate_Dataset.py:75](../Preprocessing_Scripts/Seggregate_Dataset.py#L75), [Preprocessing_Scripts/Seggregate_Dataset.py:84](../Preprocessing_Scripts/Seggregate_Dataset.py#L84)
 
 ---
 
@@ -364,6 +364,6 @@ Using `shutil.copy2()` instead of `shutil.move()` preserves:
 
 The `Seggregate_Dataset.py` script is the **entry point** to the preprocessing pipeline, establishing the foundational train/validation/test split that all subsequent components depend on. Its class-preserving 70/15/15 split, defensive error handling, and copy-based operation make it a reliable first step in preparing raw image datasets for deep learning workflows.
 
-**Next Step in Pipeline**: After running this script, proceed to [Grayscale Conversion](#3.2) to transform the split dataset into single-channel images suitable for training.
+**Next Step in Pipeline**: After running this script, proceed to [Grayscale Conversion](./Grayscale_Conversion.md#3.2) to transform the split dataset into single-channel images suitable for training.
 
-**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:1-94]()
+**Sources**: [Preprocessing_Scripts/Seggregate_Dataset.py:1-94](../Preprocessing_Scripts/Seggregate_Dataset.py#L1-L94)

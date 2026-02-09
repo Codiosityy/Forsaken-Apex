@@ -4,7 +4,7 @@ This document describes the two-phase training approach implemented in `train2.p
 
 This system is distinct from the current production approach (see [2](#2)) which uses progressive resizing and FocalLoss. For the CNN-SVM ensemble alternative, see [5.2](#5.2).
 
-**Sources:** [Previous_training_scripts/train2.py:1-534]()
+**Sources:** [Previous_training_scripts/train2.py:1-534](../Previous_training_scripts/train2.py#L1-L534)
 
 ---
 
@@ -82,7 +82,7 @@ flowchart TB
     METRICS --> FINAL["wafer_classifier_imbalanced.keras"]
 ```
 
-**Sources:** [Previous_training_scripts/train2.py:1-534]()
+**Sources:** [Previous_training_scripts/train2.py:1-534](../Previous_training_scripts/train2.py#L1-L534)
 
 ---
 
@@ -100,9 +100,9 @@ The system uses fixed configuration parameters that differ significantly from th
 | `beta` | 0.9999 | Class-Balanced Loss parameter |
 | `gamma` | 2.0 | Focal loss focusing parameter |
 
-The configuration is defined at [Previous_training_scripts/train2.py:10-13]() and referenced throughout the training pipeline. Unlike the production system, there is no progressive resizing curriculum—all training occurs at 224×224 resolution.
+The configuration is defined at [Previous_training_scripts/train2.py:10-13](../Previous_training_scripts/train2.py#L10-L13) and referenced throughout the training pipeline. Unlike the production system, there is no progressive resizing curriculum—all training occurs at 224×224 resolution.
 
-**Sources:** [Previous_training_scripts/train2.py:10-16]()
+**Sources:** [Previous_training_scripts/train2.py:10-16](../Previous_training_scripts/train2.py#L10-L16)
 
 ---
 
@@ -155,7 +155,7 @@ Total images: 10000
 Most imbalanced ratio: 2000.0:1
 ```
 
-**Sources:** [Previous_training_scripts/train2.py:21-46]()
+**Sources:** [Previous_training_scripts/train2.py:21-46](../Previous_training_scripts/train2.py#L21-L46)
 
 ---
 
@@ -214,15 +214,15 @@ graph TD
 
 ### Implementation Details
 
-The `ClassBalancedLoss.__init__()` method [Previous_training_scripts/train2.py:59-76]() precomputes class weights during initialization, printing diagnostic output showing the sample count and computed weight for each class. This allows verification that minority classes receive appropriately higher weights.
+The `ClassBalancedLoss.__init__()` method [Previous_training_scripts/train2.py:59-76](../Previous_training_scripts/train2.py#L59-L76) precomputes class weights during initialization, printing diagnostic output showing the sample count and computed weight for each class. This allows verification that minority classes receive appropriately higher weights.
 
-The `call()` method [Previous_training_scripts/train2.py:78-95]() applies these weights to either standard cross-entropy or focal loss. When `loss_type="focal"`, it combines:
+The `call()` method [Previous_training_scripts/train2.py:78-95](../Previous_training_scripts/train2.py#L78-L95) applies these weights to either standard cross-entropy or focal loss. When `loss_type="focal"`, it combines:
 1. Class-based reweighting from effective number of samples
 2. Prediction-based reweighting from focal loss focusing parameter
 
 This dual reweighting addresses both dataset-level imbalance (via class weights) and prediction-level difficulty (via focal loss).
 
-**Sources:** [Previous_training_scripts/train2.py:51-96]()
+**Sources:** [Previous_training_scripts/train2.py:51-96](../Previous_training_scripts/train2.py#L51-L96)
 
 ---
 
@@ -278,14 +278,14 @@ flowchart TD
 
 ### Oversampling Strategy
 
-The function [Previous_training_scripts/train2.py:100-141]() implements simple repetition of file paths rather than immediate data duplication. For a minority class like 'good' with 5 samples:
+The function [Previous_training_scripts/train2.py:100-141](../Previous_training_scripts/train2.py#L100-L141) implements simple repetition of file paths rather than immediate data duplication. For a minority class like 'good' with 5 samples:
 - `repeat_factor = 500 // 5 = 100`
 - Each of the 5 images appears 100 times in `all_files`
 - Total: ~500 samples for the 'good' class
 
 This approach defers augmentation to training time, where each repetition will receive different random augmentations, creating synthetic diversity. The repeated paths consume minimal memory compared to storing actual augmented images.
 
-**Sources:** [Previous_training_scripts/train2.py:100-141]()
+**Sources:** [Previous_training_scripts/train2.py:100-141](../Previous_training_scripts/train2.py#L100-L141)
 
 ---
 
@@ -304,7 +304,7 @@ The `create_augmentation_pipeline()` function creates different augmentation str
 
 **Rationale:** Minority classes need more aggressive augmentation to create synthetic diversity since each base image is repeated many times (e.g., 100× for the 'good' class). Majority classes need only conservative augmentation to prevent overfitting while maintaining defect pattern integrity.
 
-**Sources:** [Previous_training_scripts/train2.py:146-169]()
+**Sources:** [Previous_training_scripts/train2.py:146-169](../Previous_training_scripts/train2.py#L146-L169)
 
 ---
 
@@ -357,7 +357,7 @@ stateDiagram-v2
 
 **Objective:** Teach the model to recognize all classes, especially minorities.
 
-The `two_phase_training()` function's Phase 1 implementation [Previous_training_scripts/train2.py:192-243]() uses:
+The `two_phase_training()` function's Phase 1 implementation [Previous_training_scripts/train2.py:192-243](../Previous_training_scripts/train2.py#L192-L243) uses:
 - **Dataset:** `train_ds_balanced` with oversampled data (~500 samples per class)
 - **Loss:** `ClassBalancedLoss` with `beta=0.9999` and `loss_type="focal"`
 - **Learning Rate:** `1e-3` (standard initial LR for feature learning)
@@ -373,7 +373,7 @@ The `two_phase_training()` function's Phase 1 implementation [Previous_training_
 
 **Objective:** Adapt the learned representations to the real-world class distribution.
 
-Phase 2 implementation [Previous_training_scripts/train2.py:245-289]() differs in:
+Phase 2 implementation [Previous_training_scripts/train2.py:245-289](../Previous_training_scripts/train2.py#L245-L289) differs in:
 - **Dataset:** `train_ds_full` with original imbalanced distribution
 - **Learning Rate:** `1e-5` (100× lower to prevent catastrophic forgetting)
 - **Patience:** Increased to 15 epochs to allow gradual adaptation
@@ -381,7 +381,7 @@ Phase 2 implementation [Previous_training_scripts/train2.py:245-289]() differs i
 
 **Key Insight:** The lower learning rate and class-balanced loss prevent the model from "forgetting" minority class features while adjusting prediction distributions to match real-world prevalence.
 
-**Sources:** [Previous_training_scripts/train2.py:186-291]()
+**Sources:** [Previous_training_scripts/train2.py:186-291](../Previous_training_scripts/train2.py#L186-L291)
 
 ---
 
@@ -439,7 +439,7 @@ flowchart TD
 
 ### Threshold Search Algorithm
 
-The implementation [Previous_training_scripts/train2.py:296-345]() performs an exhaustive grid search:
+The implementation [Previous_training_scripts/train2.py:296-345](../Previous_training_scripts/train2.py#L296-L345) performs an exhaustive grid search:
 
 1. **Binary decomposition:** For each class, convert the multi-class problem to binary (class i vs. rest)
 2. **Grid search:** Test thresholds from 0.1 to 0.9 in steps of 0.05
@@ -456,7 +456,7 @@ The implementation [Previous_training_scripts/train2.py:296-345]() performs an e
 
 Lower thresholds (e.g., 0.40 for 'good') make the model more sensitive to that class, reducing false negatives at the cost of potential false positives.
 
-**Sources:** [Previous_training_scripts/train2.py:296-345]()
+**Sources:** [Previous_training_scripts/train2.py:296-345](../Previous_training_scripts/train2.py#L296-L345)
 
 ---
 
@@ -525,7 +525,7 @@ flowchart LR
 
 ### Custom Threshold Application
 
-When `optimal_thresholds` is provided [Previous_training_scripts/train2.py:369-384](), the function uses custom logic:
+When `optimal_thresholds` is provided [Previous_training_scripts/train2.py:369-384](../Previous_training_scripts/train2.py#L369-L384), the function uses custom logic:
 ```python
 for score in scores:
     pred_class = None
@@ -542,9 +542,9 @@ This selects the highest-scoring class among those that exceed their optimal thr
 
 ### Minority Class Warning System
 
-The function specifically checks the 'good' class performance [Previous_training_scripts/train2.py:418-428]() and issues a warning if recall < 0.5, indicating the model is biased toward predicting defects. This is critical for wafer screening where false negatives (missing good wafers) are costly.
+The function specifically checks the 'good' class performance [Previous_training_scripts/train2.py:418-428](../Previous_training_scripts/train2.py#L418-L428) and issues a warning if recall < 0.5, indicating the model is biased toward predicting defects. This is critical for wafer screening where false negatives (missing good wafers) are costly.
 
-**Sources:** [Previous_training_scripts/train2.py:350-435]()
+**Sources:** [Previous_training_scripts/train2.py:350-435](../Previous_training_scripts/train2.py#L350-L435)
 
 ---
 
@@ -585,7 +585,7 @@ graph TD
 
 ### Implementation Characteristics
 
-The generator [Previous_training_scripts/train2.py:440-498]() inherits from `tf.keras.utils.Sequence` for proper integration with Keras training:
+The generator [Previous_training_scripts/train2.py:440-498](../Previous_training_scripts/train2.py#L440-L498) inherits from `tf.keras.utils.Sequence` for proper integration with Keras training:
 
 - **`__len__()`:** Returns `len(expanded_paths) // batch_size`, enabling proper epoch iteration
 - **`__getitem__(idx)`:** Generates one batch on-demand with:
@@ -596,7 +596,7 @@ The generator [Previous_training_scripts/train2.py:440-498]() inherits from `tf.
 
 This approach generates synthetic diversity at training time without storing augmented images, essential when oversampling 5 images 100× to create 500 variations.
 
-**Sources:** [Previous_training_scripts/train2.py:440-498]()
+**Sources:** [Previous_training_scripts/train2.py:440-498](../Previous_training_scripts/train2.py#L440-L498)
 
 ---
 
@@ -623,7 +623,7 @@ This approach generates synthetic diversity at training time without storing aug
 
 The current production system evolved from this approach, suggesting that the progressive training and architectural enhancements proved more effective than data-level solutions in practice.
 
-**Sources:** [Previous_training_scripts/train2.py:1-534]()
+**Sources:** [Previous_training_scripts/train2.py:1-534](../Previous_training_scripts/train2.py#L1-L534)
 
 ---
 

@@ -2,7 +2,7 @@ for fmt, count in format_count.items():
     metadata["statistics"]["image_formats"][fmt] = metadata["statistics"]["image_formats"].get(fmt, 0) + count
 ```
 
-**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:78-95]()
+**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:78-95](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L78-L95)
 
 ---
 
@@ -10,7 +10,7 @@ for fmt, count in format_count.items():
 
 ### JSON Output
 
-The structured metadata is serialized to JSON with 2-space indentation at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:98-104]():
+The structured metadata is serialized to JSON with 2-space indentation at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:98-104](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L98-L104):
 
 ```python
 json_filename = os.path.join(script_dir, "dataset_metadata.json")
@@ -26,7 +26,7 @@ This file is machine-readable and suitable for programmatic access or integratio
 
 ### Human-Readable Text Output
 
-The `DATASET_INFO.txt` file provides a formatted summary with four sections, generated at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:107-134]():
+The `DATASET_INFO.txt` file provides a formatted summary with four sections, generated at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:107-134](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L107-L134):
 
 1. **Header** - Title and timestamp (lines 110-114)
 2. **Global Statistics** - Total counts and sizes (lines 116-119)
@@ -52,7 +52,7 @@ graph LR
     TXT --> HUMAN
 ```
 
-**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:98-134]()
+**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:98-134](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L98-L134)
 
 ---
 
@@ -69,9 +69,9 @@ During execution, the script provides real-time progress feedback:
 | `"✓ README saved: {filename}"` | TXT save confirmation | Line 132 |
 | `"✓ Dataset metadata generation complete!"` | Final status | Line 136 |
 
-Error handling is implemented for file I/O operations at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:103-104]() and [Preprocessing_Scripts/Dataset_Metadata_Generation.py:133-134](), printing exceptions if write operations fail.
+Error handling is implemented for file I/O operations at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:103-104](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L103-L104) and [Preprocessing_Scripts/Dataset_Metadata_Generation.py:133-134](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L133-L134), printing exceptions if write operations fail.
 
-**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:30-139]()
+**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:30-139](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L30-L139)
 
 ---
 
@@ -85,13 +85,13 @@ python Dataset_Metadata_Generation.py
 ```
 
 **Prerequisites:**
-- Dataset must be organized in train/val/test structure (see [Dataset Organization](#3.1))
+- Dataset must be organized in train/val/test structure (see [Dataset Organization](./Dataset_Organization_Seggregate_Dataset.py.md#3.1))
 - Script must be located in the same directory as the split folders
 - Write permissions required for output files
 
 **No Configuration Required:** The script operates entirely based on directory structure discovery, with no command-line arguments or configuration files.
 
-**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:6-7]()
+**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:6-7](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L6-L7)
 
 ---
 
@@ -99,7 +99,7 @@ python Dataset_Metadata_Generation.py
 
 ### Script Location Handling
 
-The script uses its own location as the dataset root at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:7]():
+The script uses its own location as the dataset root at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:7](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L7):
 
 ```python
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -118,7 +118,7 @@ This allows the script to work regardless of where it's executed from, as long a
 
 ### Supported Image Formats
 
-The script recognizes seven common image formats at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:10]():
+The script recognizes seven common image formats at [Preprocessing_Scripts/Dataset_Metadata_Generation.py:10](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L10):
 
 - `.jpg` / `.jpeg` - JPEG compressed images
 - `.png` - Portable Network Graphics
@@ -127,7 +127,7 @@ The script recognizes seven common image formats at [Preprocessing_Scripts/Datas
 - `.tiff` - Tagged Image File Format
 - `.webp` - WebP format
 
-**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:7](), [Preprocessing_Scripts/Dataset_Metadata_Generation.py:10](), [Preprocessing_Scripts/Dataset_Metadata_Generation.py:36-58](), [Preprocessing_Scripts/Dataset_Metadata_Generation.py:103-104](), [Preprocessing_Scripts/Dataset_Metadata_Generation.py:133-134]()
+**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:7](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L7), [Preprocessing_Scripts/Dataset_Metadata_Generation.py:10](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L10), [Preprocessing_Scripts/Dataset_Metadata_Generation.py:36-58](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L36-L58), [Preprocessing_Scripts/Dataset_Metadata_Generation.py:103-104](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L103-L104), [Preprocessing_Scripts/Dataset_Metadata_Generation.py:133-134](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L133-L134)
 
 ---
 
@@ -145,7 +145,7 @@ The size calculations help estimate storage requirements for different dataset c
 ### Format Validation
 The format tracking confirms that image preprocessing (e.g., grayscale conversion) completed successfully and all images are in expected formats.
 
-**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:1-139]()
+**Sources:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:1-139](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L1-L139)
 
 # Dataset Sampling Tool
 
@@ -156,9 +156,9 @@ The format tracking confirms that image preprocessing (e.g., grayscale conversio
 
 The Dataset Sampling Tool (`random_file_picker.py`) is a standalone utility for creating representative subsets of image datasets through random sampling. It extracts up to 50 images from a source directory and copies them to a dedicated output folder for quick inspection, validation, or testing workflows. This tool operates independently of the main preprocessing pipeline and does not modify source files.
 
-For dataset organization and train/val/test splitting, see [Dataset Organization](#3.1). For comprehensive dataset analysis, see [Metadata Generation](#3.3).
+For dataset organization and train/val/test splitting, see [Dataset Organization](./Dataset_Organization_Seggregate_Dataset.py.md#3.1). For comprehensive dataset analysis, see [Metadata Generation](./Metadata_Generation.md#3.3).
 
-**Sources:** [Preprocessing_Scripts/random_file_picker.py:1-44]()
+**Sources:** [Preprocessing_Scripts/random_file_picker.py:1-44](../Preprocessing_Scripts/random_file_picker.py#L1-L44)
 
 ---
 
@@ -177,7 +177,7 @@ The `random_file_picker.py` script implements a simple file-based sampling strat
 | Image Formats | `.jpg`, `.jpeg`, `.png`, `.gif`, `.bmp`, `.tiff`, `.webp` |
 | File Handling | Copy (non-destructive, preserves originals) |
 
-**Sources:** [Preprocessing_Scripts/random_file_picker.py:5-30]()
+**Sources:** [Preprocessing_Scripts/random_file_picker.py:5-30](../Preprocessing_Scripts/random_file_picker.py#L5-L30)
 
 ---
 
@@ -215,7 +215,7 @@ flowchart TD
 
 This diagram maps the script's linear execution sequence to specific code constructs, showing how directory detection, file scanning, sampling, and copying operations are orchestrated.
 
-**Sources:** [Preprocessing_Scripts/random_file_picker.py:5-43]()
+**Sources:** [Preprocessing_Scripts/random_file_picker.py:5-43](../Preprocessing_Scripts/random_file_picker.py#L5-L43)
 
 ---
 
@@ -269,7 +269,7 @@ graph TB
 
 This diagram shows how the script transforms a directory listing into a random sample through filtering, size determination, and sampling stages using specific Python functions.
 
-**Sources:** [Preprocessing_Scripts/random_file_picker.py:8-26]()
+**Sources:** [Preprocessing_Scripts/random_file_picker.py:8-26](../Preprocessing_Scripts/random_file_picker.py#L8-L26)
 
 ---
 
@@ -285,7 +285,7 @@ image_extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp']
 
 Extensions are normalized to lowercase using `os.path.splitext(f)[1].lower()` before comparison to handle variations like `.JPG` or `.PNG`.
 
-**Sources:** [Preprocessing_Scripts/random_file_picker.py:8-14]()
+**Sources:** [Preprocessing_Scripts/random_file_picker.py:8-14](../Preprocessing_Scripts/random_file_picker.py#L8-L14)
 
 ### Copy Operations
 
@@ -298,7 +298,7 @@ The script uses `shutil.copy2()` rather than `shutil.copy()` to preserve file me
 
 Each copy operation is wrapped in a try-except block to handle errors gracefully without halting the entire process. Failed copies print an error message but do not raise exceptions.
 
-**Sources:** [Preprocessing_Scripts/random_file_picker.py:32-40]()
+**Sources:** [Preprocessing_Scripts/random_file_picker.py:32-40](../Preprocessing_Scripts/random_file_picker.py#L32-L40)
 
 ---
 
@@ -308,9 +308,9 @@ Each copy operation is wrapped in a try-except block to handle errors gracefully
 
 | Parameter | Value | Location |
 |-----------|-------|----------|
-| Sample size | `50` | [Preprocessing_Scripts/random_file_picker.py:23]() |
-| Output directory name | `"random_images"` | [Preprocessing_Scripts/random_file_picker.py:29]() |
-| Image extensions | 7 formats (see above) | [Preprocessing_Scripts/random_file_picker.py:9]() |
+| Sample size | `50` | [Preprocessing_Scripts/random_file_picker.py:23](../Preprocessing_Scripts/random_file_picker.py#L23) |
+| Output directory name | `"random_images"` | [Preprocessing_Scripts/random_file_picker.py:29](../Preprocessing_Scripts/random_file_picker.py#L29) |
+| Image extensions | 7 formats (see above) | [Preprocessing_Scripts/random_file_picker.py:9](../Preprocessing_Scripts/random_file_picker.py#L9) |
 
 ### Operational Constraints
 
@@ -320,11 +320,11 @@ Each copy operation is wrapped in a try-except block to handle errors gracefully
    ```
    Warning: Only {N} images found. Selecting all available images.
    ```
-   [Preprocessing_Scripts/random_file_picker.py:19-21]()
+   [Preprocessing_Scripts/random_file_picker.py:19-21](../Preprocessing_Scripts/random_file_picker.py#L19-L21)
 
 3. **Output Directory Handling**: The output directory is created with `exist_ok=True`, allowing repeated executions. Existing files with matching names are overwritten.
 
-**Sources:** [Preprocessing_Scripts/random_file_picker.py:5-30]()
+**Sources:** [Preprocessing_Scripts/random_file_picker.py:5-30](../Preprocessing_Scripts/random_file_picker.py#L5-L30)
 
 ---
 
@@ -346,7 +346,7 @@ When investigating model mispredictions on specific classes, copy a class direct
 
 Generate representative samples for inclusion in project documentation, research papers (via [extract_pdf_images.py](#6.3)), or stakeholder presentations.
 
-**Sources:** [Preprocessing_Scripts/random_file_picker.py:1-44]()
+**Sources:** [Preprocessing_Scripts/random_file_picker.py:1-44](../Preprocessing_Scripts/random_file_picker.py#L1-L44)
 
 ---
 
@@ -363,7 +363,7 @@ The script provides detailed execution feedback through print statements:
 | Summary | `Total images copied: {count}` | Final count |
 | Summary | `Images saved to: {path}` | Output location |
 
-**Sources:** [Preprocessing_Scripts/random_file_picker.py:16-43]()
+**Sources:** [Preprocessing_Scripts/random_file_picker.py:16-43](../Preprocessing_Scripts/random_file_picker.py#L16-L43)
 
 ---
 
@@ -392,7 +392,7 @@ This approach ensures that permission errors, disk space issues, or file lock co
 | File not found | File deleted between scan and copy | Skip file, print error, continue |
 | Invalid filename | Special characters in path | Skip file, print error, continue |
 
-**Sources:** [Preprocessing_Scripts/random_file_picker.py:36-40]()
+**Sources:** [Preprocessing_Scripts/random_file_picker.py:36-40](../Preprocessing_Scripts/random_file_picker.py#L36-L40)
 
 ---
 
@@ -436,7 +436,7 @@ graph LR
 
 Unlike preprocessing scripts that form a sequential pipeline, `random_file_picker.py` operates as an inspection tool that can be applied at any stage (raw, split, or preprocessed) without modifying the dataset.
 
-**Sources:** [Preprocessing_Scripts/random_file_picker.py:1-44]()
+**Sources:** [Preprocessing_Scripts/random_file_picker.py:1-44](../Preprocessing_Scripts/random_file_picker.py#L1-L44)
 
 ---
 
@@ -492,7 +492,7 @@ Preprocessing_Scripts/
     └── image_299.jpg       (50 total)
 ```
 
-**Sources:** [Preprocessing_Scripts/random_file_picker.py:1-44]()
+**Sources:** [Preprocessing_Scripts/random_file_picker.py:1-44](../Preprocessing_Scripts/random_file_picker.py#L1-L44)
 
 ---
 
@@ -522,4 +522,4 @@ The output directory is always created in the script's location. To sample from 
 
 The script only scans the immediate directory and does not traverse subdirectories. This is appropriate for flat directory structures but requires manual execution for hierarchical datasets like the train/val/test split structure created by [Seggregate_Dataset.py](#3.1).
 
-**Sources:** [Preprocessing_Scripts/random_file_picker.py:1-44]()
+**Sources:** [Preprocessing_Scripts/random_file_picker.py:1-44](../Preprocessing_Scripts/random_file_picker.py#L1-L44)
