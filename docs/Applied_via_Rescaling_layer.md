@@ -8,9 +8,9 @@ dataset = dataset.map(lambda x, y: (normalization_layer(x), y),
 2. Scale: Divide by 127.5 → range [0, 2]
 3. Offset: Subtract 1 → range [-1, 1]
 
-This differs from the deprecated `load_and_preprocess` method ([kaggle-notebook.ipynb:161-177](), [train.py:161-177]()), which manually normalized with `(image / 255.0 - 0.5) / 0.5`. The current approach leverages built-in Keras preprocessing for better performance.
+This differs from the deprecated `load_and_preprocess` method ([kaggle-notebook.ipynb:161-177](../kaggle-notebook.ipynb#L161-L177), [train.py:161-177](../train.py#L161-L177)), which manually normalized with `(image / 255.0 - 0.5) / 0.5`. The current approach leverages built-in Keras preprocessing for better performance.
 
-**Sources:** [kaggle-notebook.ipynb:255-258](), [train.py:255-258]()
+**Sources:** [kaggle-notebook.ipynb:255-258](../kaggle-notebook.ipynb#L255-L258), [train.py:255-258](../train.py#L255-L258)
 
 ---
 
@@ -44,7 +44,7 @@ dataset = dataset.map(
 - **Rationale**: Wafer defects exhibit horizontal symmetry
 - **Probability**: 50% (TensorFlow default)
 
-**Sources:** [kaggle-notebook.ipynb:262-265](), [train.py:262-265]()
+**Sources:** [kaggle-notebook.ipynb:262-265](../kaggle-notebook.ipynb#L262-L265), [train.py:262-265](../train.py#L262-L265)
 
 #### 2. Random 90° Rotation
 ```python
@@ -57,11 +57,11 @@ dataset = dataset.map(random_rotate, num_parallel_calls=tf.data.AUTOTUNE)
 - **Rotation angles**: 0°, 90°, 180°, 270° (equal probability)
 - **Rationale**: Wafer orientation is arbitrary during fabrication
 
-**Sources:** [kaggle-notebook.ipynb:267-272](), [train.py:267-272]()
+**Sources:** [kaggle-notebook.ipynb:267-272](../kaggle-notebook.ipynb#L267-L272), [train.py:267-272](../train.py#L267-L272)
 
 #### 3. MixUp Augmentation
 
-MixUp ([kaggle-notebook.ipynb:194-210](), [train.py:194-210]()) is applied at the batch level with `α=0.2`:
+MixUp ([kaggle-notebook.ipynb:194-210](../kaggle-notebook.ipynb#L194-L210), [train.py:194-210](../train.py#L194-L210)) is applied at the batch level with `α=0.2`:
 
 ```python
 @tf.function
@@ -92,11 +92,11 @@ def apply_mixup(self, images, labels):
 - **Limited range**: λ ∈ [0.2, 0.8] avoids extreme blending
 - **Graph compilation**: `@tf.function` decorator for optimized execution
 
-**Sources:** [kaggle-notebook.ipynb:194-210](), [train.py:194-210](), [kaggle-notebook.ipynb:274-279](), [train.py:274-279]()
+**Sources:** [kaggle-notebook.ipynb:194-210](../kaggle-notebook.ipynb#L194-L210), [train.py:194-210](../train.py#L194-L210), [kaggle-notebook.ipynb:274-279](../kaggle-notebook.ipynb#L274-L279), [train.py:274-279](../train.py#L274-L279)
 
 ### Deprecated Augmentation Method
 
-The `augment` method ([kaggle-notebook.ipynb:179-192](), [train.py:179-192]()) includes random brightness adjustment but is **not currently used** in the pipeline:
+The `augment` method ([kaggle-notebook.ipynb:179-192](../kaggle-notebook.ipynb#L179-L192), [train.py:179-192](../train.py#L179-L192)) includes random brightness adjustment but is **not currently used** in the pipeline:
 
 ```python
 def augment(self, image, label):
@@ -114,17 +114,17 @@ def augment(self, image, label):
 
 **Reason for deprecation**: Brightness augmentation was found to be unnecessary for grayscale wafer images where intensity values encode critical defect information.
 
-**Sources:** [kaggle-notebook.ipynb:179-192](), [train.py:179-192]()
+**Sources:** [kaggle-notebook.ipynb:179-192](../kaggle-notebook.ipynb#L179-L192), [train.py:179-192](../train.py#L179-L192)
 
 ---
 
 ## Class Weighting Mechanism
 
-To handle class imbalance, the pipeline implements weighted sampling when `USE_CLASS_WEIGHTS=True` ([kaggle-notebook.ipynb:227-253](), [train.py:227-253]()).
+To handle class imbalance, the pipeline implements weighted sampling when `USE_CLASS_WEIGHTS=True` ([kaggle-notebook.ipynb:227-253](../kaggle-notebook.ipynb#L227-L253), [train.py:227-253](../train.py#L227-L253)).
 
 ### Weight Calculation
 
-Class weights are computed by `ProgressiveTrainer.__init__` ([kaggle-notebook.ipynb:391-397](), [train.py:391-397]()):
+Class weights are computed by `ProgressiveTrainer.__init__` ([kaggle-notebook.ipynb:391-397](../kaggle-notebook.ipynb#L391-L397), [train.py:391-397](../train.py#L391-L397)):
 
 ```python
 total = sum(class_counts.values())
@@ -147,7 +147,7 @@ self.class_weights = {
 | foreign material | 27 | 6.06 |
 | voids dents | 54 | 3.03 |
 
-**Sources:** [kaggle-notebook.ipynb:391-397](), [train.py:391-397]()
+**Sources:** [kaggle-notebook.ipynb:391-397](../kaggle-notebook.ipynb#L391-L397), [train.py:391-397](../train.py#L391-L397)
 
 ### Weighted Sampling Implementation
 
@@ -169,7 +169,7 @@ flowchart TD
     GATHER --> REBATCH
 ```
 
-The implementation ([kaggle-notebook.ipynb:227-253](), [train.py:227-253]()) performs these steps:
+The implementation ([kaggle-notebook.ipynb:227-253](../kaggle-notebook.ipynb#L227-L253), [train.py:227-253](../train.py#L227-L253)) performs these steps:
 
 1. **Load entire dataset into memory**:
    ```python
@@ -215,7 +215,7 @@ The implementation ([kaggle-notebook.ipynb:227-253](), [train.py:227-253]()) per
 - ⚠️ **Cost**: Entire dataset loaded into GPU memory (manageable for ~1300 images)
 - ⚠️ **Implication**: Training set effectively doubled to ~2600 samples per epoch
 
-**Sources:** [kaggle-notebook.ipynb:227-253](), [train.py:227-253]()
+**Sources:** [kaggle-notebook.ipynb:227-253](../kaggle-notebook.ipynb#L227-L253), [train.py:227-253](../train.py#L227-L253)
 
 ---
 
@@ -263,12 +263,12 @@ graph LR
 
 ### AUTOTUNE Behavior
 
-`tf.data.AUTOTUNE` ([kaggle-notebook.ipynb:258](), [kaggle-notebook.ipynb:264](), [kaggle-notebook.ipynb:272](), [kaggle-notebook.ipynb:278](), [kaggle-notebook.ipynb:284]()) dynamically adjusts:
+`tf.data.AUTOTUNE` ([kaggle-notebook.ipynb:258](../kaggle-notebook.ipynb#L258), [kaggle-notebook.ipynb:264](../kaggle-notebook.ipynb#L264), [kaggle-notebook.ipynb:272](../kaggle-notebook.ipynb#L272), [kaggle-notebook.ipynb:278](../kaggle-notebook.ipynb#L278), [kaggle-notebook.ipynb:284](../kaggle-notebook.ipynb#L284)) dynamically adjusts:
 - Number of parallel CPU threads
 - Prefetch buffer size (typically 2-5 batches)
 - Memory allocation for shuffle buffer
 
-**Sources:** [kaggle-notebook.ipynb:255-284](), [train.py:255-284]()
+**Sources:** [kaggle-notebook.ipynb:255-284](../kaggle-notebook.ipynb#L255-L284), [train.py:255-284](../train.py#L255-L284)
 
 ---
 
@@ -329,13 +329,13 @@ flowchart TD
     PREFETCH --> OUTPUT
 ```
 
-**Sources:** [kaggle-notebook.ipynb:212-286](), [train.py:212-286]()
+**Sources:** [kaggle-notebook.ipynb:212-286](../kaggle-notebook.ipynb#L212-L286), [train.py:212-286](../train.py#L212-L286)
 
 ---
 
 ## Steps Per Epoch Calculation
 
-The `ProgressiveTrainer.train_stage` method ([kaggle-notebook.ipynb:493-494](), [train.py:493-494]()) calculates training steps:
+The `ProgressiveTrainer.train_stage` method ([kaggle-notebook.ipynb:493-494](../kaggle-notebook.ipynb#L493-L494), [train.py:493-494](../train.py#L493-L494)) calculates training steps:
 
 ```python
 total_train = sum(self.class_counts.values()) * 2  # Account for oversampling
@@ -350,13 +350,13 @@ steps_per_epoch = max(1, total_train // batch_size)
 
 This ensures each epoch sees the full resampled dataset, including all minority class duplicates.
 
-**Sources:** [kaggle-notebook.ipynb:493-494](), [train.py:493-494]()
+**Sources:** [kaggle-notebook.ipynb:493-494](../kaggle-notebook.ipynb#L493-L494), [train.py:493-494](../train.py#L493-L494)
 
 ---
 
 ## Configuration Parameters
 
-All augmentation behavior is controlled by the `Config` class ([kaggle-notebook.ipynb:28-65](), [train.py:28-65]()):
+All augmentation behavior is controlled by the `Config` class ([kaggle-notebook.ipynb:28-65](../kaggle-notebook.ipynb#L28-L65), [train.py:28-65](../train.py#L28-L65)):
 
 ### Augmentation Parameters
 
@@ -388,7 +388,7 @@ train_ds = pipeline.create_dataset(train_dir, 32, is_training=True)
 
 This allows image loading to occur at the correct resolution for each stage, minimizing interpolation artifacts.
 
-**Sources:** [kaggle-notebook.ipynb:28-65](), [train.py:28-65](), [kaggle-notebook.ipynb:479](), [train.py:479]()
+**Sources:** [kaggle-notebook.ipynb:28-65](../kaggle-notebook.ipynb#L28-L65), [train.py:28-65](../train.py#L28-L65), [kaggle-notebook.ipynb:479](../kaggle-notebook.ipynb#L479), [train.py:479](../train.py#L479)
 
 ---
 
@@ -440,7 +440,7 @@ graph TB
 4. **MixUp at batch level**: Applied after geometric augmentations for efficient GPU execution
 5. **Progressive-aware**: Image size is a constructor parameter, allowing easy integration with curriculum learning
 
-**Sources:** [kaggle-notebook.ipynb:156-286](), [train.py:156-286]()
+**Sources:** [kaggle-notebook.ipynb:156-286](../kaggle-notebook.ipynb#L156-L286), [train.py:156-286](../train.py#L156-L286)
 
 # Kaggle Notebook Implementation
 
@@ -513,7 +513,7 @@ graph TB
     REPORT --> MAIN2
 ```
 
-**Sources**: [kaggle-notebook.ipynb:1-1408]()
+**Sources**: [kaggle-notebook.ipynb:1-1408](../kaggle-notebook.ipynb#L1-L1408)
 
 ---
 
@@ -523,7 +523,7 @@ The notebook begins with environment-specific setup to handle Kaggle platform co
 
 ### Environment Variables and Warnings Suppression
 
-[kaggle-notebook.ipynb:15-35]() establishes the execution environment:
+[kaggle-notebook.ipynb:15-35](../kaggle-notebook.ipynb#L15-L35) establishes the execution environment:
 
 ```mermaid
 graph LR
@@ -535,15 +535,15 @@ graph LR
     ENV --> JIT["tf.config.optimizer.set_jit(False)<br/>Prevent timeout errors"]
 ```
 
-The critical configuration `tf.config.optimizer.set_jit(False)` at [kaggle-notebook.ipynb:34]() prevents XLA compilation timeouts that occur on Kaggle's T4 GPUs during long training runs.
+The critical configuration `tf.config.optimizer.set_jit(False)` at [kaggle-notebook.ipynb:34](../kaggle-notebook.ipynb#L34) prevents XLA compilation timeouts that occur on Kaggle's T4 GPUs during long training runs.
 
-**Sources**: [kaggle-notebook.ipynb:15-35]()
+**Sources**: [kaggle-notebook.ipynb:15-35](../kaggle-notebook.ipynb#L15-L35)
 
 ---
 
 ## Configuration Architecture
 
-The `Config` class [kaggle-notebook.ipynb:42-80]() defines all hyperparameters and paths using Kaggle's input/output directory structure.
+The `Config` class [kaggle-notebook.ipynb:42-80](../kaggle-notebook.ipynb#L42-L80) defines all hyperparameters and paths using Kaggle's input/output directory structure.
 
 ### Path Configuration
 
@@ -569,13 +569,13 @@ The `Config` class [kaggle-notebook.ipynb:42-80]() defines all hyperparameters a
 | `FOCAL_GAMMA` | `1.5` | Focal loss focusing parameter |
 | `MIXUP_ALPHA` | `0.2` | MixUp interpolation strength |
 
-**Sources**: [kaggle-notebook.ipynb:42-80]()
+**Sources**: [kaggle-notebook.ipynb:42-80](../kaggle-notebook.ipynb#L42-L80)
 
 ---
 
 ## Dataset Combination Strategy
 
-The `combine_validation_sets()` function [kaggle-notebook.ipynb:87-130]() implements stratified sampling to create a unified validation set from both `val/` and `test/` directories, addressing the limited validation data available in the Kaggle dataset.
+The `combine_validation_sets()` function [kaggle-notebook.ipynb:87-130](../kaggle-notebook.ipynb#L87-L130) implements stratified sampling to create a unified validation set from both `val/` and `test/` directories, addressing the limited validation data available in the Kaggle dataset.
 
 ```mermaid
 flowchart TD
@@ -594,7 +594,7 @@ flowchart TD
 
 This function returns a `class_counts` dictionary used for computing class weights in the training pipeline.
 
-**Sources**: [kaggle-notebook.ipynb:87-130]()
+**Sources**: [kaggle-notebook.ipynb:87-130](../kaggle-notebook.ipynb#L87-L130)
 
 ---
 
@@ -627,11 +627,11 @@ graph TD
     TRAINER --> |"build_model()"| BUILDMODEL
 ```
 
-**Sources**: [kaggle-notebook.ipynb:137-653]()
+**Sources**: [kaggle-notebook.ipynb:137-653](../kaggle-notebook.ipynb#L137-L653)
 
 ### GPU Warmup Function
 
-The `warmup_gpu()` function [kaggle-notebook.ipynb:414-420]() is a Kaggle-specific optimization that prevents first-batch compilation overhead:
+The `warmup_gpu()` function [kaggle-notebook.ipynb:414-420](../kaggle-notebook.ipynb#L414-L420) is a Kaggle-specific optimization that prevents first-batch compilation overhead:
 
 ```python
 def warmup_gpu(model, image_size, batch_size=8):
@@ -641,15 +641,15 @@ def warmup_gpu(model, image_size, batch_size=8):
     print("✓ GPU warmup complete")
 ```
 
-This is called before each training stage at [kaggle-notebook.ipynb:523]() to ensure consistent timing.
+This is called before each training stage at [kaggle-notebook.ipynb:523](../kaggle-notebook.ipynb#L523) to ensure consistent timing.
 
-**Sources**: [kaggle-notebook.ipynb:414-420](), [kaggle-notebook.ipynb:523]()
+**Sources**: [kaggle-notebook.ipynb:414-420](../kaggle-notebook.ipynb#L414-L420), [kaggle-notebook.ipynb:523](../kaggle-notebook.ipynb#L523)
 
 ---
 
 ## Progressive Training Execution
 
-The `ProgressiveTrainer` class [kaggle-notebook.ipynb:427-653]() orchestrates the multi-stage training process with Kaggle-specific adaptations.
+The `ProgressiveTrainer` class [kaggle-notebook.ipynb:427-653](../kaggle-notebook.ipynb#L427-L653) orchestrates the multi-stage training process with Kaggle-specific adaptations.
 
 ### Training Stage Flow
 
@@ -683,7 +683,7 @@ stateDiagram-v2
 
 ### Weight Transfer Logic
 
-The notebook implements careful weight transfer between stages at [kaggle-notebook.ipynb:477-502]():
+The notebook implements careful weight transfer between stages at [kaggle-notebook.ipynb:477-502](../kaggle-notebook.ipynb#L477-L502):
 
 1. **Save previous weights**: `prev_weights = prev_model.get_weights()`
 2. **Build new model**: `model, base = build_model(...)`
@@ -691,13 +691,13 @@ The notebook implements careful weight transfer between stages at [kaggle-notebo
 4. **Transfer if compatible**: `model.set_weights(prev_weights)`
 5. **Fall back to fresh weights**: If shapes don't match, use ImageNet initialization
 
-**Sources**: [kaggle-notebook.ipynb:427-653](), [kaggle-notebook.ipynb:477-502]()
+**Sources**: [kaggle-notebook.ipynb:427-653](../kaggle-notebook.ipynb#L427-L653), [kaggle-notebook.ipynb:477-502](../kaggle-notebook.ipynb#L477-L502)
 
 ---
 
 ## Integrated Evaluation Framework
 
-Unlike the production script, the Kaggle notebook includes a complete evaluation pipeline in the second cell [kaggle-notebook.ipynb:727-1408](). This allows interactive assessment of trained models within the same environment.
+Unlike the production script, the Kaggle notebook includes a complete evaluation pipeline in the second cell [kaggle-notebook.ipynb:727-1408](../kaggle-notebook.ipynb#L727-L1408). This allows interactive assessment of trained models within the same environment.
 
 ### Evaluation Architecture
 
@@ -747,9 +747,9 @@ graph TB
     T1 & T2 & T3 & T4 & T5 --> JSON
 ```
 
-The evaluation section duplicates the `SEBlock` and `FocalLoss` definitions because they are required as `custom_objects` when loading the trained model with `keras.models.load_model()` at [kaggle-notebook.ipynb:1362-1365]().
+The evaluation section duplicates the `SEBlock` and `FocalLoss` definitions because they are required as `custom_objects` when loading the trained model with `keras.models.load_model()` at [kaggle-notebook.ipynb:1362-1365](../kaggle-notebook.ipynb#L1362-L1365).
 
-**Sources**: [kaggle-notebook.ipynb:727-1408]()
+**Sources**: [kaggle-notebook.ipynb:727-1408](../kaggle-notebook.ipynb#L727-L1408)
 
 ### Test Functions Overview
 
@@ -764,7 +764,7 @@ The evaluation section duplicates the `SEBlock` and `FocalLoss` definitions beca
 
 For detailed documentation of each test, see [Model Evaluation Framework](#4).
 
-**Sources**: [kaggle-notebook.ipynb:823-1339]()
+**Sources**: [kaggle-notebook.ipynb:823-1339](../kaggle-notebook.ipynb#L823-L1339)
 
 ---
 
@@ -804,23 +804,23 @@ graph TD
 
 ### Critical Optimizations Explained
 
-1. **XLA Disabled** [kaggle-notebook.ipynb:34](): `tf.config.optimizer.set_jit(False)` prevents XLA graph compilation timeouts on Kaggle's T4 GPUs, which occur after ~30 minutes of training.
+1. **XLA Disabled** [kaggle-notebook.ipynb:34](../kaggle-notebook.ipynb#L34): `tf.config.optimizer.set_jit(False)` prevents XLA graph compilation timeouts on Kaggle's T4 GPUs, which occur after ~30 minutes of training.
 
-2. **GPU Warmup** [kaggle-notebook.ipynb:523](): Forces CUDA kernel compilation before training begins, eliminating the 2-3 minute first-batch overhead.
+2. **GPU Warmup** [kaggle-notebook.ipynb:523](../kaggle-notebook.ipynb#L523): Forces CUDA kernel compilation before training begins, eliminating the 2-3 minute first-batch overhead.
 
-3. **Reduced Batch Size** [kaggle-notebook.ipynb:64](): `BATCH_SIZE=32` instead of 64 ensures stable memory usage on 16GB T4 GPUs with MixUp augmentation.
+3. **Reduced Batch Size** [kaggle-notebook.ipynb:64](../kaggle-notebook.ipynb#L64): `BATCH_SIZE=32` instead of 64 ensures stable memory usage on 16GB T4 GPUs with MixUp augmentation.
 
-4. **tf.data.AUTOTUNE** [kaggle-notebook.ipynb:267,285,294,319](): Lets TensorFlow dynamically optimize parallelism and prefetching.
+4. **tf.data.AUTOTUNE** [kaggle-notebook.ipynb:267,285,294,319](../kaggle-notebook.ipynb#L267): Lets TensorFlow dynamically optimize parallelism and prefetching.
 
-5. **Conservative Learning Rates** [kaggle-notebook.ipynb:55-56](): `INITIAL_LR=1e-3` and `FINE_TUNE_LR=5e-5` prevent training instability observed at higher rates in Kaggle environment.
+5. **Conservative Learning Rates** [kaggle-notebook.ipynb:55-56](../kaggle-notebook.ipynb#L55-L56): `INITIAL_LR=1e-3` and `FINE_TUNE_LR=5e-5` prevent training instability observed at higher rates in Kaggle environment.
 
-**Sources**: [kaggle-notebook.ipynb:34](), [kaggle-notebook.ipynb:64](), [kaggle-notebook.ipynb:523]()
+**Sources**: [kaggle-notebook.ipynb:34](../kaggle-notebook.ipynb#L34), [kaggle-notebook.ipynb:64](../kaggle-notebook.ipynb#L64), [kaggle-notebook.ipynb:523](../kaggle-notebook.ipynb#L523)
 
 ---
 
 ## Main Execution Flow
 
-The training main function [kaggle-notebook.ipynb:660-723]() orchestrates the complete pipeline.
+The training main function [kaggle-notebook.ipynb:660-723](../kaggle-notebook.ipynb#L660-L723) orchestrates the complete pipeline.
 
 ```mermaid
 sequenceDiagram
@@ -872,13 +872,13 @@ The notebook produces the following outputs in `/kaggle/working/`:
 | Production model | `models/final_model.keras` | Final saved model |
 | Training metrics | `results/metrics.json` | Accuracy, precision, recall |
 
-**Sources**: [kaggle-notebook.ipynb:660-723]()
+**Sources**: [kaggle-notebook.ipynb:660-723](../kaggle-notebook.ipynb#L660-L723)
 
 ---
 
 ## Evaluation Execution Flow
 
-The evaluation main function [kaggle-notebook.ipynb:1346-1408]() runs the 5-test validation suite.
+The evaluation main function [kaggle-notebook.ipynb:1346-1408](../kaggle-notebook.ipynb#L1346-L1408) runs the 5-test validation suite.
 
 ```mermaid
 sequenceDiagram
@@ -921,7 +921,7 @@ The evaluation section automatically searches for the trained model in multiple 
 
 This flexibility allows evaluation of models from the current run or previous Kaggle notebook versions.
 
-**Sources**: [kaggle-notebook.ipynb:1346-1408](), [kaggle-notebook.ipynb:1351-1360]()
+**Sources**: [kaggle-notebook.ipynb:1346-1408](../kaggle-notebook.ipynb#L1346-L1408), [kaggle-notebook.ipynb:1351-1360](../kaggle-notebook.ipynb#L1351-L1360)
 
 ---
 
@@ -933,11 +933,11 @@ The notebook format provides several advantages over the production script for d
 
 1. **Cell-by-Cell Execution**: Training and evaluation can be run independently by executing different cells.
 
-2. **Output Preservation**: All print statements, progress bars, and metrics are preserved in the notebook output at [kaggle-notebook.ipynb output cells]().
+2. **Output Preservation**: All print statements, progress bars, and metrics are preserved in the notebook output at [kaggle-notebook.ipynb output cells](../kaggle-notebook.ipynb).
 
 3. **Direct Visualization**: Generated PNG plots are displayed inline below the evaluation cell.
 
-4. **Dataset Inspection**: The initial cell at [kaggle-notebook.ipynb:1]() lists available Kaggle datasets: `os.listdir('/kaggle/input/')`.
+4. **Dataset Inspection**: The initial cell at [kaggle-notebook.ipynb:1](../kaggle-notebook.ipynb#L1) lists available Kaggle datasets: `os.listdir('/kaggle/input/')`.
 
 5. **Incremental Development**: Code can be modified and re-executed without restarting the entire training pipeline.
 

@@ -6,13 +6,13 @@ gen = SyntheticDataGenerator(
 )
 ```
 
-**Sources:** [Previous_training_scripts/train2.py:440-498]()
+**Sources:** [Previous_training_scripts/train2.py:440-498](../Previous_training_scripts/train2.py#L440-L498)
 
 ---
 
 ### Evaluation Methodology
 
-The `evaluate_with_proper_metrics()` function [Previous_training_scripts/train2.py:350-435]() implements imbalance-aware evaluation:
+The `evaluate_with_proper_metrics()` function [Previous_training_scripts/train2.py:350-435](../Previous_training_scripts/train2.py#L350-L435) implements imbalance-aware evaluation:
 
 **Metrics Reported:**
 
@@ -31,7 +31,7 @@ if good_recall < 0.5:
     print("⚠️ WARNING: Low recall for 'good' class - model is biased toward defects!")
 ```
 
-This check [Previous_training_scripts/train2.py:427-428]() alerts if the minority class is being missed, which is critical for production deployment where false negatives (missing defect-free wafers) are costly.
+This check [Previous_training_scripts/train2.py:427-428](../Previous_training_scripts/train2.py#L427-L428) alerts if the minority class is being missed, which is critical for production deployment where false negatives (missing defect-free wafers) are costly.
 
 **Differences from Standard Evaluation:**
 
@@ -40,7 +40,7 @@ This check [Previous_training_scripts/train2.py:427-428]() alerts if the minorit
 - Uses **optimal thresholds** instead of 0.5
 - Provides **weighted averages** accounting for class sizes
 
-**Sources:** [Previous_training_scripts/train2.py:350-435]()
+**Sources:** [Previous_training_scripts/train2.py:350-435](../Previous_training_scripts/train2.py#L350-L435)
 
 ---
 
@@ -94,7 +94,7 @@ graph TB
 
 This approach reflects **distrust in pure neural networks** for critical wafer inspection. The 60% weight on SVM suggests that traditional ML with proper kernel selection was considered more reliable than softmax classification alone.
 
-**Sources:** [Previous_training_scripts/train1.py:82-96](), [Previous_training_scripts/train1.py:156-195]()
+**Sources:** [Previous_training_scripts/train1.py:82-96](../Previous_training_scripts/train1.py#L82-L96), [Previous_training_scripts/train1.py:156-195](../Previous_training_scripts/train1.py#L156-L195)
 
 ---
 
@@ -102,7 +102,7 @@ This approach reflects **distrust in pure neural networks** for critical wafer i
 
 **Config Class:**
 
-The `Config` class [Previous_training_scripts/train1.py:26-41]() defines system parameters:
+The `Config` class [Previous_training_scripts/train1.py:26-41](../Previous_training_scripts/train1.py#L26-L41) defines system parameters:
 
 | Parameter | Value | Notes |
 |-----------|-------|-------|
@@ -114,7 +114,7 @@ The `Config` class [Previous_training_scripts/train1.py:26-41]() defines system 
 
 **Data Augmentation:**
 
-The `create_dataset()` function [Previous_training_scripts/train1.py:47-76]() applies **geometric-only augmentation**:
+The `create_dataset()` function [Previous_training_scripts/train1.py:47-76](../Previous_training_scripts/train1.py#L47-L76) applies **geometric-only augmentation**:
 
 ```python
 data_augmentation = tf.keras.Sequential([
@@ -126,7 +126,7 @@ data_augmentation = tf.keras.Sequential([
 
 **Rationale**: Avoids color/brightness augmentation that might distort defect signatures. This conservative approach is appropriate when defect appearance is critical for diagnosis.
 
-**Sources:** [Previous_training_scripts/train1.py:26-76]()
+**Sources:** [Previous_training_scripts/train1.py:26-76](../Previous_training_scripts/train1.py#L26-L76)
 
 ---
 
@@ -134,7 +134,7 @@ data_augmentation = tf.keras.Sequential([
 
 **Model Construction:**
 
-The `build_cnn()` function [Previous_training_scripts/train1.py:82-96]() creates a frozen feature extractor:
+The `build_cnn()` function [Previous_training_scripts/train1.py:82-96](../Previous_training_scripts/train1.py#L82-L96) creates a frozen feature extractor:
 
 ```mermaid
 graph LR
@@ -171,7 +171,7 @@ model.compile(
 
 The CNN trains for 20 epochs with early stopping (patience=5) monitoring validation accuracy.
 
-**Sources:** [Previous_training_scripts/train1.py:82-151]()
+**Sources:** [Previous_training_scripts/train1.py:82-151](../Previous_training_scripts/train1.py#L82-L151)
 
 ---
 
@@ -179,7 +179,7 @@ The CNN trains for 20 epochs with early stopping (patience=5) monitoring validat
 
 **Feature Extraction:**
 
-The SVM head requires dense feature vectors. The code [Previous_training_scripts/train1.py:156-171]() extracts features from the layer before softmax:
+The SVM head requires dense feature vectors. The code [Previous_training_scripts/train1.py:156-171](../Previous_training_scripts/train1.py#L156-L171) extracts features from the layer before softmax:
 
 ```python
 feature_extractor = keras.Model(
@@ -218,7 +218,7 @@ svm_clf = make_pipeline(
 
 **StandardScaler**: Normalizes features to zero mean and unit variance, critical for SVM performance.
 
-**Sources:** [Previous_training_scripts/train1.py:154-182]()
+**Sources:** [Previous_training_scripts/train1.py:154-182](../Previous_training_scripts/train1.py#L154-L182)
 
 ---
 
@@ -252,7 +252,7 @@ graph TD
 
 **Implementation:**
 
-The ensemble logic [Previous_training_scripts/train1.py:184-195]() combines predictions:
+The ensemble logic [Previous_training_scripts/train1.py:184-195](../Previous_training_scripts/train1.py#L184-L195) combines predictions:
 
 ```python
 cnn_probs = cnn_model.predict(val_ds, verbose=0)
@@ -276,13 +276,13 @@ The 60/40 split favoring SVM suggests:
 - **Stacking**: Train meta-classifier on concatenated probabilities (adds complexity)
 - **Dynamic weighting**: Per-class weights (not implemented)
 
-**Sources:** [Previous_training_scripts/train1.py:184-204]()
+**Sources:** [Previous_training_scripts/train1.py:184-204](../Previous_training_scripts/train1.py#L184-L204)
 
 ---
 
 ### Evaluation and Reporting
 
-The final evaluation [Previous_training_scripts/train1.py:197-216]() generates comprehensive reports:
+The final evaluation [Previous_training_scripts/train1.py:197-216](../Previous_training_scripts/train1.py#L197-L216) generates comprehensive reports:
 
 **Metrics Computed:**
 
@@ -310,7 +310,7 @@ plt.savefig(f"{Config.OUTPUT_DIR}/ensemble_matrix.png")
 | `svm_head.pkl` | Pickle | Trained SVM classifier |
 | `ensemble_matrix.png` | Image | Confusion matrix heatmap |
 
-**Sources:** [Previous_training_scripts/train1.py:197-216]()
+**Sources:** [Previous_training_scripts/train1.py:197-216](../Previous_training_scripts/train1.py#L197-L216)
 
 ---
 
@@ -371,7 +371,7 @@ graph LR
 4. **Single Model**: No ensemble complexity, faster inference
 5. **MixUp**: Data augmentation during training, no dataset expansion needed
 
-**Sources:** [Previous_training_scripts/train2.py:1-535](), [Previous_training_scripts/train1.py:1-220]()
+**Sources:** [Previous_training_scripts/train2.py:1-535](../Previous_training_scripts/train2.py#L1-L535), [Previous_training_scripts/train1.py:1-220](../Previous_training_scripts/train1.py#L1-L220)
 
 ---
 
@@ -397,7 +397,7 @@ python Previous_training_scripts/train2.py
 
 **Key Configuration Points:**
 
-To modify behavior, edit constants at [Previous_training_scripts/train2.py:7-16]():
+To modify behavior, edit constants at [Previous_training_scripts/train2.py:7-16](../Previous_training_scripts/train2.py#L7-L16):
 - `IMG_SIZE`: Change input resolution
 - `EPOCHS_PHASE1` / `EPOCHS_PHASE2`: Adjust training duration
 - Target samples in `create_balanced_dataset()` call
@@ -422,6 +422,6 @@ python Previous_training_scripts/train1.py
 
 **Important Note:**
 
-The script creates `combined_validation_server/` by merging validation and test sets [Previous_training_scripts/train1.py:108-119]() for more robust evaluation. This is a **data leakage risk** in true validation scenarios but acceptable for final system comparison.
+The script creates `combined_validation_server/` by merging validation and test sets [Previous_training_scripts/train1.py:108-119](../Previous_training_scripts/train1.py#L108-L119) for more robust evaluation. This is a **data leakage risk** in true validation scenarios but acceptable for final system comparison.
 
-**Sources:** [Previous_training_scripts/train2.py:503-534](), [Previous_training_scripts/train1.py:102-219]()
+**Sources:** [Previous_training_scripts/train2.py:503-534](../Previous_training_scripts/train2.py#L503-L534), [Previous_training_scripts/train1.py:102-219](../Previous_training_scripts/train1.py#L102-L219)

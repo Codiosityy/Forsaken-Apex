@@ -5,7 +5,7 @@ Recall: 83.91%
 ✓ Complete! Saved to /kaggle/working/prototype_b_optimized
 ```
 
-**Sources:** [train.py:634-701]()
+**Sources:** [train.py:634-701](../train.py#L634-L701)
 
 # Data Preprocessing Pipeline
 
@@ -127,7 +127,7 @@ graph LR
 | `Dataset_Metadata_Generation.py` | `train/`, `val/`, `test/` directories | JSON + TXT documentation | ✗ (needs splits) |
 | `random_file_picker.py` | Images in `script_dir` | `random_images/` directory | ✓ |
 
-Sources: [Preprocessing_Scripts/Seggregate_Dataset.py:1-94](), [Preprocessing_Scripts/grayscale_conversion.py:1-55](), [Preprocessing_Scripts/Dataset_Metadata_Generation.py:1-139]()
+Sources: [Preprocessing_Scripts/Seggregate_Dataset.py:1-94](../Preprocessing_Scripts/Seggregate_Dataset.py#L1-L94), [Preprocessing_Scripts/grayscale_conversion.py:1-55](../Preprocessing_Scripts/grayscale_conversion.py#L1-L55), [Preprocessing_Scripts/Dataset_Metadata_Generation.py:1-139](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L1-L139)
 
 ---
 
@@ -167,20 +167,20 @@ flowchart LR
 ```python
 image_extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp']
 ```
-[Preprocessing_Scripts/Seggregate_Dataset.py:9]()
+[Preprocessing_Scripts/Seggregate_Dataset.py:9](../Preprocessing_Scripts/Seggregate_Dataset.py#L9)
 
 **Split Logic:**
-- Discovers all subdirectories except `train`, `val`, `test` [Preprocessing_Scripts/Seggregate_Dataset.py:21-23]()
-- Shuffles images randomly per class [Preprocessing_Scripts/Seggregate_Dataset.py:44]()
-- Calculates split indices: `train_split = int(len * 0.7)`, `val_split = int(len * 0.85)` [Preprocessing_Scripts/Seggregate_Dataset.py:45-46]()
-- Uses `shutil.copy2()` to preserve metadata [Preprocessing_Scripts/Seggregate_Dataset.py:66]()
+- Discovers all subdirectories except `train`, `val`, `test` [Preprocessing_Scripts/Seggregate_Dataset.py:21-23](../Preprocessing_Scripts/Seggregate_Dataset.py#L21-L23)
+- Shuffles images randomly per class [Preprocessing_Scripts/Seggregate_Dataset.py:44](../Preprocessing_Scripts/Seggregate_Dataset.py#L44)
+- Calculates split indices: `train_split = int(len * 0.7)`, `val_split = int(len * 0.85)` [Preprocessing_Scripts/Seggregate_Dataset.py:45-46](../Preprocessing_Scripts/Seggregate_Dataset.py#L45-L46)
+- Uses `shutil.copy2()` to preserve metadata [Preprocessing_Scripts/Seggregate_Dataset.py:66](../Preprocessing_Scripts/Seggregate_Dataset.py#L66)
 
 **Error Handling:**
 | Scenario | Behavior |
 |----------|----------|
-| Empty class folder | Skips with warning message [Preprocessing_Scripts/Seggregate_Dataset.py:37-39]() |
-| Copy failure | Prints error, continues processing [Preprocessing_Scripts/Seggregate_Dataset.py:67-68]() |
-| Non-image files | Ignored by extension filter [Preprocessing_Scripts/Seggregate_Dataset.py:35]() |
+| Empty class folder | Skips with warning message [Preprocessing_Scripts/Seggregate_Dataset.py:37-39](../Preprocessing_Scripts/Seggregate_Dataset.py#L37-L39) |
+| Copy failure | Prints error, continues processing [Preprocessing_Scripts/Seggregate_Dataset.py:67-68](../Preprocessing_Scripts/Seggregate_Dataset.py#L67-L68) |
+| Non-image files | Ignored by extension filter [Preprocessing_Scripts/Seggregate_Dataset.py:35](../Preprocessing_Scripts/Seggregate_Dataset.py#L35) |
 
 ### Usage
 
@@ -189,7 +189,7 @@ cd Preprocessing_Scripts/
 python Seggregate_Dataset.py
 ```
 
-The script operates on its own directory (`script_dir`), discovering class folders automatically [Preprocessing_Scripts/Seggregate_Dataset.py:6]().
+The script operates on its own directory (`script_dir`), discovering class folders automatically [Preprocessing_Scripts/Seggregate_Dataset.py:6](../Preprocessing_Scripts/Seggregate_Dataset.py#L6).
 
 **Console Output Example:**
 ```
@@ -204,7 +204,7 @@ Processing edge-loc: 5100 images found
 ✓ All folders split successfully!
 ```
 
-Sources: [Preprocessing_Scripts/Seggregate_Dataset.py:1-94]()
+Sources: [Preprocessing_Scripts/Seggregate_Dataset.py:1-94](../Preprocessing_Scripts/Seggregate_Dataset.py#L1-L94)
 
 ---
 
@@ -238,21 +238,21 @@ flowchart TD
 
 ### Function Reference
 
-**`convert_to_grayscale(image_path)`** [Preprocessing_Scripts/grayscale_conversion.py:5-10]()
+**`convert_to_grayscale(image_path)`** [Preprocessing_Scripts/grayscale_conversion.py:5-10](../Preprocessing_Scripts/grayscale_conversion.py#L5-L10)
 - **Parameters**: `image_path` (str) - Path to input image
 - **Returns**: NumPy array of grayscale image or `None` on failure
 - **Implementation**: 
-  - Reads image with OpenCV [line 6]()
-  - Applies `cv2.cvtColor()` with `COLOR_BGR2GRAY` flag [line 9]()
+  - Reads image with OpenCV [line 6](../Preprocessing_Scripts/grayscale_conversion.py#L6)
+  - Applies `cv2.cvtColor()` with `COLOR_BGR2GRAY` flag [line 9](../Preprocessing_Scripts/grayscale_conversion.py#L9)
 
-**`process_folder(folder_path)`** [Preprocessing_Scripts/grayscale_conversion.py:12-40]()
+**`process_folder(folder_path)`** [Preprocessing_Scripts/grayscale_conversion.py:12-40](../Preprocessing_Scripts/grayscale_conversion.py#L12-L40)
 - **Parameters**: `folder_path` (str) - Root directory to process
 - **Returns**: None (prints statistics to console)
 - **Behavior**: 
-  - Recursively walks directory tree with `os.walk()` [line 18]()
-  - Processes all supported image formats [line 20]()
-  - Saves with `_grayscale` suffix [line 28]()
-  - Reports counts: `processed_count` and `skipped_count` [lines 39-40]()
+  - Recursively walks directory tree with `os.walk()` [line 18](../Preprocessing_Scripts/grayscale_conversion.py#L18)
+  - Processes all supported image formats [line 20](../Preprocessing_Scripts/grayscale_conversion.py#L20)
+  - Saves with `_grayscale` suffix [line 28](../Preprocessing_Scripts/grayscale_conversion.py#L28)
+  - Reports counts: `processed_count` and `skipped_count` [lines 39-40](../Preprocessing_Scripts/grayscale_conversion.py#L39-L40)
 
 ### Supported Formats
 
@@ -264,7 +264,7 @@ flowchart TD
 | GIF | `.gif` | Supports animation (first frame) |
 | TIFF | `.tiff` | Multi-page support |
 
-**Format Set:** [Preprocessing_Scripts/grayscale_conversion.py:14]()
+**Format Set:** [Preprocessing_Scripts/grayscale_conversion.py:14](../Preprocessing_Scripts/grayscale_conversion.py#L14)
 
 ### Naming Convention
 
@@ -274,7 +274,7 @@ Original: wafer_123.jpg
 Converted: wafer_123_grayscale.jpg
 ```
 
-Implementation: [Preprocessing_Scripts/grayscale_conversion.py:26-29]()
+Implementation: [Preprocessing_Scripts/grayscale_conversion.py:26-29](../Preprocessing_Scripts/grayscale_conversion.py#L26-L29)
 ```python
 filename = Path(file).stem          # "wafer_123"
 extension = Path(file).suffix       # ".jpg"
@@ -288,9 +288,9 @@ python grayscale_conversion.py <folder_path>
 ```
 
 **Command-line Interface:**
-- Requires exactly one argument [Preprocessing_Scripts/grayscale_conversion.py:44-46]()
-- Validates directory existence [Preprocessing_Scripts/grayscale_conversion.py:50-52]()
-- Processes folder recursively [line 54]()
+- Requires exactly one argument [Preprocessing_Scripts/grayscale_conversion.py:44-46](../Preprocessing_Scripts/grayscale_conversion.py#L44-L46)
+- Validates directory existence [Preprocessing_Scripts/grayscale_conversion.py:50-52](../Preprocessing_Scripts/grayscale_conversion.py#L50-L52)
+- Processes folder recursively [line 54](../Preprocessing_Scripts/grayscale_conversion.py#L54)
 
 **Console Output:**
 ```
@@ -313,7 +313,7 @@ python grayscale_conversion.py test/
 
 This creates both color and grayscale versions in each directory. Training systems should reference the `_grayscale.ext` files.
 
-Sources: [Preprocessing_Scripts/grayscale_conversion.py:1-55]()
+Sources: [Preprocessing_Scripts/grayscale_conversion.py:1-55](../Preprocessing_Scripts/grayscale_conversion.py#L1-L55)
 
 ---
 
@@ -362,7 +362,7 @@ graph TD
 
 ### Output File Formats
 
-**`dataset_metadata.json`** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:98-104]()
+**`dataset_metadata.json`** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:98-104](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L98-L104)
 
 Structure:
 ```json
@@ -394,7 +394,7 @@ Structure:
 }
 ```
 
-**`DATASET_INFO.txt`** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:107-134]()
+**`DATASET_INFO.txt`** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:107-134](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L107-L134)
 
 Human-readable format:
 ```
@@ -424,31 +424,31 @@ SPLITS:
 
 ### Key Implementation Details
 
-**Initialization:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:13-23]()
-- Uses `datetime.now().isoformat()` for timestamp [line 14]()
-- Resolves `script_dir` from `__file__` [line 7]()
-- Initializes nested dictionaries for splits, classes, statistics [lines 16-22]()
+**Initialization:** [Preprocessing_Scripts/Dataset_Metadata_Generation.py:13-23](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L13-L23)
+- Uses `datetime.now().isoformat()` for timestamp [line 14](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L14)
+- Resolves `script_dir` from `__file__` [line 7](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L7)
+- Initializes nested dictionaries for splits, classes, statistics [lines 16-22](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L16-L22)
 
 **Processing Logic:**
-1. **Split Discovery**: Iterates through `['train', 'val', 'test']` [line 26]()
-2. **Class Detection**: Lists subdirectories in each split [line 47]()
-3. **Image Counting**: Filters files by extension [lines 53-55]()
-4. **Size Calculation**: Uses `os.path.getsize()` [line 66]()
-5. **Format Tracking**: Counts by extension with dict accumulation [lines 68-69]()
+1. **Split Discovery**: Iterates through `['train', 'val', 'test']` [line 26](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L26)
+2. **Class Detection**: Lists subdirectories in each split [line 47](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L47)
+3. **Image Counting**: Filters files by extension [lines 53-55](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L53-L55)
+4. **Size Calculation**: Uses `os.path.getsize()` [line 66](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L66)
+5. **Format Tracking**: Counts by extension with dict accumulation [lines 68-69](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L68-L69)
 
 **Aggregation:**
-- Per-class totals across splits [lines 87-89]()
-- Per-format totals across all images [lines 82-84]()
-- Grand totals [lines 94-95]()
+- Per-class totals across splits [lines 87-89](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L87-L89)
+- Per-format totals across all images [lines 82-84](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L82-L84)
+- Grand totals [lines 94-95](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L94-L95)
 
 ### Error Handling
 
 | Scenario | Behavior |
 |----------|----------|
-| Missing split directory | Skips with warning `"⚠ {split}/ folder not found"` [lines 36-38]() |
-| Empty class folder | Skips silently with `if not image_files: continue` [lines 57-58]() |
-| JSON write failure | Prints exception message [lines 103-104]() |
-| TXT write failure | Prints exception message [lines 133-134]() |
+| Missing split directory | Skips with warning `"⚠ {split}/ folder not found"` [lines 36-38](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L36-L38) |
+| Empty class folder | Skips silently with `if not image_files: continue` [lines 57-58](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L57-L58) |
+| JSON write failure | Prints exception message [lines 103-104](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L103-L104) |
+| TXT write failure | Prints exception message [lines 133-134](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L133-L134) |
 
 ### Usage
 
@@ -481,7 +481,7 @@ Total size: 1250.45 MB
 4. **Reporting**: Generate statistics for papers or presentations
 5. **Automation**: Parse JSON for pipeline validation scripts
 
-Sources: [Preprocessing_Scripts/Dataset_Metadata_Generation.py:1-139]()
+Sources: [Preprocessing_Scripts/Dataset_Metadata_Generation.py:1-139](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L1-L139)
 
 ---
 
@@ -516,23 +516,23 @@ flowchart TD
 
 ### Implementation Details
 
-**File Discovery:** [Preprocessing_Scripts/random_file_picker.py:12-14]()
+**File Discovery:** [Preprocessing_Scripts/random_file_picker.py:12-14](../Preprocessing_Scripts/random_file_picker.py#L12-L14)
 - Operates on `script_dir` (script's own directory)
-- Filters by `image_extensions` list [line 9]()
+- Filters by `image_extensions` list [line 9](../Preprocessing_Scripts/random_file_picker.py#L9)
 - Only processes files in root (no subdirectory recursion)
 
-**Randomization:** [Preprocessing_Scripts/random_file_picker.py:26]()
+**Randomization:** [Preprocessing_Scripts/random_file_picker.py:26](../Preprocessing_Scripts/random_file_picker.py#L26)
 ```python
 selected_images = random.sample(image_files, num_to_select)
 ```
 - Uses `random.sample()` for true random selection (no replacement)
 - Ensures uniform probability distribution
 
-**Output Directory:** [Preprocessing_Scripts/random_file_picker.py:29-30]()
+**Output Directory:** [Preprocessing_Scripts/random_file_picker.py:29-30](../Preprocessing_Scripts/random_file_picker.py#L29-L30)
 - Creates `random_images/` subdirectory
 - Uses `exist_ok=True` to prevent errors on re-runs
 
-**File Copying:** [Preprocessing_Scripts/random_file_picker.py:33-40]()
+**File Copying:** [Preprocessing_Scripts/random_file_picker.py:33-40](../Preprocessing_Scripts/random_file_picker.py#L33-L40)
 - Uses `shutil.copy2()` to preserve timestamps
 - Try-catch per file to handle individual failures
 - Prints each copied filename
@@ -541,10 +541,10 @@ selected_images = random.sample(image_files, num_to_select)
 
 | Condition | Behavior | Line Reference |
 |-----------|----------|----------------|
-| Fewer than 50 images | Selects all available, prints warning | [19-23]() |
-| Zero images | Attempts to sample 0 images (no error) | [26]() |
-| Copy failure | Prints error, continues with remaining | [39-40]() |
-| Non-image files | Ignored by extension filter | [14]() |
+| Fewer than 50 images | Selects all available, prints warning | [19-23](../Preprocessing_Scripts/random_file_picker.py#L19-L23) |
+| Zero images | Attempts to sample 0 images (no error) | [26](../Preprocessing_Scripts/random_file_picker.py#L26) |
+| Copy failure | Prints error, continues with remaining | [39-40](../Preprocessing_Scripts/random_file_picker.py#L39-L40) |
+| Non-image files | Ignored by extension filter | [14](../Preprocessing_Scripts/random_file_picker.py#L14) |
 
 ### Usage
 
@@ -579,12 +579,12 @@ Images saved to: /path/to/Preprocessing_Scripts/random_images
 
 - **No Class Preservation**: Does not maintain class distribution
 - **Flat Structure**: Ignores subdirectory organization
-- **Fixed Sample Size**: Hardcoded to 50 images [line 23]()
+- **Fixed Sample Size**: Hardcoded to 50 images [line 23](../Preprocessing_Scripts/random_file_picker.py#L23)
 - **Single Directory**: Cannot process multiple folders in one run
 
 For class-preserving sampling, consider modifying the script to iterate through class subdirectories and sample proportionally.
 
-Sources: [Preprocessing_Scripts/random_file_picker.py:1-44]()
+Sources: [Preprocessing_Scripts/random_file_picker.py:1-44](../Preprocessing_Scripts/random_file_picker.py#L1-L44)
 
 ---
 
@@ -631,7 +631,7 @@ Preprocessing_Scripts/
 **Class Structure:**
 - Each split contains identical subdirectory names (classes)
 - Class names correspond to wafer defect types (e.g., `center`, `edge-loc`)
-- Preserved across all splits by [Preprocessing_Scripts/Seggregate_Dataset.py:52-59]()
+- Preserved across all splits by [Preprocessing_Scripts/Seggregate_Dataset.py:52-59](../Preprocessing_Scripts/Seggregate_Dataset.py#L52-L59)
 
 **File Naming:**
 - Original: `c_N.jpg` (varies by dataset)
@@ -645,7 +645,7 @@ Preprocessing_Scripts/
 script_dir = os.path.dirname(os.path.abspath(__file__))
 train_dir = os.path.join(script_dir, "train")
 ```
-Used by: `Seggregate_Dataset.py` [lines 6, 12](), `Dataset_Metadata_Generation.py` [line 7]()
+Used by: `Seggregate_Dataset.py` [lines 6, 12](../Preprocessing_Scripts/Seggregate_Dataset.py#L6-L12), `Dataset_Metadata_Generation.py` [line 7](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L7)
 
 **Relative Paths:**
 Training scripts typically use relative references:
@@ -658,10 +658,10 @@ test_data_dir = 'Preprocessing_Scripts/test'
 ### Validation
 
 **Integrity Checks:**
-1. **Split Existence**: All three splits must exist for `Dataset_Metadata_Generation.py` [lines 33-38]()
+1. **Split Existence**: All three splits must exist for `Dataset_Metadata_Generation.py` [lines 33-38](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L33-L38)
 2. **Class Consistency**: Same class names across splits (verified by metadata generation)
 3. **Image Counts**: Verify 70/15/15 ratio in `DATASET_INFO.txt`
-4. **File Readability**: `grayscale_conversion.py` reports skipped files [lines 35-36]()
+4. **File Readability**: `grayscale_conversion.py` reports skipped files [lines 35-36](../Preprocessing_Scripts/grayscale_conversion.py#L35-L36)
 
 **Metadata Validation:**
 Load `dataset_metadata.json` and verify:
@@ -669,7 +669,7 @@ Load `dataset_metadata.json` and verify:
 - Each class appears in all three splits
 - `image_formats` shows expected extensions
 
-Sources: [Preprocessing_Scripts/Seggregate_Dataset.py:12-18](), [Preprocessing_Scripts/Dataset_Metadata_Generation.py:26-38]()
+Sources: [Preprocessing_Scripts/Seggregate_Dataset.py:12-18](../Preprocessing_Scripts/Seggregate_Dataset.py#L12-L18), [Preprocessing_Scripts/Dataset_Metadata_Generation.py:26-38](../Preprocessing_Scripts/Dataset_Metadata_Generation.py#L26-L38)
 
 ---
 
@@ -782,7 +782,7 @@ ls Preprocessing_Scripts/test/   # Should match train
 ls Preprocessing_Scripts/train/center/*_grayscale.jpg | wc -l
 ```
 
-Sources: High-level Diagram 3, Diagram 5, [Preprocessing_Scripts/Seggregate_Dataset.py:12-18]()
+Sources: High-level Diagram 3, Diagram 5, [Preprocessing_Scripts/Seggregate_Dataset.py:12-18](../Preprocessing_Scripts/Seggregate_Dataset.py#L12-L18)
 
 ---
 

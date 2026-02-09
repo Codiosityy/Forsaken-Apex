@@ -7,7 +7,7 @@ This flattens the hierarchical text structure into a single searchable string.
 
 ### Pattern Matching
 
-The `FIGURE_REGEX` is applied with `re.IGNORECASE` flag [Utility_Scripts/extract_pdf_images.py:73-75]():
+The `FIGURE_REGEX` is applied with `re.IGNORECASE` flag [Utility_Scripts/extract_pdf_images.py:73-75](../Utility_Scripts/extract_pdf_images.py#L73-L75):
 
 ```python
 match = FIGURE_REGEX.search(text)
@@ -21,7 +21,7 @@ fig_num = match.group(2)  # Extract figure number
 - Group 2: Numeric identifier (used in filename)
 - Group 3: Optional subfigure letter (used in multi-part figures)
 
-**Sources:** [Utility_Scripts/extract_pdf_images.py:66-78]()
+**Sources:** [Utility_Scripts/extract_pdf_images.py:66-78](../Utility_Scripts/extract_pdf_images.py#L66-L78)
 
 ---
 
@@ -31,7 +31,7 @@ Once a caption is detected, the script performs spatial analysis to locate assoc
 
 ### Stage 1: Vertical Proximity Filtering
 
-Images must satisfy two geometric constraints [Utility_Scripts/extract_pdf_images.py:80-91]():
+Images must satisfy two geometric constraints [Utility_Scripts/extract_pdf_images.py:80-91](../Utility_Scripts/extract_pdf_images.py#L80-L91):
 
 1. **Above Caption**: `bbox_above(img_bbox, caption_bbox)` verifies `img_bbox[3] <= text_bbox[1]`
 2. **Within Distance**: `caption_bbox[1] - img_bbox[3] <= MAX_VERTICAL_DISTANCE`
@@ -61,7 +61,7 @@ graph TD
 
 ### Stage 2: Horizontal Sorting
 
-Candidate images are sorted left-to-right by x-coordinate [Utility_Scripts/extract_pdf_images.py:93]():
+Candidate images are sorted left-to-right by x-coordinate [Utility_Scripts/extract_pdf_images.py:93](../Utility_Scripts/extract_pdf_images.py#L93):
 
 ```python
 candidates.sort(key=lambda b: b["bbox"][0])
@@ -69,7 +69,7 @@ candidates.sort(key=lambda b: b["bbox"][0])
 
 This ordering supports multi-part figures (e.g., "Figure 1a" on the left, "Figure 1b" on the right).
 
-**Sources:** [Utility_Scripts/extract_pdf_images.py:80-94]()
+**Sources:** [Utility_Scripts/extract_pdf_images.py:80-94](../Utility_Scripts/extract_pdf_images.py#L80-L94)
 
 ---
 
@@ -91,7 +91,7 @@ graph LR
     CHECK -->|"Any true"| SEPARATE["Return True<br/>(No overlap)"]
 ```
 
-The function implements a negated separation test [Utility_Scripts/extract_pdf_images.py:27-33]():
+The function implements a negated separation test [Utility_Scripts/extract_pdf_images.py:27-33](../Utility_Scripts/extract_pdf_images.py#L27-L33):
 
 **Separation Conditions** (if any are true, boxes don't overlap):
 - `b1[2] < b2[0] - tol`: b1 is left of b2
@@ -101,7 +101,7 @@ The function implements a negated separation test [Utility_Scripts/extract_pdf_i
 
 The `BBOX_TOLERANCE` adds a 5-pixel margin to account for rounding errors in PDF coordinate systems.
 
-**Sources:** [Utility_Scripts/extract_pdf_images.py:23-33]()
+**Sources:** [Utility_Scripts/extract_pdf_images.py:23-33](../Utility_Scripts/extract_pdf_images.py#L23-L33)
 
 ---
 
@@ -139,16 +139,16 @@ The output filename format depends on the number of candidate images:
 | Multiple images | "Figure 5" (2 images) | `Figure_5a.jpg`, `Figure_5b.jpg` |
 | With subfigure | "Figure 2a" | `Figure_2a.pdf` (retains original extension) |
 
-The `chr(ord('a') + idx)` expression [Utility_Scripts/extract_pdf_images.py:119]() generates sequential letters (a, b, c, ...) for multi-part figures.
+The `chr(ord('a') + idx)` expression [Utility_Scripts/extract_pdf_images.py:119](../Utility_Scripts/extract_pdf_images.py#L119) generates sequential letters (a, b, c, ...) for multi-part figures.
 
 ### Deduplication Mechanism
 
-The `seen_xrefs` set [Utility_Scripts/extract_pdf_images.py:50, 110-113]() prevents duplicate extraction when:
+The `seen_xrefs` set [Utility_Scripts/extract_pdf_images.py:50, 110-113](../Utility_Scripts/extract_pdf_images.py#L50) prevents duplicate extraction when:
 - The same image appears multiple times in the PDF
 - Multiple captions reference the same image
 - An image is reused across pages
 
-**Sources:** [Utility_Scripts/extract_pdf_images.py:95-124]()
+**Sources:** [Utility_Scripts/extract_pdf_images.py:95-124](../Utility_Scripts/extract_pdf_images.py#L95-L124)
 
 ---
 
@@ -187,7 +187,7 @@ graph TD
     TWO --> ABOVE["bbox_above(b1, b2)<br/>b1[3] <= b2[1]"]
 ```
 
-**Sources:** [Utility_Scripts/extract_pdf_images.py:23-38]()
+**Sources:** [Utility_Scripts/extract_pdf_images.py:23-38](../Utility_Scripts/extract_pdf_images.py#L23-L38)
 
 ---
 
@@ -210,14 +210,14 @@ figures/
 ```
 
 **Directory Creation:**
-- Root `OUTPUT_DIR` created at script startup [Utility_Scripts/extract_pdf_images.py:20]()
-- Per-PDF subdirectories created during processing [Utility_Scripts/extract_pdf_images.py:46-47]()
+- Root `OUTPUT_DIR` created at script startup [Utility_Scripts/extract_pdf_images.py:20](../Utility_Scripts/extract_pdf_images.py#L20)
+- Per-PDF subdirectories created during processing [Utility_Scripts/extract_pdf_images.py:46-47](../Utility_Scripts/extract_pdf_images.py#L46-L47)
 
 **Filename Preservation:**
 - Original image format (PNG, JPG, PDF) is preserved via `base_image["ext"]`
 - Embedded image metadata may include resolution, color space, and compression settings
 
-**Sources:** [Utility_Scripts/extract_pdf_images.py:20, 40-47, 115-123]()
+**Sources:** [Utility_Scripts/extract_pdf_images.py:20, 40-47, 115-123](../Utility_Scripts/extract_pdf_images.py#L20)
 
 ---
 
@@ -260,9 +260,9 @@ stateDiagram-v2
     Complete --> [*]: Print "✅ Figure extraction complete."
 ```
 
-**Completion Message:** [Utility_Scripts/extract_pdf_images.py:127]()
+**Completion Message:** [Utility_Scripts/extract_pdf_images.py:127](../Utility_Scripts/extract_pdf_images.py#L127)
 
-**Sources:** [Utility_Scripts/extract_pdf_images.py:40-127]()
+**Sources:** [Utility_Scripts/extract_pdf_images.py:40-127](../Utility_Scripts/extract_pdf_images.py#L40-L127)
 
 ---
 
@@ -280,7 +280,7 @@ stateDiagram-v2
 
 ### Filtering Behavior
 
-**Small Image Filtering:** [Utility_Scripts/extract_pdf_images.py:63-64]()
+**Small Image Filtering:** [Utility_Scripts/extract_pdf_images.py:63-64](../Utility_Scripts/extract_pdf_images.py#L63-L64)
 - Images with area < 10,000 px² are excluded
 - Typical icons: 32×32 = 1,024 px² (excluded)
 - Minimum accepted: ~100×100 px
@@ -290,7 +290,7 @@ stateDiagram-v2
 - May include unrelated images in dense layouts
 - May exclude images with large vertical gaps
 
-**Sources:** [Utility_Scripts/extract_pdf_images.py:1-128]()
+**Sources:** [Utility_Scripts/extract_pdf_images.py:1-128](../Utility_Scripts/extract_pdf_images.py#L1-L128)
 
 ---
 
@@ -315,4 +315,4 @@ pip install PyMuPDF
 - `os`: Directory and file operations
 - `re`: Regular expression matching
 
-**Sources:** [Utility_Scripts/extract_pdf_images.py:1-3]()
+**Sources:** [Utility_Scripts/extract_pdf_images.py:1-3](../Utility_Scripts/extract_pdf_images.py#L1-L3)

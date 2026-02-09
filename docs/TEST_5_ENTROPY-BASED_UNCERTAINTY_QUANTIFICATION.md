@@ -27,7 +27,7 @@ bridge                          0.21          0.14          312
 | High-certainty accuracy | > 90% | Low-entropy predictions are reliable |
 | Mean entropy (correct) | < 0.4 | Model confident on correct classifications |
 
-**Sources:** [Evaluate_model.py:454-487]()
+**Sources:** [Evaluate_model.py:454-487](../Evaluate_model.py#L454-L487)
 
 ---
 
@@ -96,9 +96,9 @@ Test 5 returns a dictionary (line 523-525) containing:
 }
 ```
 
-These metrics contribute to the overall evaluation score calculated at [Evaluate_model.py:669-701]().
+These metrics contribute to the overall evaluation score calculated at [Evaluate_model.py:669-701](../Evaluate_model.py#L669-L701).
 
-**Sources:** [Evaluate_model.py:661-665](), [Evaluate_model.py:523-525](), [Evaluate_model.py:669-701]()
+**Sources:** [Evaluate_model.py:661-665](../Evaluate_model.py#L661-L665), [Evaluate_model.py:523-525](../Evaluate_model.py#L523-L525), [Evaluate_model.py:669-701](../Evaluate_model.py#L669-L701)
 
 ---
 
@@ -121,7 +121,7 @@ These metrics contribute to the overall evaluation score calculated at [Evaluate
 
 Entropy detects cases where probability mass is distributed across multiple classes, indicating the model sees multiple plausible explanations—useful for identifying ambiguous defect patterns.
 
-**Sources:** [Evaluate_model.py:451-452]()
+**Sources:** [Evaluate_model.py:451-452](../Evaluate_model.py#L451-L452)
 
 ---
 
@@ -152,7 +152,7 @@ graph LR
 - **Higher threshold (0.7)**: More lenient, but may include genuinely uncertain predictions
 - **Current value (0.5)**: Balanced, roughly corresponding to 60-70% probability for top class
 
-**Sources:** [Evaluate_model.py:36](), [Evaluate_model.py:463](), [Evaluate_model.py:502]()
+**Sources:** [Evaluate_model.py:36](../Evaluate_model.py#L36), [Evaluate_model.py:463](../Evaluate_model.py#L463), [Evaluate_model.py:502](../Evaluate_model.py#L502)
 
 ---
 
@@ -198,7 +198,7 @@ graph TB
 - **Test 3 (Confidence)**: Entropy provides complementary view—can catch overconfident but uncertain predictions
 - **Test 4 (Robustness)**: Expected behavior is increased entropy under noise perturbation
 
-**Sources:** [Evaluate_model.py:295-390]() (Test 3), [Evaluate_model.py:438-525]() (Test 5)
+**Sources:** [Evaluate_model.py:295-390](../Evaluate_model.py#L295-L390) (Test 3), [Evaluate_model.py:438-525](../Evaluate_model.py#L438-L525) (Test 5)
 
 ---
 
@@ -212,9 +212,9 @@ Test 5 produces the following files in `OUTPUT_DIR`:
 | **Metrics** | `validation_report.json` | Contains `test5_entropy_analysis` key with metrics dict |
 | **Console Log** | Terminal output | Formatted statistical summary with interpretation |
 
-The PNG file is saved at [Evaluate_model.py:523]() and referenced in Diagram 4 of the high-level system overview.
+The PNG file is saved at [Evaluate_model.py:523](../Evaluate_model.py#L523) and referenced in Diagram 4 of the high-level system overview.
 
-**Sources:** [Evaluate_model.py:523](), [Evaluate_model.py:669-701]()
+**Sources:** [Evaluate_model.py:523](../Evaluate_model.py#L523), [Evaluate_model.py:669-701](../Evaluate_model.py#L669-L701)
 
 # Alternative Training Approaches
 
@@ -240,7 +240,7 @@ The repository contains two alternative training implementations in `Previous_tr
 
 Both approaches were designed to address the severe class imbalance in the wafer defect dataset, particularly the scarcity of "good" (defect-free) samples. The evolution from these methods to the current progressive resizing + FocalLoss approach represents a shift toward curriculum learning and better loss functions rather than synthetic data generation or ensemble architectures.
 
-**Sources:** [Previous_training_scripts/train2.py:1-535](), [Previous_training_scripts/train1.py:1-220]()
+**Sources:** [Previous_training_scripts/train2.py:1-535](../Previous_training_scripts/train2.py#L1-L535), [Previous_training_scripts/train1.py:1-220](../Previous_training_scripts/train1.py#L1-L220)
 
 ---
 
@@ -292,7 +292,7 @@ graph TB
 
 The diagram shows how both alternative approaches contributed insights to the current system: `train2.py` demonstrated the effectiveness of specialized loss functions for imbalanced data, while `train1.py` validated the need for robust feature extraction but revealed that pure neural approaches with proper loss functions outperform hybrid ensembles.
 
-**Sources:** [Previous_training_scripts/train2.py:51-95](), [Previous_training_scripts/train1.py:82-96]()
+**Sources:** [Previous_training_scripts/train2.py:51-95](../Previous_training_scripts/train2.py#L51-L95), [Previous_training_scripts/train1.py:82-96](../Previous_training_scripts/train1.py#L82-L96)
 
 ---
 
@@ -316,7 +316,7 @@ The `train2.py` approach tackles extreme class imbalance through a three-pronged
 | `EPOCHS_PHASE2` | 20 | Fine-tuning epochs |
 | Target samples/class | 500 | Oversampling target |
 
-**Sources:** [Previous_training_scripts/train2.py:7-16]()
+**Sources:** [Previous_training_scripts/train2.py:7-16](../Previous_training_scripts/train2.py#L7-L16)
 
 ---
 
@@ -351,7 +351,7 @@ The `ClassBalancedLoss` class implements the CVPR 2019 paper's approach for hand
 
 **Class Definition:**
 
-The `ClassBalancedLoss` class [Previous_training_scripts/train2.py:51-95]() extends `tf.keras.losses.Loss` with the following key methods:
+The `ClassBalancedLoss` class [Previous_training_scripts/train2.py:51-95](../Previous_training_scripts/train2.py#L51-L95) extends `tf.keras.losses.Loss` with the following key methods:
 
 - `__init__(samples_per_class, beta, loss_type, gamma)`: Computes and stores class weights
 - `call(y_true, y_pred)`: Applies weights to cross-entropy or focal loss
@@ -363,7 +363,7 @@ For a class with 5 samples (like "good" wafers) and β=0.9999:
 - For a class with 1000 samples: `effective_num ≈ 632.1`
 - This gives the minority class ~126x higher weight after normalization
 
-**Sources:** [Previous_training_scripts/train2.py:51-95]()
+**Sources:** [Previous_training_scripts/train2.py:51-95](../Previous_training_scripts/train2.py#L51-L95)
 
 ---
 
@@ -391,15 +391,15 @@ flowchart TD
 
 **Balancing Strategy:**
 
-The `create_balanced_dataset()` function [Previous_training_scripts/train2.py:100-141]() creates a training set where all classes have approximately equal representation:
+The `create_balanced_dataset()` function [Previous_training_scripts/train2.py:100-141](../Previous_training_scripts/train2.py#L100-L141) creates a training set where all classes have approximately equal representation:
 
-1. **Analysis Phase**: `analyze_class_distribution()` [Previous_training_scripts/train2.py:21-46]() computes class counts
+1. **Analysis Phase**: `analyze_class_distribution()` [Previous_training_scripts/train2.py:21-46](../Previous_training_scripts/train2.py#L21-L46) computes class counts
 2. **Repeat Factor Calculation**: Each class is repeated `max(1, target / n_samples)` times
 3. **File List Expansion**: Image paths are duplicated in the dataset
 
 **Augmentation Differentiation:**
 
-The `create_augmentation_pipeline()` function [Previous_training_scripts/train2.py:146-169]() applies different augmentation strategies based on class size:
+The `create_augmentation_pipeline()` function [Previous_training_scripts/train2.py:146-169](../Previous_training_scripts/train2.py#L146-L169) applies different augmentation strategies based on class size:
 
 | Augmentation | Minority Classes | Majority Classes |
 |--------------|------------------|------------------|
@@ -412,7 +412,7 @@ The `create_augmentation_pipeline()` function [Previous_training_scripts/train2.
 
 **Rationale**: Minority classes need more aggressive augmentation to create diverse synthetic samples, while majority classes preserve defect patterns with conservative transforms.
 
-**Sources:** [Previous_training_scripts/train2.py:21-46](), [Previous_training_scripts/train2.py:100-141](), [Previous_training_scripts/train2.py:146-169]()
+**Sources:** [Previous_training_scripts/train2.py:21-46](../Previous_training_scripts/train2.py#L21-L46), [Previous_training_scripts/train2.py:100-141](../Previous_training_scripts/train2.py#L100-L141), [Previous_training_scripts/train2.py:146-169](../Previous_training_scripts/train2.py#L146-L169)
 
 ---
 
@@ -447,7 +447,7 @@ stateDiagram-v2
 
 **Phase 1: Balanced Training**
 
-The first phase [Previous_training_scripts/train2.py:192-243]() trains on the artificially balanced dataset:
+The first phase [Previous_training_scripts/train2.py:192-243](../Previous_training_scripts/train2.py#L192-L243) trains on the artificially balanced dataset:
 
 - **Objective**: Learn to recognize all classes equally
 - **Learning Rate**: 1e-3 (standard initial rate)
@@ -459,7 +459,7 @@ The first phase [Previous_training_scripts/train2.py:192-243]() trains on the ar
 
 **Phase 2: Fine-Tuning**
 
-The second phase [Previous_training_scripts/train2.py:245-289]() adapts to real-world class distribution:
+The second phase [Previous_training_scripts/train2.py:245-289](../Previous_training_scripts/train2.py#L245-L289) adapts to real-world class distribution:
 
 - **Objective**: Adjust decision boundaries to actual class frequencies
 - **Learning Rate**: 1e-5 (100x lower for gentle adaptation)
@@ -471,14 +471,14 @@ The second phase [Previous_training_scripts/train2.py:245-289]() adapts to real-
 
 **Key Function: `two_phase_training()`**
 
-The orchestrator function [Previous_training_scripts/train2.py:186-291]() accepts:
+The orchestrator function [Previous_training_scripts/train2.py:186-291](../Previous_training_scripts/train2.py#L186-L291) accepts:
 - `model`: Keras model to train
 - `train_ds_balanced`: Oversampled dataset
 - `train_ds_full`: Original imbalanced dataset
 - `val_ds`: Validation dataset
 - `class_counts`: Dictionary of class frequencies
 
-**Sources:** [Previous_training_scripts/train2.py:174-291]()
+**Sources:** [Previous_training_scripts/train2.py:174-291](../Previous_training_scripts/train2.py#L174-L291)
 
 ---
 
@@ -512,7 +512,7 @@ Standard classification uses a fixed 0.5 threshold for all classes. For imbalanc
 
 **Algorithm:**
 
-The `find_optimal_threshold()` function [Previous_training_scripts/train2.py:296-345]() implements a grid search:
+The `find_optimal_threshold()` function [Previous_training_scripts/train2.py:296-345](../Previous_training_scripts/train2.py#L296-L345) implements a grid search:
 
 1. **Prediction Collection**: Gather all validation predictions
 2. **Per-Class Search**: For each class, treat as binary classification problem
@@ -530,7 +530,7 @@ Donut              : threshold=0.50, F1=0.889
 
 **Application in Inference:**
 
-The `evaluate_with_proper_metrics()` function [Previous_training_scripts/train2.py:350-435]() applies these thresholds:
+The `evaluate_with_proper_metrics()` function [Previous_training_scripts/train2.py:350-435](../Previous_training_scripts/train2.py#L350-L435) applies these thresholds:
 
 ```python
 if score[i] >= optimal_thresholds[class_name] and score[i] > max_score:
@@ -539,13 +539,13 @@ if score[i] >= optimal_thresholds[class_name] and score[i] > max_score:
 
 This replaces the standard `np.argmax()` with threshold-aware prediction.
 
-**Sources:** [Previous_training_scripts/train2.py:296-345](), [Previous_training_scripts/train2.py:350-435]()
+**Sources:** [Previous_training_scripts/train2.py:296-345](../Previous_training_scripts/train2.py#L296-L345), [Previous_training_scripts/train2.py:350-435](../Previous_training_scripts/train2.py#L350-L435)
 
 ---
 
 ### SyntheticDataGenerator
 
-The `SyntheticDataGenerator` class [Previous_training_scripts/train2.py:440-498]() implements SMOTE-style augmentation for images:
+The `SyntheticDataGenerator` class [Previous_training_scripts/train2.py:440-498](../Previous_training_scripts/train2.py#L440-L498) implements SMOTE-style augmentation for images:
 
 **Architecture:**
 

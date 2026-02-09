@@ -4,13 +4,13 @@
 
 This document provides a high-level architectural overview of the entire codebase, mapping the major subsystems and their interactions. For detailed information about specific components:
 
-- Core training methodology using progressive resizing and focal loss: see [Core Training System](#2)
-- Data preprocessing and augmentation pipeline: see [Data Preprocessing Pipeline](#3)
-- Comprehensive model validation framework: see [Model Evaluation Framework](#4)
-- Experimental training approaches: see [Alternative Training Approaches](#5)
-- Supporting utilities: see [Utility Tools](#6)
+- Core training methodology using progressive resizing and focal loss: see [Core Training System](./Core_Training_System.md)
+- Data preprocessing and augmentation pipeline: see [Data Preprocessing Pipeline](./Data_Pipeline_and_Augmentation.md)
+- Comprehensive model validation framework: see [Model Evaluation Framework](./Model_Evaluation_Framework.md)
+- Experimental training approaches: see [Alternative Training Approaches](./Two-Phase_Training_with_Class_Balancing_train2.py.md)
+- Supporting utilities: see [Utility Tools](./Utility_Tools.md)
 
-**Sources:** [README.md:1-3](), [kaggle-notebook.ipynb:1-80](), [train.py:1-80]()
+**Sources:** [README.md:1-3](../README.md#L1-L3), [kaggle-notebook.ipynb:1-80](../kaggle-notebook.ipynb#L1-L80), [train.py:1-80](../train.py#L1-L80)
 
 ---
 
@@ -74,7 +74,7 @@ graph TB
 
 The system follows a **linear preprocessing pipeline** (dataset organization → grayscale conversion → training-ready structure) that feeds into multiple training approaches. The current production approach (`kaggle-notebook.ipynb` and `train.py`) represents the third generation of the system, superseding earlier ensemble and two-phase training methods.
 
-**Sources:** [kaggle-notebook.ipynb:1-100](), [train.py:1-100](), [Evaluate_model.py:1-80]()
+**Sources:** [kaggle-notebook.ipynb:1-100](../kaggle-notebook.ipynb#L1-L100), [train.py:1-100](../train.py#L1-L100), [Evaluate_model.py:1-80](../Evaluate_model.py#L1-L80)
 
 ---
 
@@ -125,15 +125,15 @@ graph LR
 **Diagram: Core Training Architecture - Class and Method Mapping**
 
 **Key Classes:**
-- `Config`: Centralized configuration [kaggle-notebook.ipynb:28-65](), [train.py:28-65]()
-- `ProgressiveTrainer`: Multi-stage training orchestration [kaggle-notebook.ipynb:384-627](), [train.py:384-627]()
-- `DataPipeline`: tf.data pipeline creation with augmentation [kaggle-notebook.ipynb:156-286](), [train.py:156-286]()
-- `FocalLoss`: Custom loss function for class imbalance [kaggle-notebook.ipynb:293-321](), [train.py:293-321]()
-- `SEBlock`: Squeeze-and-Excitation attention layer [kaggle-notebook.ipynb:131-149](), [train.py:131-149]()
+- `Config`: Centralized configuration [kaggle-notebook.ipynb:28-65](../kaggle-notebook.ipynb#L28-L65), [train.py:28-65](../train.py#L28-L65)
+- `ProgressiveTrainer`: Multi-stage training orchestration [kaggle-notebook.ipynb:384-627](../kaggle-notebook.ipynb#L384-L627), [train.py:384-627](../train.py#L384-L627)
+- `DataPipeline`: tf.data pipeline creation with augmentation [kaggle-notebook.ipynb:156-286](../kaggle-notebook.ipynb#L156-L286), [train.py:156-286](../train.py#L156-L286)
+- `FocalLoss`: Custom loss function for class imbalance [kaggle-notebook.ipynb:293-321](../kaggle-notebook.ipynb#L293-L321), [train.py:293-321](../train.py#L293-L321)
+- `SEBlock`: Squeeze-and-Excitation attention layer [kaggle-notebook.ipynb:131-149](../kaggle-notebook.ipynb#L131-L149), [train.py:131-149](../train.py#L131-L149)
 
 The `ProgressiveTrainer.train_progressive()` method implements curriculum learning by training sequentially at 128×128, 160×160, and 224×224 resolutions, with learning rate decay and selective backbone unfreezing at the final stage.
 
-**Sources:** [kaggle-notebook.ipynb:28-627](), [train.py:28-627]()
+**Sources:** [kaggle-notebook.ipynb:28-627](../kaggle-notebook.ipynb#L28-L627), [train.py:28-627](../train.py#L28-L627)
 
 ---
 
@@ -149,7 +149,7 @@ The preprocessing pipeline transforms raw wafer images into a training-ready can
 
 All training scripts (`train.py`, `train1.py`, `train2.py`, `kaggle-notebook.ipynb`) consume the same preprocessed dataset structure, ensuring consistency across experiments.
 
-**Sources:** [kaggle-notebook.ipynb:29-37](), [train.py:29-37]()
+**Sources:** [kaggle-notebook.ipynb:29-37](../kaggle-notebook.ipynb#L29-L37), [train.py:29-37](../train.py#L29-L37)
 
 ---
 
@@ -193,7 +193,7 @@ graph TD
 
 The evaluation framework requires models trained with `FocalLoss` and `SEBlock` custom objects, making it compatible with the current production system but not with the deprecated training approaches.
 
-**Sources:** [kaggle-notebook.ipynb (evaluation section)]()
+**Sources:** [kaggle-notebook.ipynb (evaluation section)](../kaggle-notebook.ipynb)
 
 ---
 
@@ -203,11 +203,11 @@ The evaluation framework requires models trained with `FocalLoss` and `SEBlock` 
 
 The repository follows a **research-to-production** pattern where `kaggle-notebook.ipynb` serves as the interactive development environment and `train.py` is its productionized counterpart. Both files contain **identical implementations** of:
 
-- `Config` class configuration [kaggle-notebook.ipynb:28-65](), [train.py:28-65]()
-- `SEBlock` attention layer [kaggle-notebook.ipynb:131-149](), [train.py:131-149]()
-- `DataPipeline` tf.data creation [kaggle-notebook.ipynb:156-286](), [train.py:156-286]()
-- `FocalLoss` custom loss [kaggle-notebook.ipynb:293-321](), [train.py:293-321]()
-- `ProgressiveTrainer` orchestration [kaggle-notebook.ipynb:384-627](), [train.py:384-627]()
+- `Config` class configuration [kaggle-notebook.ipynb:28-65](../kaggle-notebook.ipynb#L28-L65), [train.py:28-65](../train.py#L28-L65)
+- `SEBlock` attention layer [kaggle-notebook.ipynb:131-149](../kaggle-notebook.ipynb#L131-L149), [train.py:131-149](../train.py#L131-L149)
+- `DataPipeline` tf.data creation [kaggle-notebook.ipynb:156-286](../kaggle-notebook.ipynb#L156-L286), [train.py:156-286](../train.py#L156-L286)
+- `FocalLoss` custom loss [kaggle-notebook.ipynb:293-321](../kaggle-notebook.ipynb#L293-L321), [train.py:293-321](../train.py#L293-L321)
+- `ProgressiveTrainer` orchestration [kaggle-notebook.ipynb:384-627](../kaggle-notebook.ipynb#L384-L627), [train.py:384-627](../train.py#L384-L627)
 
 This duplication is intentional to support Kaggle's notebook-based workflow while maintaining a standalone production script.
 
@@ -242,7 +242,7 @@ flowchart TD
 
 Each stage builds on the previous stage's learned weights, implementing curriculum learning through progressive resolution increase. The `train_stage()` method handles weight transfer, learning rate scheduling, and selective backbone unfreezing.
 
-**Sources:** [kaggle-notebook.ipynb:634-698](), [train.py:634-701]()
+**Sources:** [kaggle-notebook.ipynb:634-698](../kaggle-notebook.ipynb#L634-L698), [train.py:634-701](../train.py#L634-L701)
 
 ---
 
@@ -252,7 +252,7 @@ Each stage builds on the previous stage's learned weights, implementing curricul
 
 The system trains sequentially at three resolutions: **128×128** (20 epochs) → **160×160** (25 epochs) → **224×224** (35 epochs). This implements curriculum learning by having the model first learn coarse features on smaller images before refining on high-resolution details.
 
-**Configuration:** `Config.PROGRESSIVE_SIZES = [128, 160, 224]` [kaggle-notebook.ipynb:40](), [train.py:40]()
+**Configuration:** `Config.PROGRESSIVE_SIZES = [128, 160, 224]` [kaggle-notebook.ipynb:40](../kaggle-notebook.ipynb#L40), [train.py:40](../train.py#L40)
 
 ### Focal Loss for Class Imbalance
 
@@ -262,23 +262,23 @@ The `FocalLoss` class addresses severe class imbalance in the wafer defect datas
 weight = alpha * y_true * tf.pow(1.0 - y_pred, gamma)
 ```
 
-**Parameters:** `gamma=1.5`, `alpha=0.25` [kaggle-notebook.ipynb:294-295](), [train.py:294-295]()
+**Parameters:** `gamma=1.5`, `alpha=0.25` [kaggle-notebook.ipynb:294-295](../kaggle-notebook.ipynb#L294-L295), [train.py:294-295](../train.py#L294-L295)
 
 ### SE Attention Mechanism
 
 The `SEBlock` (Squeeze-and-Excitation) layer adaptively recalibrates channel-wise feature responses by explicitly modeling interdependencies between channels:
 
-1. **Squeeze**: Global average pooling [kaggle-notebook.ipynb:136]()
-2. **Excitation**: Two fully-connected layers [kaggle-notebook.ipynb:137-138]()
-3. **Reweighting**: Element-wise multiplication [kaggle-notebook.ipynb:144]()
+1. **Squeeze**: Global average pooling [kaggle-notebook.ipynb:136](../kaggle-notebook.ipynb#L136)
+2. **Excitation**: Two fully-connected layers [kaggle-notebook.ipynb:137-138](../kaggle-notebook.ipynb#L137-L138)
+3. **Reweighting**: Element-wise multiplication [kaggle-notebook.ipynb:144](../kaggle-notebook.ipynb#L144)
 
 ### MobileNetV2 Backbone Choice
 
 The system uses `MobileNetV2` with `alpha=0.75` as the backbone, balancing model capacity with computational efficiency suitable for production deployment on resource-constrained hardware. The backbone is initialized with ImageNet weights and gradually unfrozen during progressive training.
 
-**Configuration:** [kaggle-notebook.ipynb:48-49](), [train.py:48-49]()
+**Configuration:** [kaggle-notebook.ipynb:48-49](../kaggle-notebook.ipynb#L48-L49), [train.py:48-49](../train.py#L48-L49)
 
-**Sources:** [kaggle-notebook.ipynb:28-366](), [train.py:28-366]()
+**Sources:** [kaggle-notebook.ipynb:28-366](../kaggle-notebook.ipynb#L28-L366), [train.py:28-366](../train.py#L28-L366)
 
 ---
 
@@ -333,7 +333,7 @@ graph LR
 
 **Diagram: Complete System Data Flow from Raw Input to Validated Model**
 
-**Sources:** [kaggle-notebook.ipynb:68-124](), [train.py:68-124](), [kaggle-notebook.ipynb:212-286](), [train.py:212-286]()
+**Sources:** [kaggle-notebook.ipynb:68-124](../kaggle-notebook.ipynb#L68-L124), [train.py:68-124](../train.py#L68-L124), [kaggle-notebook.ipynb:212-286](../kaggle-notebook.ipynb#L212-L286), [train.py:212-286](../train.py#L212-L286)
 
 ---
 
@@ -350,7 +350,7 @@ graph LR
 | `final_model.keras` | `{OUTPUT_DIR}/models/` | Final production model |
 | `metrics.json` | `{OUTPUT_DIR}/results/` | Final accuracy, precision, recall |
 
-**Sources:** [kaggle-notebook.ipynb:512-529](), [train.py:512-529]()
+**Sources:** [kaggle-notebook.ipynb:512-529](../kaggle-notebook.ipynb#L512-L529), [train.py:512-529](../train.py#L512-L529)
 
 ### Evaluation Artifacts
 
@@ -363,7 +363,7 @@ graph LR
 | `test5_entropy_analysis.png` | Prediction entropy | Uncertainty ratio (incorrect/correct) |
 | `validation_report.json` | Comprehensive evaluation | Overall score, verdict, key strengths |
 
-**Sources:** [kaggle-notebook.ipynb (evaluation section)]()
+**Sources:** [kaggle-notebook.ipynb (evaluation section)](../kaggle-notebook.ipynb)
 
 ---
 
@@ -399,13 +399,13 @@ Forsaken-Apex/
 
 All hyperparameters are centralized in the `Config` class at the top of training scripts:
 
-- **Progressive resizing**: `PROGRESSIVE_SIZES`, `PROGRESSIVE_EPOCHS` [kaggle-notebook.ipynb:40-41]()
-- **Learning rates**: `INITIAL_LR`, `FINE_TUNE_LR` [kaggle-notebook.ipynb:44-45]()
-- **Model architecture**: `BACKBONE`, `ALPHA`, `USE_SE_ATTENTION` [kaggle-notebook.ipynb:48-50]()
-- **Loss function**: `FOCAL_GAMMA`, `FOCAL_ALPHA`, `LABEL_SMOOTHING` [kaggle-notebook.ipynb:60-63]()
-- **Data augmentation**: `USE_MIXUP`, `MIXUP_ALPHA` [kaggle-notebook.ipynb:57-58]()
+- **Progressive resizing**: `PROGRESSIVE_SIZES`, `PROGRESSIVE_EPOCHS` [kaggle-notebook.ipynb:40-41](../kaggle-notebook.ipynb#L40-L41)
+- **Learning rates**: `INITIAL_LR`, `FINE_TUNE_LR` [kaggle-notebook.ipynb:44-45](../kaggle-notebook.ipynb#L44-L45)
+- **Model architecture**: `BACKBONE`, `ALPHA`, `USE_SE_ATTENTION` [kaggle-notebook.ipynb:48-50](../kaggle-notebook.ipynb#L48-L50)
+- **Loss function**: `FOCAL_GAMMA`, `FOCAL_ALPHA`, `LABEL_SMOOTHING` [kaggle-notebook.ipynb:60-63](../kaggle-notebook.ipynb#L60-L63)
+- **Data augmentation**: `USE_MIXUP`, `MIXUP_ALPHA` [kaggle-notebook.ipynb:57-58](../kaggle-notebook.ipynb#L57-L58)
 
-**Sources:** [kaggle-notebook.ipynb:28-65](), [train.py:28-65]()
+**Sources:** [kaggle-notebook.ipynb:28-65](../kaggle-notebook.ipynb#L28-L65), [train.py:28-65](../train.py#L28-L65)
 
 ---
 
@@ -419,4 +419,4 @@ For detailed information about specific subsystems, see:
 - **[Alternative Training Approaches](#5)**: Deprecated ensemble and two-phase training methods
 - **[Utility Tools](#6)**: Supporting scripts for dataset inspection and file management
 
-**Sources:** [README.md:1-3](), [LICENSE:1-22]()
+**Sources:** [README.md:1-3](../README.md#L1-L3), [LICENSE:1-22](../LICENSE#L1-L22)

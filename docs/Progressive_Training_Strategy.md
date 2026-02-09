@@ -15,14 +15,14 @@ Progressive resizing is a curriculum learning technique where the model starts t
 3. **Transfer learning**: Features learned at lower resolutions transfer to higher resolutions, providing warm-start initialization
 4. **Memory efficiency**: Smaller images allow larger batch sizes or reduced memory pressure
 
-The Forsaken-Apex implementation uses three resolution stages followed by a final fine-tuning phase, as specified in [train.py:39-41]() and [kaggle-notebook.ipynb:40-41]():
+The Forsaken-Apex implementation uses three resolution stages followed by a final fine-tuning phase, as specified in [train.py:39-41](../train.py#L39-L41) and [kaggle-notebook.ipynb:40-41](../kaggle-notebook.ipynb#L40-L41):
 
 ```python
 PROGRESSIVE_SIZES = [128, 160, 224]
 PROGRESSIVE_EPOCHS = [20, 25, 35]
 ```
 
-**Sources:** [train.py:28-66](), [kaggle-notebook.ipynb:28-66]()
+**Sources:** [train.py:28-66](../train.py#L28-L66), [kaggle-notebook.ipynb:28-66](../kaggle-notebook.ipynb#L28-L66)
 
 ---
 
@@ -65,7 +65,7 @@ flowchart LR
     S3_Save --> FT_Unfreeze
 ```
 
-**Sources:** [train.py:554-627](), [kaggle-notebook.ipynb:554-627]()
+**Sources:** [train.py:554-627](../train.py#L554-L627), [kaggle-notebook.ipynb:554-627](../kaggle-notebook.ipynb#L554-L627)
 
 ---
 
@@ -80,7 +80,7 @@ Each training stage has distinct hyperparameters optimized for its resolution an
 | **3** | 224×224 | 35 | 2e-4 (`INITIAL_LR / 5`) | Top layers unfrozen (>100) | 32 | High-resolution feature extraction |
 | **Fine-tune** | 224×224 | 20 | 5e-6 (`FINE_TUNE_LR / 10`) | Top 20 layers unfrozen | 16 | Final calibration with minimal updates |
 
-The learning rate schedule implements a conservative decay strategy to prevent instability as training progresses. The stage-specific learning rates are computed in [train.py:416-427]():
+The learning rate schedule implements a conservative decay strategy to prevent instability as training progresses. The stage-specific learning rates are computed in [train.py:416-427](../train.py#L416-L427):
 
 ```python
 if stage_idx == 0:
@@ -94,13 +94,13 @@ else:  # stage_idx == 2 (224x224)
     unfreeze = True
 ```
 
-**Sources:** [train.py:39-45](), [train.py:416-427](), [train.py:589]()
+**Sources:** [train.py:39-45](../train.py#L39-L45), [train.py:416-427](../train.py#L416-L427), [train.py:589](../train.py#L589)
 
 ---
 
 ## Weight Transfer Mechanism
 
-Between stages, the trainer attempts to transfer learned weights from the previous model to the new model. This warm-start initialization accelerates convergence and preserves learned features. The transfer logic is implemented in [train.py:430-457]():
+Between stages, the trainer attempts to transfer learned weights from the previous model to the new model. This warm-start initialization accelerates convergence and preserves learned features. The transfer logic is implemented in [train.py:430-457](../train.py#L430-L457):
 
 ```mermaid
 flowchart TD
@@ -137,7 +137,7 @@ The weight transfer attempts to reuse the entire model's weights when possible. 
 3. **Fallback strategy**: On mismatch, the new model uses ImageNet initialization rather than risking shape incompatibility errors
 4. **Logging**: Explicit console output indicates whether transfer succeeded or failed
 
-**Sources:** [train.py:430-460](), [kaggle-notebook.ipynb:430-460]()
+**Sources:** [train.py:430-460](../train.py#L430-L460), [kaggle-notebook.ipynb:430-460](../kaggle-notebook.ipynb#L430-L460)
 
 ---
 
@@ -147,7 +147,7 @@ The backbone (MobileNetV2) remains frozen during the first two stages to prevent
 
 ### Stage 1 and 2: Fully Frozen Backbone
 
-During the first two stages, the entire MobileNetV2 backbone is frozen via [train.py:347]():
+During the first two stages, the entire MobileNetV2 backbone is frozen via [train.py:347](../train.py#L347):
 
 ```python
 base.trainable = False
@@ -157,7 +157,7 @@ This ensures that only the custom classification head (SEBlock + Dense layers) i
 
 ### Stage 3: Selective Unfreezing
 
-At the final 224×224 resolution stage, the system unfreezes the top layers while keeping early layers frozen. The unfreezing logic in [train.py:463-473]() targets layers beyond index 100:
+At the final 224×224 resolution stage, the system unfreezes the top layers while keeping early layers frozen. The unfreezing logic in [train.py:463-473](../train.py#L463-L473) targets layers beyond index 100:
 
 ```python
 if unfreeze and base is not None:
@@ -175,7 +175,7 @@ if unfreeze and base is not None:
 
 This selective unfreezing allows the model to adapt high-level features to wafer defect patterns while preserving low-level edge and texture detectors.
 
-**Sources:** [train.py:347](), [train.py:463-473](), [kaggle-notebook.ipynb:463-473]()
+**Sources:** [train.py:347](../train.py#L347), [train.py:463-473](../train.py#L463-L473), [kaggle-notebook.ipynb:463-473](../kaggle-notebook.ipynb#L463-L473)
 
 ---
 
@@ -199,7 +199,7 @@ graph TD
     Train -.-> Callbacks["Callbacks:<br/>EarlyStopping patience=10<br/>ModelCheckpoint val_accuracy"]
 ```
 
-**Configuration details** from [train.py:583-623]():
+**Configuration details** from [train.py:583-623](../train.py#L583-L623):
 
 | Parameter | Value | Rationale |
 |-----------|-------|-----------|
@@ -224,7 +224,7 @@ if base is not None:
         layer.trainable = False
 ```
 
-**Sources:** [train.py:571-627](), [kaggle-notebook.ipynb:571-627]()
+**Sources:** [train.py:571-627](../train.py#L571-L627), [kaggle-notebook.ipynb:571-627](../kaggle-notebook.ipynb#L571-L627)
 
 ---
 
@@ -240,7 +240,7 @@ Each stage employs three Keras callbacks to optimize training efficiency and pre
 | **EarlyStopping** | `val_accuracy` | `patience=10`, `restore_best_weights=True` | Halts training after 10 epochs without improvement, reverts to best weights |
 | **ReduceLROnPlateau** | `val_loss` | `factor=0.5`, `patience=5`, `min_lr=1e-7` | Reduces learning rate by 50% after 5 epochs of stagnant validation loss |
 
-These callbacks are configured in [train.py:509-530]():
+These callbacks are configured in [train.py:509-530](../train.py#L509-L530):
 
 ```python
 callbacks = [
@@ -268,7 +268,7 @@ callbacks = [
 
 ### GPU Warmup
 
-Before each stage begins training, the system performs GPU warmup to initialize CUDA kernels and avoid compilation overhead during the first training batch. The `warmup_gpu()` function ([train.py:373-377]()) runs a dummy forward pass:
+Before each stage begins training, the system performs GPU warmup to initialize CUDA kernels and avoid compilation overhead during the first training batch. The `warmup_gpu()` function ([train.py:373-377](../train.py#L373-L377)) runs a dummy forward pass:
 
 ```python
 def warmup_gpu(model, image_size, batch_size=8):
@@ -278,7 +278,7 @@ def warmup_gpu(model, image_size, batch_size=8):
     print("✓ GPU warmup complete")
 ```
 
-This is called in [train.py:476]() before creating datasets for each stage.
+This is called in [train.py:476](../train.py#L476) before creating datasets for each stage.
 
 ### Steps Per Epoch Calculation
 
@@ -291,7 +291,7 @@ steps_per_epoch = max(1, total_train // batch_size)
 
 This ensures each epoch sees a representative sample of the oversampled training distribution.
 
-**Sources:** [train.py:373-377](), [train.py:476](), [train.py:493-494](), [train.py:509-530]()
+**Sources:** [train.py:373-377](../train.py#L373-L377), [train.py:476](../train.py#L476), [train.py:493-494](../train.py#L493-L494), [train.py:509-530](../train.py#L509-L530)
 
 ---
 
@@ -359,10 +359,10 @@ stateDiagram-v2
 
 **Key method invocations:**
 
-1. **Main entry**: `trainer.train_progressive(train_dir, val_dir)` ([train.py:668]())
-2. **Stage iteration**: Loop over `zip(PROGRESSIVE_SIZES, PROGRESSIVE_EPOCHS)` ([train.py:559-561]())
-3. **Stage execution**: `self.train_stage(train_dir, val_dir, size, epochs, batch_size, stage, model)` ([train.py:563-565]())
-4. **Weight persistence**: `model.save(f"{MODEL_DIR}/checkpoint_{size}.keras")` ([train.py:569]())
-5. **Fine-tuning**: Conditional block starting at [train.py:583]()
+1. **Main entry**: `trainer.train_progressive(train_dir, val_dir)` ([train.py:668](../train.py#L668))
+2. **Stage iteration**: Loop over `zip(PROGRESSIVE_SIZES, PROGRESSIVE_EPOCHS)` ([train.py:559-561](../train.py#L559-L561))
+3. **Stage execution**: `self.train_stage(train_dir, val_dir, size, epochs, batch_size, stage, model)` ([train.py:563-565](../train.py#L563-L565))
+4. **Weight persistence**: `model.save(f"{MODEL_DIR}/checkpoint_{size}.keras")` ([train.py:569](../train.py#L569))
+5. **Fine-tuning**: Conditional block starting at [train.py:583](../train.py#L583)
 
-**Sources:** [train.py:384-627](), [train.py:554-627](), [kaggle-notebook.ipynb:384-627]()
+**Sources:** [train.py:384-627](../train.py#L384-L627), [train.py:554-627](../train.py#L554-L627), [kaggle-notebook.ipynb:384-627](../kaggle-notebook.ipynb#L384-L627)

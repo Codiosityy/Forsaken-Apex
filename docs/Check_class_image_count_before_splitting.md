@@ -4,7 +4,7 @@ for folder in class_folders:
         print(f"Warning: {folder} has only {count} images")
 ```
 
-Classes with < 7 images may not have samples in all splits due to rounding in [Preprocessing_Scripts/Seggregate_Dataset.py:45-46]()
+Classes with < 7 images may not have samples in all splits due to rounding in [Preprocessing_Scripts/Seggregate_Dataset.py:45-46](../Preprocessing_Scripts/Seggregate_Dataset.py#L45-L46)
 
 ---
 
@@ -13,8 +13,8 @@ Classes with < 7 images may not have samples in all splits due to rounding in [P
 **Symptom**: Console output shows `"Skipped (could not read): /path/to/file"`
 
 **Causes**:
-1. Corrupted image file → OpenCV `imread()` returns `None` [Preprocessing_Scripts/grayscale_conversion.py:8]()
-2. Unsupported format → Not in `supported_formats` set [line 14]()
+1. Corrupted image file → OpenCV `imread()` returns `None` [Preprocessing_Scripts/grayscale_conversion.py:8](../Preprocessing_Scripts/grayscale_conversion.py#L8)
+2. Unsupported format → Not in `supported_formats` set [line 14](../Preprocessing_Scripts/grayscale_conversion.py#L14)
 3. File permissions → Cannot read file
 
 **Diagnosis**:
@@ -78,4 +78,4 @@ for cls in classes:
 
 **Note**: Random splitting preserves original class distribution, as designed
 
-Sources: [Preprocessing_Scripts/Seggregate_Dataset.py:44]() (random shuffle), error handling patterns across all scripts
+Sources: [Preprocessing_Scripts/Seggregate_Dataset.py:44](../Preprocessing_Scripts/Seggregate_Dataset.py#L44) (random shuffle), error handling patterns across all scripts
