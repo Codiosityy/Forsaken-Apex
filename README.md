@@ -140,12 +140,12 @@ The full technical documentation lives in the **[Wiki](https://github.com/Codios
 | Section | Description |
 |---|---|
 | [Overview](https://github.com/Codiosityy/Forsaken-Apex/wiki/Overview) | System architecture, data flow, design decisions |
-| [Core Training System](https://github.com/Codiosityy/Forsaken-Apex/wiki/Core-Training-System) | `ProgressiveTrainer`, `DataPipeline`, `FocalLoss`, `SEBlock` internals |
-| [Model Architecture](https://github.com/Codiosityy/Forsaken-Apex/wiki/Model-Architecture) | MobileNetV2 + SE attention design |
-| [Data Preprocessing Pipeline](https://github.com/Codiosityy/Forsaken-Apex/wiki/Data-Preprocessing-Pipeline) | Dataset splitting, grayscale conversion, metadata |
-| [Model Evaluation Framework](https://github.com/Codiosityy/Forsaken-Apex/wiki/Model-Evaluation-Framework) | 5-test suite in detail |
-| [Alternative Approaches](https://github.com/Codiosityy/Forsaken-Apex/wiki/Alternative-Training-Approaches) | Deprecated CNN-SVM and two-phase methods |
-| [Utility Tools](https://github.com/Codiosityy/Forsaken-Apex/wiki/Utility-Tools) | Helper scripts for dataset inspection and management |
+| [Core Training System](https://github.com/Codiosityy/Forsaken-Apex/wiki/Core_Training_System) | `ProgressiveTrainer`, `DataPipeline`, `FocalLoss`, `SEBlock` internals |
+| [Model Architecture](https://github.com/Codiosityy/Forsaken-Apex/wiki/Model_Architecture) | MobileNetV2 + SE attention design |
+| [Data Preprocessing Pipeline](https://github.com/Codiosityy/Forsaken-Apex/wiki/Data_Preprocessing_Pipeline) | Dataset splitting, grayscale conversion, metadata |
+| [Model Evaluation Framework](https://github.com/Codiosityy/Forsaken-Apex/wiki/Model_Evaluation_Framework) | 5-test suite in detail |
+| [Alternative Approaches](https://github.com/Codiosityy/Forsaken-Apex/wiki/Alternative_Training_Approaches) | Deprecated CNN-SVM and two-phase methods |
+| [Utility Tools](https://github.com/Codiosityy/Forsaken-Apex/wiki/Utility_Tools) | Helper scripts for dataset inspection and management |
 
 > New here? Start with the [Overview](https://github.com/Codiosityy/Forsaken-Apex/wiki/Overview) for a full walkthrough of how the system fits together.
 
