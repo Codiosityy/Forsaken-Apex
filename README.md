@@ -1,4 +1,4 @@
-﻿<div align="center">
+<div align="center">
 
 # 🔬 Forsaken-Apex
 
@@ -7,7 +7,7 @@
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)](https://www.python.org/)
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange?logo=tensorflow)](https://www.tensorflow.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
-[![Wiki](https://img.shields.io/badge/Docs-Wiki-blueviolet)](https://github.com/Codiosityy/Forsaken-Apex/wiki)
+[![Wiki](https://img.shields.io/badge/Docs-Overview-blueviolet)](docs/Overview.md)
 
 </div>
 
@@ -74,13 +74,13 @@ Forsaken-Apex/
 ├── Preprocessing_Scripts/
 │   ├── Seggregate_Dataset.py       # Train/val/test split (70/15/15)
 │   ├── grayscale_conversion.py     # RGB → grayscale conversion
-│   └── Dataset_Metadata_Generation.py
+│   ├── Dataset_Metadata_Generation.py
+│   └── random_file_picker.py       # Random dataset sampling
 │
 ├── Utility_Scripts/
 │   ├── load_dataset.py             # LSWMD.pkl dataset inspection
 │   ├── extract_pdf_images.py       # Research figure extraction
-│   ├── batch_rename.py             # Bulk file renaming
-│   └── random_file_picker.py       # Random dataset sampling
+│   └── batch_rename.py             # Bulk file renaming
 │
 ├── Previous_training_scripts/      # Deprecated approaches (kept for reference)
 │   ├── train1.py                   # CNN-SVM ensemble (deprecated)
@@ -135,19 +135,19 @@ After evaluation:
 
 ## Documentation
 
-The full technical documentation lives in the **[Wiki](https://github.com/Codiosityy/Forsaken-Apex/wiki)**. Start here:
+The full technical documentation lives in the **`docs/`** folder. Start here:
 
 | Section | Description |
 |---|---|
-| [Overview](https://github.com/Codiosityy/Forsaken-Apex/wiki/Overview) | System architecture, data flow, design decisions |
-| [Core Training System](https://github.com/Codiosityy/Forsaken-Apex/wiki/Core_Training_System) | `ProgressiveTrainer`, `DataPipeline`, `FocalLoss`, `SEBlock` internals |
-| [Model Architecture](https://github.com/Codiosityy/Forsaken-Apex/wiki/Model_Architecture) | MobileNetV2 + SE attention design |
-| [Data Preprocessing Pipeline](https://github.com/Codiosityy/Forsaken-Apex/wiki/Data_Preprocessing_Pipeline) | Dataset splitting, grayscale conversion, metadata |
-| [Model Evaluation Framework](https://github.com/Codiosityy/Forsaken-Apex/wiki/Model_Evaluation_Framework) | 5-test suite in detail |
-| [Alternative Approaches](https://github.com/Codiosityy/Forsaken-Apex/wiki/Alternative_Training_Approaches) | Deprecated CNN-SVM and two-phase methods |
-| [Utility Tools](https://github.com/Codiosityy/Forsaken-Apex/wiki/Utility_Tools) | Helper scripts for dataset inspection and management |
+| [Overview](docs/Overview.md) | System architecture, data flow, design decisions |
+| [Core Training System](docs/Core_Training_System.md) | `ProgressiveTrainer`, `DataPipeline`, `FocalLoss`, `SEBlock` internals |
+| [Model Architecture](docs/Model_Architecture.md) | MobileNetV2 + SE attention design |
+| [Data Preprocessing Pipeline](docs/Dataset_Organization_Seggregate_Dataset.py.md) | Dataset splitting, grayscale conversion, metadata |
+| [Model Evaluation Framework](docs/Model_Evaluation_Framework.md) | 5-test suite in detail |
+| [Alternative Approaches](docs/CNN-SVM_Ensemble_Approach_train1.py.md) | Deprecated CNN-SVM and two-phase methods |
+| [Utility Tools](docs/Utility_Tools.md) | Helper scripts for dataset inspection and management |
 
-> New here? Start with the [Overview](https://github.com/Codiosityy/Forsaken-Apex/wiki/Overview) for a full walkthrough of how the system fits together.
+> New here? Start with the [Overview](docs/Overview.md) for a full walkthrough of how the system fits together.
 
 ---
 
